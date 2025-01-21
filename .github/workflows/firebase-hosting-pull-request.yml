@@ -3,7 +3,7 @@
 
 name: Deploy to Firebase Hosting on PR to dev
 on:
-  pull_request:
+  push:
     branches:
       - dev
 jobs:
