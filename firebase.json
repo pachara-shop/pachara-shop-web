@@ -1,10 +1,6 @@
 {
   "hosting": {
-    "source": "\thosting",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "frameworksBackend": {
-      "region": "asia-east1",
-      "framework": "nextjs"
-    }
+    "source": "hosting",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }
