@@ -1,4 +1,4 @@
-// filepath: /D:/Work/pachara-shop/pachara-shop-web/hosting/src/app/components/layouts/Banner.tsx
+import React from 'react';
 const Banner2 = () => {
   return (
     <div className='w-full h-[800px] flex justify-center items-center'>

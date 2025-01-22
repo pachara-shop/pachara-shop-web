@@ -1,10 +1,8 @@
 'use client';
 
-import { useTranslation } from 'next-i18next';
 import React, { useState, useEffect } from 'react';
 
 const NavBar = () => {
-  const { t } = useTranslation('common');
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
