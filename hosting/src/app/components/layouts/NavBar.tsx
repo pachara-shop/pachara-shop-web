@@ -1,13 +1,10 @@
 'use client';
 
 import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
 const NavBar = () => {
   const { t } = useTranslation('common');
-  console.log(t('home'));
-  const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -32,18 +29,6 @@ const NavBar = () => {
     };
   }, []);
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const changeLanguage = (lang) => {
-    const currentPath = window.location.pathname;
-    const currentQuery = window.location.search;
-    router.push(`/${lang}${currentPath}${currentQuery}`);
-    setIsDropdownOpen(false);
-  };
-
   return (
     <nav
       className={`bg-white p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 ${
@@ -58,7 +43,7 @@ const NavBar = () => {
           <ul className='flex space-x-4 font-bold'>
             <li>
               <a href='/' className='text-black'>
-                {t('home')}
+                Home
               </a>
             </li>
             <li>
@@ -74,30 +59,9 @@ const NavBar = () => {
           </ul>
         </div>
         <div className='relative'>
-          <button
-            onClick={toggleDropdown}
-            className='text-black font-bold focus:outline-none'
-          >
-            Language
+          <button className='text-black font-bold focus:outline-none'>
+            Search
           </button>
-          {isDropdownOpen && (
-            <div className='absolute right-0 mt-2 w-20 bg-white border border-gray-200 rounded shadow-lg'>
-              <a
-                href='#'
-                onClick={() => changeLanguage('en')}
-                className='block px-4 py-2 text-black hover:bg-gray-100'
-              >
-                English
-              </a>
-              <a
-                href='#'
-                onClick={() => changeLanguage('th')}
-                className='block px-4 py-2 text-black hover:bg-gray-100'
-              >
-                ไทย
-              </a>
-            </div>
-          )}
         </div>
       </div>
     </nav>
