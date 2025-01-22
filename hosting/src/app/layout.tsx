@@ -1,6 +1,6 @@
 import React from 'react';
 import '@/app/styles/globals.css';
-import { Anuphan, Noto_Sans_Thai } from '@next/font/google';
+import { Anuphan, Noto_Sans_Thai } from 'next/font/google';
 
 const anuphan = Anuphan({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
