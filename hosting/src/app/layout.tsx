@@ -1,6 +1,7 @@
 import React from 'react';
 import '@/app/styles/globals.css';
 import { Anuphan, Noto_Sans_Thai } from 'next/font/google';
+import StoreProvider from './StoreProvider';
 
 const anuphan = Anuphan({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${anuphan.className} ${notoSansThai.className}`}>
-        {children}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );

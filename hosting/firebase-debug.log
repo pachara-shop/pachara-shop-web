@@ -1,0 +1,20 @@
+[debug] [2025-01-27T15:37:24.309Z] ----------------------------------------------------------------------
+[debug] [2025-01-27T15:37:24.310Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\wy\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-01-27T15:37:24.311Z] CLI Version:   13.3.0
+[debug] [2025-01-27T15:37:24.311Z] Platform:      win32
+[debug] [2025-01-27T15:37:24.311Z] Node Version:  v21.1.0
+[debug] [2025-01-27T15:37:24.311Z] Time:          Mon Jan 27 2025 22:37:24 GMT+0700 (เวลาอินโดจีน)
+[debug] [2025-01-27T15:37:24.311Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-27T15:37:24.321Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-01-27T15:37:24.404Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-27T15:37:24.405Z] > authorizing via signed-in user (esxy26@gmail.com)
+[debug] [2025-01-27T15:37:24.405Z] [iam] checking project pachara-shop-dev for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-01-27T15:37:24.405Z] > refreshing access token with scopes: []
+[debug] [2025-01-27T15:37:24.406Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-01-27T15:37:24.406Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-01-27T15:37:24.565Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-01-27T15:37:24.565Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-01-27T15:37:24.583Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pachara-shop-dev:testIamPermissions [none]
+[debug] [2025-01-27T15:37:24.583Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pachara-shop-dev:testIamPermissions x-goog-quota-user=projects/pachara-shop-dev
+[debug] [2025-01-27T15:37:24.583Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pachara-shop-dev:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
