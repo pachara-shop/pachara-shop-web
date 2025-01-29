@@ -12,20 +12,28 @@ const nextConfig = {
     ];
   },
   images: {
+    domains: ['www.eef.or.th', 'inwfile.com', 'encrypted-tbn0.gstatic.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'storage.googleapis.com',
-        port: '',
-        pathname: '/**',
+        hostname: 'www.eef.or.th',
+        pathname: '/wp-content/**',
+        search: '**',
       },
       {
         protocol: 'https',
-        hostname: '**',
-        port: '',
-        pathname: '**',
+        hostname: 'inwfile.com',
+        pathname: '/s-e/**',
+        search: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'encrypted-tbn0.gstatic.com',
+        pathname: '/images/**',
+        search: '**',
       },
     ],
+    unoptimized: true,
   },
 };
 

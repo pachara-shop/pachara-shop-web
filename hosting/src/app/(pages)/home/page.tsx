@@ -1,30 +1,33 @@
-// filepath: /D:/Work/pachara-shop/pachara-shop-web/hosting/src/app/(pages)/home/page.tsx
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '@radix-ui/react-popover';
+import { useGetProductsMutation } from '@/hooks/slices/productAPI';
+import { IProduct } from '@/shared/models/Product';
+import Image from 'next/image';
 
-const filters = ['All', 'Category 1', 'Category 2', 'Category 3'];
+const filters = ['All', 'Tote Bags', 'Belt Bags', 'Backpack'];
 const sortingOptions = ['Name', 'Date', 'Category'];
 
-const fetchItems = async (filter: string) => {
-  const response = await fetch(`/api/items?filter=${filter}`);
-  const data = await response.json();
-  return data;
-};
-
 export default function Page() {
+  const [getProduct, { isLoading }] = useGetProductsMutation();
   const [selectedFilter, setSelectedFilter] = useState('All');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<IProduct[]>([]);
   const [selectedSorting, setSelectedSorting] = useState('Name');
 
   useEffect(() => {
+    getProduct({ filter: selectedFilter });
+  }, []);
+  useEffect(() => {
     const loadItems = async () => {
-      const data = await fetchItems(selectedFilter);
-      setItems(data);
+      const { data } = await getProduct({
+        filter: selectedFilter.toLocaleLowerCase(),
+      });
+      setItems(data.data);
     };
     loadItems();
   }, [selectedFilter]);
@@ -38,11 +41,9 @@ export default function Page() {
               {filters.map((filter) => (
                 <li
                   key={filter}
-                  className={`px-2 py-2 cursor-pointer text-sm ${
-                    selectedFilter === filter
-                      ? ' text-black font-bold underline'
-                      : ' text-gray-700'
-                  }`}
+                  className={`px-2 py-2 cursor-pointer text-sm ${selectedFilter === filter
+                    ? ' text-black font-bold underline'
+                    : ' text-gray-700'}`}
                   onClick={() => setSelectedFilter(filter)}
                 >
                   {filter}
@@ -72,15 +73,36 @@ export default function Page() {
         </div>
         <div>
           {items.length > 0 ? (
-            <ul>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
               {items.map((item) => (
-                <li key={item.id} className='mb-2'>
-                  {item.name}
-                </li>
+                <div
+                  key={item.id}
+                  className={`
+                    flex flex-col 
+                    transition-all duration-300 ease-in-out
+                    ${isLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}
+                  `}
+                >
+                  <div className='relative aspect-square overflow-hidden rounded-lg bg-gray-100 group'>
+                    <Image
+                      src={item.image || '/placeholder.png'}
+                      alt={item.name}
+                      fill
+                      sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'
+                      className='object-cover transition-transform duration-300 group-hover:scale-110'
+                    />
+                  </div>
+                  <h3 className='mt-4 text-sm font-medium text-gray-900'>
+                    {item.name}
+                  </h3>
+                  <p className='mt-1 text-sm font-medium text-gray-700'>
+                    ฿{item.price.toLocaleString()}
+                  </p>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
-            <p>No items found.</p>
+            <p className='text-center text-gray-500'>No items found.</p>
           )}
         </div>
       </div>
