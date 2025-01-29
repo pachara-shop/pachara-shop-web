@@ -220,7 +220,7 @@ export default function DataTable<T>({
                   <Title className='text-[#64748B] mr-4'>Rows per page</Title>
                   {pagination && (
                     <ComboboxNumber
-                      props={[
+                      items={[
                         { label: '5', value: '5' },
                         { label: '10', value: '10' },
                         { label: '15', value: '15' },

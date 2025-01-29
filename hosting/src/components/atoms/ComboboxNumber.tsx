@@ -1,25 +1,25 @@
-'use client';
-
 import * as React from 'react';
-import { Check, ChevronsUpDown, Command } from 'lucide-react';
-import { Button } from './Button';
-import { cn } from '@/lib/utils';
+import { Command, CommandGroup, CommandItem, CommandList } from './command';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { CommandGroup, CommandItem, CommandList } from './command';
+import { ChevronsUpDown } from 'lucide-react';
+import { Button } from './Button';
+
+interface ComboboxProps {
+  items: ComboboxDemoProps[];
+  defaultSelected?: string;
+  onSelect?: (value: string) => void;
+}
 
 interface ComboboxDemoProps {
   label: string;
   value: string;
 }
-export function ComboboxNumber({
-  props,
+
+const ComboboxNumber: React.FC<ComboboxProps> = ({
+  items,
   defaultSelected,
   onSelect,
-}: {
-  props: ComboboxDemoProps[];
-  defaultSelected?: string;
-  onSelect?: (value: string) => void;
-}) {
+}) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultSelected);
 
@@ -32,8 +32,7 @@ export function ComboboxNumber({
           aria-expanded={open}
           className='w-[56px] justify-between h-[28px]'
         >
-          {props.find((item) => item.value === value)?.label}
-
+          {items.find((item) => item.value === value)?.label}
           <ChevronsUpDown className='ml-1 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
@@ -41,22 +40,16 @@ export function ComboboxNumber({
         <Command>
           <CommandList>
             <CommandGroup>
-              {props.map((item) => (
+              {items.map((item) => (
                 <CommandItem
                   key={item.value}
                   value={item.value}
                   onSelect={(currentValue) => {
-                    onSelect?.(currentValue);
                     setValue(currentValue);
                     setOpen(false);
+                    onSelect?.(currentValue);
                   }}
                 >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === item.value ? 'opacity-100' : 'opacity-0'
-                    )}
-                  />
                   {item.label}
                 </CommandItem>
               ))}
@@ -66,4 +59,8 @@ export function ComboboxNumber({
       </PopoverContent>
     </Popover>
   );
-}
+};
+
+ComboboxNumber.displayName = 'ComboboxNumber';
+
+export { ComboboxNumber };
