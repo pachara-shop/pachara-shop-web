@@ -16,7 +16,16 @@ export const productAPI = createApi({
       }),
       invalidatesTags: ['Product'],
     }),
+    searchProducts: builder.mutation<IResponse<IProduct[]>, {filter:string}>({
+      query: ({filter}) => ({
+        url: '/api/product',
+        method: 'GET',
+        params: {filter},
+      }),
+      invalidatesTags: ['Product'],
+    })
   }),
 });
 
-export const { useGetProductsMutation } = productAPI;
+
+export const { useGetProductsMutation,useSearchProductsMutation } = productAPI;
