@@ -10,6 +10,7 @@ export default function Page() {
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [getProducts] = useSearchProductsMutation();
 
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<IProduct>>>();
   const handleTableInstanceChange = (
