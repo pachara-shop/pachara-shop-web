@@ -9,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className='min-h-screen bg-white'>
+    <div className='min-h-[calc(100vh-120px)] bg-gray-100'>
       <Sidebar />
       <header className='fixed top-0 z-50 w-full bg-white border-b shadow-sm h-[120px] ml-64'>
         <nav>

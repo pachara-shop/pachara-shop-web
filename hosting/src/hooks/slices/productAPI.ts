@@ -8,24 +8,32 @@ export const productAPI = createApi({
   baseQuery: axiosInternalBaseQuery(),
   tagTypes: ['Product'],
   endpoints: (builder) => ({
-    getProducts: builder.mutation<IResponse<IProduct[]>,{filter:string}>({
-      query: ({filter}) => ({
+    getProducts: builder.mutation<IResponse<IProduct[]>, { filter: string }>({
+      query: ({ filter }) => ({
         url: '/api/product',
         method: 'GET',
-        params: {filter},
+        params: { filter },
       }),
       invalidatesTags: ['Product'],
     }),
-    searchProducts: builder.mutation<IResponse<IProduct[]>, {filter:string}>({
-      query: ({filter}) => ({
+    searchProducts: builder.mutation<IResponse<IProduct[]>, { filter: string }>({
+      query: ({ filter }) => ({
         url: '/api/product',
         method: 'GET',
-        params: {filter},
+        params: { filter },
       }),
       invalidatesTags: ['Product'],
-    })
+    }),
+    createProduct: builder.mutation<IResponse<IProduct>, IProduct>({
+      query: (product) => ({
+        url: '/api/product',
+        method: 'POST',
+        data: product,
+      }),
+      invalidatesTags: ['Product'],
+    }),
   }),
 });
 
 
-export const { useGetProductsMutation,useSearchProductsMutation } = productAPI;
+export const { useGetProductsMutation, useSearchProductsMutation, useCreateProductMutation } = productAPI;

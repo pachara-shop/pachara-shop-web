@@ -1,4 +1,5 @@
 import { handleError, handleSuccess } from '@/utils/api/handler';
+import { NextRequest } from 'next/server';
 
 const images = [
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgtVeq-JGK_hT8zrYCeEvo4qWndUMqKNrM9Q&s',
@@ -21,7 +22,7 @@ const productNames = [
   'Fashion Belt Bag',
 ];
 const getRandomPrice = () => Math.floor(Math.random() * (2000 - 500 + 1) + 500);
-const getRandomLength = () => Math.floor(Math.random() * (7-3 + 1) + 5);
+const getRandomLength = () => Math.floor(Math.random() * (7 - 3 + 1) + 5);
 
 const getProduct = async () => {
   try {
@@ -40,4 +41,14 @@ const getProduct = async () => {
   }
 };
 
+const createProduct = async (req: NextRequest) => {
+  try {
+    const body = await req.json();
+    return handleSuccess({ data: body });
+  } catch (err) {
+    return handleError(500, err);
+  }
+};
+
 export const GET = getProduct;
+export const POST = createProduct;
