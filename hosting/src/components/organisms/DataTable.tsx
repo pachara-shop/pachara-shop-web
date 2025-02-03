@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -45,7 +44,7 @@ export default function DataTable<T>({
   fetchData,
   onTableInstanceChange,
   children,
-}: DataTableProps<T>) {
+}: DataTableProps<T>): JSX.Element {
   const {
     sorting,
     setSorting,

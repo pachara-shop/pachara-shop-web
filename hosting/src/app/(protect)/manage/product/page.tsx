@@ -9,7 +9,7 @@ import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function Page() {
+export default function Page(): JSX.Element {
   const route = useRouter();
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [getProducts] = useSearchProductsMutation();

@@ -13,10 +13,21 @@ export default [
   {
     rules: {
       'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/no-explicit-any': 'error',
       semi: ['error', 'always'],
       quotes: ['error', 'single'],
       indent: ['error', 2],
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
     },
+    overrides: [
+      {
+        files: ['*.tsx'],
+        rules: {
+          '@typescript-eslint/explicit-function-return-type': 'warn',
+        },
+      },
+    ],
   },
 ];

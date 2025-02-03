@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/atoms/Button';
+import { CustomButton } from '@/components/ui/CustomButton';
 import { useRouter } from 'next/navigation';
 
 export default function Page() {
@@ -55,7 +56,7 @@ export default function Page() {
         </div>
       </div>
       <div className='absolute top-0 right-0 flex space-x-2'>
-        <Button
+        <CustomButton
           className=''
           variant='outline'
           onClick={() => {
@@ -63,8 +64,8 @@ export default function Page() {
           }}
         >
           Save
-        </Button>
-        <Button
+        </CustomButton>
+        <CustomButton
           className=''
           variant='black'
           onClick={() => {
@@ -72,7 +73,7 @@ export default function Page() {
           }}
         >
           Cancel
-        </Button>
+        </CustomButton>
       </div>
     </div>
   );
