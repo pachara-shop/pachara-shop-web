@@ -1,33 +1,82 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  {
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-explicit-any': 'error',
-      semi: ['error', 'always'],
-      quotes: ['error', 'single'],
-      indent: ['error', 2],
-      'no-unused-vars': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-      '@typescript-eslint/explicit-module-boundary-types': 'error',
-    },
-    overrides: [
-      {
-        files: ['*.tsx'],
-        rules: {
-          '@typescript-eslint/explicit-function-return-type': 'warn',
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
+});
+
+export default [...compat.extends(
+    "airbnb",
+    "airbnb/hooks",
+    "next/core-web-vitals",
+    "next/typescript",
+    "prettier",
+), {
+    settings: {
+        "import/resolver": {
+            node: {
+                extensions: [".js", ".jsx", ".ts", ".tsx"],
+            },
         },
-      },
-    ],
-  },
-];
+    },
+
+    rules: {
+        "react/function-component-definition": "off",
+
+        "no-console": ["error", {
+            allow: ["warn", "error", "info"],
+        }],
+
+        "react/require-default-props": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "react/prop-types": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+
+        "@typescript-eslint/no-unused-vars": ["error", {
+            argsIgnorePattern: "^_",
+            varsIgnorePattern: "^_",
+        }],
+
+        "react/jsx-filename-extension": [1, {
+            extensions: [".tsx"],
+        }],
+
+        "import/extensions": ["error", "ignorePackages", {
+            js: "never",
+            jsx: "never",
+            ts: "never",
+            tsx: "never",
+        }],
+
+        "import/no-unresolved": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": "off",
+        "import/no-cycle": "off",
+        "linebreak-style": "off",
+        "no-use-before-define": "warn",
+        "no-shadow": "off",
+
+        "import/no-extraneous-dependencies": ["error", {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: false,
+        }],
+
+        "class-methods-use-this": "off",
+    },
+}, {
+    files: ["src/entity/**", "src/shared/models/**"],
+
+    rules: {
+        "import/no-cycle": "off",
+    },
+}];

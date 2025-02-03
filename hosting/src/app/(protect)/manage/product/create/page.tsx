@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/atoms/Button';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { useRouter } from 'next/navigation';
 

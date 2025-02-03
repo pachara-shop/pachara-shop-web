@@ -1,22 +1,93 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript"
-  ],
-  "rules": {
-    "semi": [
-      "error",
-      "always"
+    "extends": [
+        "airbnb",
+        "airbnb/hooks",
+        "next/core-web-vitals",
+        "next/typescript",
+        "prettier"
     ],
-    "quotes": [
-      "error",
-      "single"
+    "rules": {
+        "react/function-component-definition": "off",
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
+            }
+        ],
+        "react/require-default-props": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "react/prop-types": "off", // If you're using TypeScript, prop-types are not needed
+        "@typescript-eslint/explicit-module-boundary-types": "off", // Allows you to skip explicit return types in TypeScript
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_"
+            }
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".tsx"
+                ]
+            }
+        ], // Only .tsx files for JSX
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "import/no-unresolved": "off", // TypeScript takes care of this
+        "react/react-in-jsx-scope": "off", // Not needed in Next.js
+        "react/jsx-props-no-spreading": "off", // Allowing spread props
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": "off",
+        "import/no-cycle": "off",
+        "linebreak-style": "off",
+        "no-use-before-define": "warn",
+        "no-shadow": "off",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true,
+                "optionalDependencies": false,
+                "peerDependencies": false
+            }
+        ],
+        "class-methods-use-this": "off"
+    },
+    "overrides": [
+        {
+            "files": [
+                "src/entity/**",
+                "src/shared/models/**"
+            ],
+            "rules": {
+                "import/no-cycle": "off"
+            }
+        }
     ],
-    "indent": [
-      "error",
-      2
-    ],
-    "no-unused-vars": "error",
-    "react/react-in-jsx-scope": "off",
-  }
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    }
 }
