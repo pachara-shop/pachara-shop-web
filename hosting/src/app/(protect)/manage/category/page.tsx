@@ -3,7 +3,10 @@
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/input';
 import DataTable, { FetchDataParams } from '@/components/organisms/DataTable';
-import { useSearchCategoryMutation } from '@/hooks/slices/CategoryAPI';
+import {
+  useDeleteCategoryMutation,
+  useSearchCategoryMutation,
+} from '@/hooks/slices/CategoryAPI';
 import { ICategory } from '@/shared/models/Category';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
@@ -11,10 +14,12 @@ import React, { useState } from 'react';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
-  const [products, setProduct] = React.useState<ICategory[]>([]);
+  const [search, setSearch] = useState('');
+  const [productList, setProductList] = React.useState<ICategory[]>([]);
+  const [total, setTotal] = React.useState<number>(0);
   const [getProducts] = useSearchCategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<ICategory>>>();
   const handleTableInstanceChange = (
@@ -24,20 +29,24 @@ export default function Page(): JSX.Element {
   };
 
   const fetchProducts = async (params: FetchDataParams): Promise<void> => {
-    const response = await getProducts({
+    await getProducts({
       p: JSON.stringify(params.pagination),
       s: JSON.stringify(params.sorting),
       f: JSON.stringify(params.columnFilters),
     })
       .unwrap()
-      .then((res) => res.data);
-    setProduct(response);
+      .then((res) => {
+        setProductList(res.data);
+        setTotal(res.pagination.total);
+      });
   };
 
   const columnsSetting: ColumnDef<ICategory>[] = [
     {
       header: 'Name',
       accessorKey: 'name',
+      sortDescFirst: true,
+      enableSorting: false,
       meta: {
         cellClassName: '',
       },
@@ -45,6 +54,8 @@ export default function Page(): JSX.Element {
     {
       header: '',
       accessorKey: 'id',
+      enableSorting: false,
+
       cell: ({ row }) => {
         const id = row.original.id;
         return (
@@ -59,8 +70,16 @@ export default function Page(): JSX.Element {
             </Button>
             <Button
               type='button'
-              onClick={() => {
-                route.push(`/manage/category/${id}`);
+              onClick={async () => {
+                await deleteCategory({ id })
+                  .unwrap()
+                  .then(() => {
+                    const sorting = tableInstance?.getState().sorting;
+                    const columnFilters =
+                      tableInstance?.getState().columnFilters;
+                    const pagination = tableInstance?.getState().pagination;
+                    fetchProducts({ sorting, columnFilters, pagination });
+                  });
               }}
             >
               Delete
@@ -72,31 +91,44 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <div>
-      <DataTable
-        data={products}
-        total={products.length}
-        columns={columnsSetting}
-        fetchData={fetchProducts}
-        onTableInstanceChange={handleTableInstanceChange}
-      >
-        <div className='flex justify-between'>
+    <DataTable
+      data={productList}
+      total={total}
+      columns={columnsSetting}
+      fetchData={fetchProducts}
+      onTableInstanceChange={handleTableInstanceChange}
+    >
+      <div className='flex justify-between'>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            tableInstance?.resetPageIndex();
+            tableInstance?.getColumn('name')?.setFilterValue(search);
+          }}
+        >
           <div className='flex w-full max-w-sm items-center space-x-2'>
-            <Input type='text' placeholder='Search...' />
+            <Input
+              type='text'
+              placeholder='Search...'
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
             <Button type='submit'>Search</Button>
           </div>
-          <div className='flex justify-end'>
-            <Button
-              type='button'
-              onClick={() => {
-                route.push('/manage/category/create');
-              }}
-            >
-              Add Category
-            </Button>
-          </div>
+        </form>
+        <div className='flex justify-end'>
+          <Button
+            type='button'
+            onClick={() => {
+              route.push('/manage/category/create');
+            }}
+          >
+            Add Category
+          </Button>
         </div>
-      </DataTable>
-    </div>
+      </div>
+    </DataTable>
   );
 }

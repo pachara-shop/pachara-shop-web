@@ -4,15 +4,15 @@ import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { ChevronsUpDown } from 'lucide-react';
 import { Button } from './Button';
 
+interface ComboboxDemoProps {
+  label: string;
+  value: string;
+}
+
 interface ComboboxProps {
   items: ComboboxDemoProps[];
   defaultSelected?: string;
   onSelect?: (value: string) => void;
-}
-
-interface ComboboxDemoProps {
-  label: string;
-  value: string;
 }
 
 const ComboboxNumber: React.FC<ComboboxProps> = ({
@@ -33,7 +33,7 @@ const ComboboxNumber: React.FC<ComboboxProps> = ({
           className='w-[56px] justify-between h-[28px]'
         >
           {items.find((item) => item.value === value)?.label}
-          <ChevronsUpDown className='ml-1 h-4 w-4 shrink-0 opacity-50' />
+          <ChevronsUpDown className='-ml-1 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[70px] p-0'>

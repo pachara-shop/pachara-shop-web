@@ -2,6 +2,35 @@
 
 import { User, ChevronDown } from 'lucide-react';
 import { Sidebar } from '../components/layouts/admin/Sidebar';
+import GlobalSuspense from '@/components/ui/GlobalSuspense';
+import Loading from '@/components/atoms/Loading';
+import { useEffect, useState } from 'react';
+import {
+  onLoadingChange,
+  removeLoadingChangeListener,
+} from '@/emitter/loadingEmitter';
+
+function MainContent({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const handleLoadingChange = (loading: boolean) => {
+      setIsLoading(loading);
+    };
+    onLoadingChange(handleLoadingChange);
+    return () => {
+      removeLoadingChangeListener(handleLoadingChange);
+    };
+  }, []);
+
+  return (
+    <main className='p-4 transition-margin duration-300 mt-[120px] ml-64'>
+      {isLoading && <Loading />}
+      <GlobalSuspense>
+        <div className='mx-10 py-[15px]'>{children}</div>
+      </GlobalSuspense>
+    </main>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -27,9 +56,10 @@ export default function RootLayout({
           </div>
         </nav>
       </header>
-      <main className={'p-4 transition-margin duration-300 mt-[120px] ml-64'}>
+      <MainContent>{children}</MainContent>
+      {/* <main className={'p-4 transition-margin duration-300 mt-[120px] ml-64'}>
         {children}
-      </main>
+      </main> */}
     </div>
   );
 }

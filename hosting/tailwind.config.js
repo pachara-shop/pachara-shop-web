@@ -1,4 +1,6 @@
-const shadcnConfig = require('./shadcn.config.js');
+import shadcnConfig from './shadcn.config.js';
+import { addDynamicIconSelectors } from '@iconify/tailwind';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 module.exports = {
   darkMode: ['class'],
@@ -56,7 +58,21 @@ module.exports = {
           5: 'hsl(var(--chart-5))',
         },
       },
+      zIndex: {
+        999999: '999999',
+        99999: '99999',
+        9999: '9999',
+        999: '999',
+        99: '99',
+        9: '9',
+        1: '1',
+      },
     },
   },
-  plugins: [...shadcnConfig.plugins, require('tailwindcss-animate')],
+  plugins: [
+    tailwindcssAnimate,
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('tailwindcss-animate'),
+    addDynamicIconSelectors(),
+  ],
 };

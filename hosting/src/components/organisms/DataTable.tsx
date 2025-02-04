@@ -35,6 +35,25 @@ import {
   TableRow,
 } from '../atoms/table';
 
+export interface FetchDataParams {
+  sorting: SortingState;
+  columnFilters: ColumnFiltersState;
+  pagination: PaginationState;
+}
+
+export interface DataTableProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+  fetchData: (params: FetchDataParams) => void;
+  isLoading?: boolean;
+  total: number;
+  defaultSort?: SortingState;
+  onTableInstanceChange?: (
+    tableInstance: ReturnType<typeof useReactTable<T>>
+  ) => void;
+  children?: React.ReactNode; // Add children prop
+}
+
 export default function DataTable<T>({
   data,
   columns,
@@ -92,6 +111,7 @@ export default function DataTable<T>({
     // autoResetPageIndex: false,
     manualPagination: true,
     manualFiltering: true,
+    manualSorting: true,
   });
 
   useEffect(() => {
@@ -288,23 +308,4 @@ export default function DataTable<T>({
       </Table>
     </div>
   );
-}
-
-export interface FetchDataParams {
-  sorting: SortingState;
-  columnFilters: ColumnFiltersState;
-  pagination: PaginationState;
-}
-
-export interface DataTableProps<T> {
-  data: T[];
-  columns: ColumnDef<T>[];
-  fetchData: (params: FetchDataParams) => void;
-  isLoading?: boolean;
-  total: number;
-  defaultSort?: SortingState;
-  onTableInstanceChange?: (
-    tableInstance: ReturnType<typeof useReactTable<T>>
-  ) => void;
-  children?: React.ReactNode; // Add children prop
 }
