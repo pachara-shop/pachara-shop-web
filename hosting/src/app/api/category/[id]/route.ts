@@ -4,10 +4,10 @@ import { NextRequest } from 'next/server';
 
 const getCategoryById = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return handleError(400, new Error('The id is required'));
     }
@@ -24,10 +24,10 @@ const getCategoryById = async (
 
 const updateCategory = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return handleError(400, new Error('The id is required'));
     }
@@ -42,10 +42,10 @@ const updateCategory = async (
 
 const deleteCategory = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return handleError(400, new Error('The id is required'));
     }

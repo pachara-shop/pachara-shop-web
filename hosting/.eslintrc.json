@@ -1,10 +1,21 @@
 {
     "extends": [
-        "airbnb",
-        "airbnb/hooks",
         "next/core-web-vitals",
         "next/typescript",
         "prettier"
+    ],
+    "ignorePatterns": [
+        "node_modules/",
+        ".next/",
+        "public/",
+        "out/",
+        "dist/",
+        "coverage/",
+        "cypress/",
+        "jest.config.js",
+        "next.config.js",
+        "tailwind.config.js",
+        "webpack.config.js"
     ],
     "rules": {
         "react/function-component-definition": "off",
