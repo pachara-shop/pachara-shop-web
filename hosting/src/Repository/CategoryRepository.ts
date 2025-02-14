@@ -1,7 +1,7 @@
-import { FetchDataParams } from '@/components/organisms/DataTable';
 import { db } from '@/config/firebaseConfig';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
+import { FetchDataParams } from '@/shared/models/Search';
 import {
   addDoc,
   collection,
@@ -66,6 +66,18 @@ export class CategoryRepository {
       };
     });
     return { categories, totalCount };
+  }
+
+  static async getCategoryOption(): Promise<ICategory[]> {
+    const querySnapshot = await getDocs(collection(db, categoryCollection));
+    const categories = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+      } as ICategory;
+    });
+    return categories;
   }
   static async getById(id: string): Promise<ICategory> {
     const docRef = doc(db, categoryCollection, id);

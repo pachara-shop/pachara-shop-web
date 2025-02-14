@@ -1,12 +1,10 @@
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  PaginationState,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -34,12 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from '../atoms/table';
-
-export interface FetchDataParams {
-  sorting: SortingState;
-  columnFilters: ColumnFiltersState;
-  pagination: PaginationState;
-}
+import { FetchDataParams } from '@/shared/models/Search';
 
 export interface DataTableProps<T> {
   data: T[];

@@ -6,27 +6,25 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@radix-ui/react-popover';
-import { useGetProductsMutation } from '@/hooks/slices/productAPI';
 import { IProduct } from '@/shared/models/Product';
 import Image from 'next/image';
+import { useGetFrontendProductsMutation } from '@/hooks/slices/productAPI';
 
 const filters = ['All', 'Tote Bags', 'Belt Bags', 'Backpack'];
 const sortingOptions = ['Name', 'Date', 'Category'];
 
 export default function Page() {
-  const [getProduct, { isLoading }] = useGetProductsMutation();
+  const [getProduct, { isLoading }] = useGetFrontendProductsMutation();
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [items, setItems] = useState<IProduct[]>([]);
   const [selectedSorting, setSelectedSorting] = useState('Name');
 
   useEffect(() => {
-    getProduct({ filter: selectedFilter });
+    getProduct();
   }, []);
   useEffect(() => {
     const loadItems = async () => {
-      const { data } = await getProduct({
-        filter: selectedFilter.toLocaleLowerCase(),
-      });
+      const { data } = await getProduct();
       setItems(data.data);
     };
     loadItems();
@@ -41,9 +39,11 @@ export default function Page() {
               {filters.map((filter) => (
                 <li
                   key={filter}
-                  className={`px-2 py-2 cursor-pointer text-sm ${selectedFilter === filter
-                    ? ' text-black font-bold underline'
-                    : ' text-gray-700'}`}
+                  className={`px-2 py-2 cursor-pointer text-sm ${
+                    selectedFilter === filter
+                      ? ' text-black font-bold underline'
+                      : ' text-gray-700'
+                  }`}
                   onClick={() => setSelectedFilter(filter)}
                 >
                   {filter}
@@ -80,7 +80,9 @@ export default function Page() {
                   className={`
                     flex flex-col 
                     transition-all duration-300 ease-in-out
-                    ${isLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}
+                    ${
+                      isLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                    }
                   `}
                 >
                   <div className='relative aspect-square overflow-hidden rounded-lg bg-gray-100 group'>

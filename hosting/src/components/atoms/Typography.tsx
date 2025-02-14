@@ -8,4 +8,11 @@ const Title = ({
 );
 Title.displayname = 'Title';
 
-export { Title };
+const LightText = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => (
+  <span className={cn('text-[12px]', className)} {...props} />
+);
+
+export { Title, LightText };

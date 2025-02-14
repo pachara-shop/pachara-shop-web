@@ -2,12 +2,13 @@
 
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/input';
-import DataTable, { FetchDataParams } from '@/components/organisms/DataTable';
+import DataTable from '@/components/organisms/DataTable';
 import {
   useDeleteCategoryMutation,
   useSearchCategoryMutation,
 } from '@/hooks/slices/CategoryAPI';
 import { ICategory } from '@/shared/models/Category';
+import { FetchDataParams } from '@/shared/models/Search';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';

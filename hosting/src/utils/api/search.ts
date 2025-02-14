@@ -1,4 +1,4 @@
-import { FetchDataParams } from '@/components/organisms/DataTable';
+import { FetchDataParams } from '@/shared/models/Search';
 import { NextURL } from 'next/dist/server/web/next-url';
 
 const getSearchParamsFromRequest = (url: NextURL): FetchDataParams => {

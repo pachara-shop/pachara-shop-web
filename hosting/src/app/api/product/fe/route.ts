@@ -1,15 +1,10 @@
 import { ProductRepository } from '@/Repository/ProductRepository';
 import { handleError, handleSuccess } from '@/utils/api/handler';
-import { NextRequest } from 'next/server';
 
-const getProductById = async (req: NextRequest, query) => {
+const getFrontendProductList = async () => {
   try {
-    const { id } = (await query?.params) ?? {};
-    if (!id) {
-      return handleError(400, new Error('The id is require'));
-    }
     const repo = new ProductRepository();
-    const product = await repo.getById(id);
+    const product = await repo.getFrontendPRoductList();
     if (!product) {
       return handleError(404, 'Product not found');
     }
@@ -19,4 +14,4 @@ const getProductById = async (req: NextRequest, query) => {
   }
 };
 
-export const GET = getProductById;
+export const GET = getFrontendProductList;

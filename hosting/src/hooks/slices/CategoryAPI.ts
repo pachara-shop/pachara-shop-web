@@ -50,6 +50,13 @@ export const categoryAPI = createApi({
       }),
       invalidatesTags: ['category'],
     }),
+    getCategoryOptions: builder.query<{ data: ICategory[] }, void>({
+      query: () => ({
+        url: '/api/category/option',
+        method: 'GET',
+      }),
+      providesTags: ['category'],
+    }),
   }),
 });
 
@@ -59,4 +66,5 @@ export const {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useGetCategoryOptionsQuery,
 } = categoryAPI;

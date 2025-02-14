@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/input';
+import { TableEdit } from '@/components/atoms/TableEdit';
+import { TableImage } from '@/components/atoms/TableImage';
 import DataTable from '@/components/organisms/DataTable';
 import { useSearchProductsMutation } from '@/hooks/slices/productAPI';
 import { IProduct } from '@/shared/models/Product';
@@ -14,7 +16,6 @@ export default function Page(): JSX.Element {
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [getProducts] = useSearchProductsMutation();
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<IProduct>>>();
   const handleTableInstanceChange = (
@@ -24,7 +25,15 @@ export default function Page(): JSX.Element {
   };
 
   const fetchProducts = async () => {
-    const response = await getProducts({ filter: 'all' })
+    const sorting = tableInstance?.getState().sorting;
+    const filtering = tableInstance?.getState().columnFilters;
+    const pagination = tableInstance?.getState().pagination;
+
+    const response = await getProducts({
+      s: JSON.stringify(sorting),
+      p: JSON.stringify(pagination),
+      f: JSON.stringify(filtering),
+    })
       .unwrap()
       .then((res) => res.data);
     setProduct(response);
@@ -55,10 +64,40 @@ export default function Page(): JSX.Element {
     {
       header: 'Category',
       accessorKey: 'category',
+      cell: ({ row }) => {
+        const category = row.original.category as IProduct['category'];
+        if (typeof category === 'object') {
+          return <div>{(category as any)?.name}</div>;
+        }
+        return null;
+      },
     },
     {
-      header: 'Stock',
-      accessorKey: 'stock',
+      header: 'Image',
+      accessorKey: 'image',
+      enableSorting: false,
+      cell: ({ row }) => {
+        const image = row.original.image;
+        if (image) {
+          return <TableImage src={image} alt={row.original.name} />;
+        }
+      },
+    },
+    {
+      header: 'Action',
+      accessorKey: 'id',
+      enableSorting: false,
+      cell: ({ row }) => {
+        return (
+          <TableEdit
+            isEdit
+            isDelete
+            onClickEdit={() => {
+              route.push(`/manage/product/${row.original.id}`);
+            }}
+          />
+        );
+      },
     },
   ];
 

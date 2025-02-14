@@ -4,7 +4,7 @@ import { ICategory } from './Category';
 export interface IProduct {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   price: number;
   image: string;
   category?: string | DocumentReference<ICategory> | ICategory;

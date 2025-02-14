@@ -8,11 +8,11 @@ const menus = [
   },
   {
     name: 'Products',
-    link: 'product',
+    link: 'manage/product',
   },
   {
     name: 'Category',
-    link: 'category',
+    link: 'manage/category',
   },
 ];
 
@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
           {menus.map((menu) => (
             <li key={menu.name}>
               <a
-                href={menu.link}
+                href={'/' + menu.link}
                 className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'
               >
                 {menu.name}

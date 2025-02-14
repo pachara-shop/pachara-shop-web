@@ -61,20 +61,21 @@ const CategoryDetail: React.FC<categoryDetailProps> = ({
                 }}
               />
             </div>
-          </div>
-          <div className='absolute top-0 right-0 flex space-x-2'>
-            <CustomButton variant='outline' type='submit'>
-              Save
-            </CustomButton>
-            <CustomButton
-              className=''
-              variant='black'
-              onClick={() => {
-                route.push('/manage/category');
-              }}
-            >
-              Cancel
-            </CustomButton>
+
+            <div className='flex space-x-2 pt-4'>
+              <CustomButton variant='black' type='submit'>
+                Save
+              </CustomButton>
+              <CustomButton
+                type='button'
+                variant='outline'
+                onClick={() => {
+                  route.push('/manage/category');
+                }}
+              >
+                Cancel
+              </CustomButton>
+            </div>
           </div>
         </form>
       </Form>
