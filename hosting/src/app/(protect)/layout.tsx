@@ -26,7 +26,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
     <main className='p-4 transition-margin duration-300 mt-[120px] ml-64'>
       {isLoading && <Loading />}
       <GlobalSuspense>
-        <div className='mx-10 py-[15px]'>{children}</div>
+        <div className='mx-10 py-[15px] h-full'>{children}</div>
       </GlobalSuspense>
     </main>
   );

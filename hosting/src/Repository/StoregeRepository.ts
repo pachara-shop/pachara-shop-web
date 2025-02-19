@@ -9,9 +9,14 @@ import {
 const storage = getStorage();
 export class StorageRepository {
   static async getImageUrl(path: string): Promise<string> {
-    const storageRef = ref(storage, path);
-    const downloadURL = await getDownloadURL(storageRef);
-    return downloadURL;
+    try {
+      const storageRef = ref(storage, path);
+      const downloadURL = await getDownloadURL(storageRef);
+      return downloadURL;
+    } catch (e) {
+      console.warn(e);
+      return '';
+    }
   }
   static async uploadFile(file: File, path: string) {
     const storageRef = ref(storage, path);
@@ -20,8 +25,12 @@ export class StorageRepository {
   }
 
   static async deleteFile(path: string) {
-    const storageRef = ref(storage, path);
-    await deleteObject(storageRef);
+    try {
+      const storageRef = ref(storage, path);
+      await deleteObject(storageRef);
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   static async uploadImage(file: File, path: string): Promise<string> {

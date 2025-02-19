@@ -24,3 +24,10 @@ export interface FetchDataParams {
   columnFilters: ColumnFiltersState;
   pagination: PaginationState;
 }
+
+export interface SearchProductsParams {
+  /**
+   * category id
+   */
+  c?: string;
+}

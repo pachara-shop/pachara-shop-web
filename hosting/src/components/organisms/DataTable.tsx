@@ -105,6 +105,7 @@ export default function DataTable<T>({
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
+    enableSorting: false,
   });
 
   useEffect(() => {

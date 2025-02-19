@@ -1,6 +1,15 @@
 'use client';
 
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/atoms/form';
 import { ImageDropzone } from '@/components/atoms/ImageDropZone';
+import { Input } from '@/components/atoms/input';
 import {
   Select,
   SelectContent,
@@ -8,127 +17,192 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/atoms/select';
+import { Textarea } from '@/components/atoms/textarea';
+import { Title } from '@/components/atoms/Typography';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/CategoryAPI';
+import { createProductSchema } from '@/shared/form-schema/product';
+import { ICreateProduct } from '@/shared/models/Product';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-export const ProductDetail = () => {
-  const initialData = {
-    image: null,
-  };
+interface ProductDetailProps {
+  initialData: ICreateProduct;
+  onSubmit: (data: ICreateProduct) => void;
+}
+export const ProductDetail = ({
+  initialData,
+  onSubmit,
+}: ProductDetailProps) => {
+  const form = useForm<ICreateProduct>({
+    values: initialData,
+    resolver: zodResolver(createProductSchema),
+  });
+
   const route = useRouter();
-  const { data } = useGetCategoryOptionsQuery();
+  const { data: categoryOptions } = useGetCategoryOptionsQuery();
   const [options, setOptions] = useState([]);
   useEffect(() => {
-    if (data?.data) {
+    if (categoryOptions?.data) {
       setOptions(
-        data.data.map((item) => ({
+        categoryOptions.data.map((item) => ({
           value: item.id,
           label: item.name,
         }))
       );
     }
-  }, [data]);
+  }, [categoryOptions]);
 
   return (
     <div className='p-4 relative'>
-      <div className='bg-white w-[500px] border border-gray-200 rounded-lg p-4'>
-        <h1 className='text-xl font-semibold'>Create Product</h1>
-        <div className='mt-4'>
-          <label htmlFor='name' className='block text-sm font-medium'>
-            Name
-          </label>
-          <input
-            type='text'
-            id='name'
-            name='name'
-            className='w-full border border-gray-200 rounded-lg p-2 mt-1'
-          />
-        </div>
-        <div className='mt-4'>
-          <label htmlFor='price' className='block text-sm font-medium'>
-            Price
-          </label>
-          <input
-            type='number'
-            id='price'
-            name='price'
-            className='w-full border border-gray-200 rounded-lg p-2 mt-1'
-          />
-        </div>
-        <div className='mt-4'>
-          <label htmlFor='category' className='block text-sm font-medium'>
-            Category
-          </label>
-          <Select
-            onValueChange={(_value) => {
-              // tableInstance?.resetPageIndex();
-              // tableInstance
-              //   ?.getColumn('status')
-              //   ?.setFilterValue(value !== 'all' ? value : undefined);
-            }}
-            // defaultValue={String(
-            //   columnFilters.filter((t) => t.id === 'status')[0]?.value ??
-            //     'displaying'
-            // )}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Select' />
-            </SelectTrigger>
-            <SelectContent>
-              {options.map((item) => (
-                <SelectItem
-                  key={item.value}
-                  value={item.value}
-                  className='capitalize'
-                >
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className='mt-4'>
-          <label htmlFor='stock' className='block text-sm font-medium'>
-            image
-          </label>
-          <ImageDropzone
-            className='w-[380px]'
-            imageUrl={initialData?.image}
-            customName={
-              initialData?.image &&
-              (initialData?.image as string).split('/').pop()
-            }
-            setValue={(_e) => {
-              // form.setValue('image_pc_file', e);
-            }}
-            formTrigger={() => {
-              // form.trigger('image_pc_file');
-            }}
-          />
-        </div>
-        <div className='absolute top-0 right-0 flex space-x-2'>
-          <CustomButton
-            className=''
-            variant='outline'
-            onClick={() => {
-              route.push('/manage/product');
-            }}
-          >
-            Save
-          </CustomButton>
-          <CustomButton
-            className=''
-            variant='black'
-            onClick={() => {
-              route.push('/manage/product');
-            }}
-          >
-            Cancel
-          </CustomButton>
-        </div>
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='bg-white w-[500px] border border-gray-200 rounded-lg p-4'>
+            <h1 className='text-xl font-semibold'>Create Product</h1>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem className='my-4'>
+                  <span className='text-destructive mr-1'>*</span>
+                  <Title className='font-medium'>Name</Title>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ''}
+                      placeholder={`Enter name`}
+                      type='text'
+                      className='bg-white'
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='price'
+              render={({ field }) => (
+                <FormItem className='my-4'>
+                  <Title className='font-medium'>
+                    <span className='text-destructive mr-1'>*</span>Price
+                  </Title>
+                  <FormControl>
+                    <Input
+                      placeholder='Enter price'
+                      {...field}
+                      type='text'
+                      className='w-full'
+                      onKeyPress={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='categoryId'
+              render={({ field }) => (
+                <FormItem>
+                  <Title>Category</Title>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select category' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {options.map((item) => (
+                        <SelectItem
+                          key={item.value}
+                          value={item.value}
+                          className='capitalize'
+                        >
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage category in{' '}
+                    <Link href='/manage/category'>category settings</Link>.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='file'
+              render={({ field }) => (
+                <FormItem className='my-4 mr-4'>
+                  <Title className='font-medium'>
+                    <span className='text-destructive mr-1'>*</span>Image
+                  </Title>
+                  <FormControl>
+                    <ImageDropzone
+                      {...field}
+                      className='w-[380px]'
+                      imageUrl={initialData?.image}
+                      customName={
+                        initialData?.image &&
+                        (initialData?.image as string).split('/').pop()
+                      }
+                      setValue={(e) => {
+                        form.setValue('file', e);
+                      }}
+                      formTrigger={() => {
+                        form.trigger('file');
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem className='my-4 mr-4'>
+                  <Title className='font-medium'>Description</Title>
+                  <FormControl>
+                    <Textarea
+                      placeholder='Description'
+                      className='resize-none'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className=' flex space-x-2 pt-4 justify-end'>
+              <CustomButton
+                className=''
+                variant='outline'
+                onClick={() => {
+                  route.push('/manage/product');
+                }}
+              >
+                Cancel
+              </CustomButton>
+              <CustomButton className='' variant='black' type='submit'>
+                Save
+              </CustomButton>
+            </div>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

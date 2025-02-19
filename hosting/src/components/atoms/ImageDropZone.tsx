@@ -43,7 +43,7 @@ const ImageDropzone = React.forwardRef<HTMLInputElement, ImageDropzoneProps>(
   ) => {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const [preview, setPreview] = React.useState<string | null>(null);
-    const [fileName, setFileName] = React.useState<string | null>();
+    const [_fileName, setFileName] = React.useState<string | null>();
 
     React.useEffect(() => {
       setFileName(initialCustomName);
@@ -131,7 +131,7 @@ const ImageDropzone = React.forwardRef<HTMLInputElement, ImageDropzoneProps>(
       maxSize: 5242880,
     });
 
-    const handleRemove = () => {
+    const _handleRemove = () => {
       setPreview(null);
       setFileName(undefined);
       if (fileInputRef.current) {
@@ -190,7 +190,7 @@ const ImageDropzone = React.forwardRef<HTMLInputElement, ImageDropzoneProps>(
             </>
           )}
         </button>
-        {fileName && (
+        {/* {fileName && (
           <div className='flex items-center mt-3'>
             <Icon
               icon='icon-[mdi--remove] w-3 text-red mr-2 cursor-pointer'
@@ -198,7 +198,7 @@ const ImageDropzone = React.forwardRef<HTMLInputElement, ImageDropzoneProps>(
             />
             <LightText className='text-[#71717a] '>{fileName}</LightText>
           </div>
-        )}
+        )} */}
       </div>
     );
   }

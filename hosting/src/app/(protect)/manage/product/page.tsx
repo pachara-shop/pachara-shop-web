@@ -5,16 +5,20 @@ import { Input } from '@/components/atoms/input';
 import { TableEdit } from '@/components/atoms/TableEdit';
 import { TableImage } from '@/components/atoms/TableImage';
 import DataTable from '@/components/organisms/DataTable';
-import { useSearchProductsMutation } from '@/hooks/slices/productAPI';
+import {
+  useDeleteProductMutation,
+  useSearchProductsMutation,
+} from '@/hooks/slices/productAPI';
 import { IProduct } from '@/shared/models/Product';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [getProducts] = useSearchProductsMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<IProduct>>>();
@@ -39,9 +43,10 @@ export default function Page(): JSX.Element {
     setProduct(response);
   };
 
-  useEffect(() => {
+  const onDeleteProduct = async (id: string) => {
+    await deleteProduct(id);
     fetchProducts();
-  }, []);
+  };
 
   const columnsSetting: ColumnDef<IProduct>[] = [
     {
@@ -84,7 +89,7 @@ export default function Page(): JSX.Element {
       },
     },
     {
-      header: 'Action',
+      header: '',
       accessorKey: 'id',
       enableSorting: false,
       cell: ({ row }) => {
@@ -94,6 +99,9 @@ export default function Page(): JSX.Element {
             isDelete
             onClickEdit={() => {
               route.push(`/manage/product/${row.original.id}`);
+            }}
+            onClickDelete={() => {
+              onDeleteProduct(row.original.id);
             }}
           />
         );

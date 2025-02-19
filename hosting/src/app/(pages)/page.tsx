@@ -8,52 +8,91 @@ import {
 } from '@radix-ui/react-popover';
 import { IProduct } from '@/shared/models/Product';
 import Image from 'next/image';
-import { useGetFrontendProductsMutation } from '@/hooks/slices/productAPI';
+import { useSearchFrontendProductsMutation } from '@/hooks/slices/productAPI';
+import { useGetCategoryOptionsQuery } from '@/hooks/slices/CategoryAPI';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Skeleton } from '@/components/atoms/skeleton';
 
-const filters = ['All', 'Tote Bags', 'Belt Bags', 'Backpack'];
 const sortingOptions = ['Name', 'Date', 'Category'];
 
 export default function Page() {
-  const [getProduct, { isLoading }] = useGetFrontendProductsMutation();
-  const [selectedFilter, setSelectedFilter] = useState('All');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [getProduct, { isLoading }] = useSearchFrontendProductsMutation();
+  const [selectedFilter, setSelectedFilter] = useState<string>(
+    searchParams.get('c') || 'all'
+  );
   const [items, setItems] = useState<IProduct[]>([]);
   const [selectedSorting, setSelectedSorting] = useState('Name');
+  const { data: categoryOptions, isLoading: isCategoryOptionsLoading } =
+    useGetCategoryOptionsQuery();
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    const params = new URLSearchParams(searchParams);
+    if (selectedFilter !== 'all') {
+      params.set('c', selectedFilter);
+    } else {
+      params.delete('c');
+    }
+    router.push(`?${params.toString()}`);
+  }, [selectedFilter]);
+
   useEffect(() => {
+    if (isCategoryOptionsLoading) return;
+    const params = new URLSearchParams(searchParams);
+    if (selectedFilter !== 'all') {
+      params.set('c', selectedFilter);
+    } else {
+      params.delete('c');
+    }
+    router.push(`?${params.toString()}`);
+
     const loadItems = async () => {
-      const { data } = await getProduct();
+      const categoryId = categoryOptions?.data?.find(
+        (item) => item.name === selectedFilter
+      )?.id;
+      const { data } = await getProduct({ c: categoryId || selectedFilter });
       setItems(data.data);
     };
     loadItems();
-  }, [selectedFilter]);
+  }, [searchParams, isCategoryOptionsLoading]);
 
   return (
     <div className='flex justify-center p-4'>
       <div className='w-full max-w-screen-xl'>
         <div className='flex justify-between items-center mb-4'>
           <div className='flex space-x-4'>
-            <ul className='flex '>
-              {filters.map((filter) => (
+            <ul className='flex'>
+              <li
+                key={'select-all'}
+                className={`px-2 py-2 cursor-pointer text-sm ${
+                  selectedFilter === 'all'
+                    ? ' text-black font-bold underline'
+                    : ' text-gray-700'
+                }`}
+                onClick={() => setSelectedFilter('all')}
+              >
+                ทั้งหมด
+              </li>
+              {categoryOptions?.data?.map((item) => (
                 <li
-                  key={filter}
+                  key={item.id}
                   className={`px-2 py-2 cursor-pointer text-sm ${
-                    selectedFilter === filter
+                    selectedFilter === item.name
                       ? ' text-black font-bold underline'
                       : ' text-gray-700'
                   }`}
-                  onClick={() => setSelectedFilter(filter)}
+                  onClick={() => setSelectedFilter(item.name)}
                 >
-                  {filter}
+                  {item.name}
                 </li>
               ))}
             </ul>
           </div>
           <div className='flex items-center space-x-4'>
             <span>{items.length} items found</span>
-            <Popover>
+            {/* <Popover>
               <PopoverTrigger className='px-4 py-2 bg-gray-200 rounded'>
                 Sort by: {selectedSorting}
               </PopoverTrigger>
@@ -68,11 +107,27 @@ export default function Page() {
                   </button>
                 ))}
               </PopoverContent>
-            </Popover>
+            </Popover> */}
           </div>
         </div>
+        {isLoading && (
+          <div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className='flex flex-col transition-all duration-300 ease-in-out'
+                >
+                  <Skeleton className='h-[320px] w-full bg-gray-100 p-1' />
+                  <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
+                  <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div>
-          {items.length > 0 ? (
+          {!isLoading && items.length > 0 && (
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
               {items.map((item) => (
                 <div
@@ -103,8 +158,6 @@ export default function Page() {
                 </div>
               ))}
             </div>
-          ) : (
-            <p className='text-center text-gray-500'>No items found.</p>
           )}
         </div>
       </div>

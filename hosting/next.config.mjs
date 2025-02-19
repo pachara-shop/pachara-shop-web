@@ -7,15 +7,15 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/home',
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
   images: {
     domains: ['www.eef.or.th', 'inwfile.com', 'encrypted-tbn0.gstatic.com'],
     remotePatterns: [

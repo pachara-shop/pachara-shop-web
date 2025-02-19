@@ -9,12 +9,14 @@ import {
   getDoc,
   DocumentReference,
   setDoc,
+  query,
+  where,
 } from 'firebase/firestore';
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
 import { StorageRepository } from './StoregeRepository';
-import { FetchDataParams } from '@/shared/models/Search';
+import { FetchDataParams, SearchProductsParams } from '@/shared/models/Search';
 
 const productCollection = collection(db, COLLECTION.PRODUCT);
 
@@ -46,8 +48,20 @@ export class ProductRepository {
     return products;
   }
 
-  async getFrontendPRoductList(): Promise<IProduct[]> {
-    const snapshot = await getDocs(productCollection);
+  async searchFrontendProductList(
+    params: SearchProductsParams
+  ): Promise<IProduct[]> {
+    // search category by name
+    let q = query(productCollection);
+
+    if (params.c && params.c !== 'all') {
+      // search category by name
+      const categoryRef = doc(db, COLLECTION.CATEGORY, params.c);
+      q = query(productCollection, where('category', '==', categoryRef));
+    }
+    console.log(params);
+
+    const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {
         const product = { id: doc.id, ...doc.data() } as IProduct;
@@ -85,6 +99,9 @@ export class ProductRepository {
     } as IProduct;
     if (product.category instanceof DocumentReference) {
       const categoryDoc = await getDoc(product.category);
+      if (product.image) {
+        product.image = await StorageRepository.getImageUrl(product.image);
+      }
       if (categoryDoc.exists()) {
         product.category = {
           id: categoryDoc.id,
@@ -107,14 +124,14 @@ export class ProductRepository {
       throw new Error('Invalid category reference');
     }
 
-    if (imageFile) {
-      const imagePath = `products/images/${imageFile.name}`;
-      await StorageRepository.uploadImage(imageFile, imagePath);
-      product.image = imagePath;
-    }
     const newProductDoc = await doc(productCollection);
     product.id = newProductDoc.id;
 
+    if (imageFile) {
+      const imagePath = `products/images/${product.id}/${imageFile.name}`;
+      await StorageRepository.uploadImage(imageFile, imagePath);
+      product.image = imagePath;
+    }
     const productData = {
       ...product,
       category: doc(db, COLLECTION.CATEGORY, product.category as string), // Set category as DocumentReference
@@ -123,13 +140,47 @@ export class ProductRepository {
     await setDoc(newProductDoc, productData);
   }
 
-  async update(id: string, product: Partial<IProduct>): Promise<void> {
-    const productDoc = doc(db, COLLECTION.PRODUCT, id);
-    await updateDoc(productDoc, product);
+  // async update(id: string, product: Partial<IProduct>): Promise<void> {
+  async update(product: IProduct, imageFile?: File): Promise<void> {
+    const isValidCategory = await ReferenceValidator.validateReference(
+      COLLECTION.CATEGORY,
+      product.category as string
+    );
+    if (!isValidCategory) {
+      throw new Error('Invalid category reference');
+    }
+    // check exit product
+    const productDoc = doc(db, COLLECTION.PRODUCT, product.id);
+    const productSnapshot = await getDoc(productDoc);
+    if (!productSnapshot.exists()) {
+      throw new Error('Product not found');
+    }
+    // delete old image
+    if (productSnapshot.data().image) {
+      await StorageRepository.deleteFile(productSnapshot.data().image);
+    }
+
+    if (imageFile) {
+      const imagePath = `products/images/${product.id}/${imageFile.name}`;
+      await StorageRepository.uploadImage(imageFile, imagePath);
+      product.image = imagePath;
+    } else {
+      product.image = productSnapshot.data().image;
+    }
+    const productData = {
+      ...product,
+      category: doc(db, COLLECTION.CATEGORY, product.category as string), // Set category as DocumentReference
+    };
+    await updateDoc(productDoc, productData);
   }
 
   async delete(id: string): Promise<void> {
     const productDoc = doc(db, COLLECTION.PRODUCT, id);
+    // remove image
+    const productSnapshot = await getDoc(productDoc);
+    if (productSnapshot.exists() && productSnapshot.data().image) {
+      await StorageRepository.deleteFile(productSnapshot.data().image);
+    }
     await deleteDoc(productDoc);
   }
 }

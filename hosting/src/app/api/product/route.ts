@@ -22,7 +22,7 @@ const getProductList = async (req: NextRequest) => {
 const createProduct = async (req: NextRequest) => {
   try {
     const formData = await req.formData();
-    const image = formData.get('image') as File;
+    const image = formData.get('file') as File;
 
     const parseObject = parseFormData(formData);
 
