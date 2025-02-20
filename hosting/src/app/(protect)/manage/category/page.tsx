@@ -6,7 +6,7 @@ import DataTable from '@/components/organisms/DataTable';
 import {
   useDeleteCategoryMutation,
   useSearchCategoryMutation,
-} from '@/hooks/slices/CategoryAPI';
+} from '@/hooks/slices/categoryAPI';
 import { ICategory } from '@/shared/models/Category';
 import { FetchDataParams } from '@/shared/models/Search';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';

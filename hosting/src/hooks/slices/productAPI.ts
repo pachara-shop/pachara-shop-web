@@ -1,7 +1,7 @@
 import { axiosInternalBaseQuery } from '@/lib/axiosBaseQuery';
 import { IProduct } from '@/shared/models/Product';
 import { IResponse } from '@/shared/models/Response';
-import { ISearchParams, SearchProductsParams } from '@/shared/models/Search';
+import { ISearchParams } from '@/shared/models/Search';
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 export const productAPI = createApi({
@@ -9,17 +9,6 @@ export const productAPI = createApi({
   baseQuery: axiosInternalBaseQuery(),
   tagTypes: ['Product'],
   endpoints: (builder) => ({
-    searchFrontendProducts: builder.mutation<
-      IResponse<IProduct[]>,
-      SearchProductsParams
-    >({
-      query: (params) => ({
-        url: '/api/product/fe',
-        method: 'GET',
-        params,
-      }),
-      invalidatesTags: ['Product'],
-    }),
     searchProducts: builder.mutation<IResponse<IProduct[]>, ISearchParams>({
       query: (params) => ({
         url: '/api/product',
@@ -62,7 +51,6 @@ export const productAPI = createApi({
 });
 
 export const {
-  useSearchFrontendProductsMutation,
   useSearchProductsMutation,
   useGetProductByIdQuery,
   useCreateProductMutation,

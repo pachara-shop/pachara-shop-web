@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useCreateCategoryMutation } from '@/hooks/slices/CategoryAPI';
+import { useCreateCategoryMutation } from '@/hooks/slices/categoryAPI';
 import { CategoryDetail } from '@/app/components/category/CategoryDetail';
 
 export default function Page() {

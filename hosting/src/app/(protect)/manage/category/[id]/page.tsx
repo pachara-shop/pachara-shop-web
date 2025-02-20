@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import {
   useGetCategoryByIdQuery,
   useUpdateCategoryMutation,
-} from '@/hooks/slices/CategoryAPI';
+} from '@/hooks/slices/categoryAPI';
 import { CategoryDetail } from '@/app/components/category/CategoryDetail';
 import { useEffect, useState } from 'react';
 import { ICategory } from '@/shared/models/Category';

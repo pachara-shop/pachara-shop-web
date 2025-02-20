@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 const NavBar = () => {
@@ -40,26 +41,24 @@ const NavBar = () => {
         <div className='flex-1 flex justify-center'>
           <ul className='flex space-x-4 font-bold'>
             <li>
-              <a href='/' className='text-black'>
-                Home
-              </a>
+              <Link href='/'>หน้าแรก</Link>
             </li>
             <li>
-              <a href='/about' className='text-black'>
-                About
-              </a>
+              <Link href='/about' className='text-black'>
+                เกี่ยวกับเรา
+              </Link>
             </li>
-            <li>
-              <a href='/contact' className='text-black'>
+            {/* <li>
+              <Link href='/contact' className='text-black'>
                 Contact
-              </a>
-            </li>
+              </Link>
+            </li> */}
           </ul>
         </div>
         <div className='relative'>
-          <button className='text-black font-bold focus:outline-none'>
+          {/* <button className='text-black font-bold focus:outline-none'>
             Search
-          </button>
+          </button> */}
         </div>
       </div>
     </nav>

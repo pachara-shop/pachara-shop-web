@@ -30,4 +30,12 @@ export interface SearchProductsParams {
    * category id
    */
   c?: string;
+  /**
+   * sorting
+   */
+  s?: string;
+  /**
+   * pagination
+   */
+  p?: string;
 }

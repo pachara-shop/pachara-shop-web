@@ -20,7 +20,7 @@ import {
 import { Textarea } from '@/components/atoms/textarea';
 import { Title } from '@/components/atoms/Typography';
 import { CustomButton } from '@/components/ui/CustomButton';
-import { useGetCategoryOptionsQuery } from '@/hooks/slices/CategoryAPI';
+import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { createProductSchema } from '@/shared/form-schema/product';
 import { ICreateProduct } from '@/shared/models/Product';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -188,7 +188,7 @@ export const ProductDetail = ({
             />
             <div className=' flex space-x-2 pt-4 justify-end'>
               <CustomButton
-                className=''
+                type='button'
                 variant='outline'
                 onClick={() => {
                   route.push('/manage/product');

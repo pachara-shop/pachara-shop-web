@@ -11,6 +11,7 @@ import {
   setDoc,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
@@ -51,16 +52,15 @@ export class ProductRepository {
   async searchFrontendProductList(
     params: SearchProductsParams
   ): Promise<IProduct[]> {
-    // search category by name
     let q = query(productCollection);
-
     if (params.c && params.c !== 'all') {
-      // search category by name
       const categoryRef = doc(db, COLLECTION.CATEGORY, params.c);
-      q = query(productCollection, where('category', '==', categoryRef));
+      q = query(q, where('category', '==', categoryRef));
     }
-    console.log(params);
 
+    if (params.s) {
+      q = query(q, orderBy(params.s, 'asc'));
+    }
     const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {
