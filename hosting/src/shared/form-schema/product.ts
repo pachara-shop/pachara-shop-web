@@ -19,4 +19,7 @@ export const createProductSchema = z.object({
     .nonempty('Name is required.'),
   price: z.number({ required_error: 'Price is required.' }),
   categoryId: z.string({ required_error: 'Category is required.' }),
+  description: z
+    .string({ required_error: 'Description is required.' })
+    .optional(),
 });

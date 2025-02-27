@@ -3,6 +3,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import { authAPI } from './slices/authAPI';
 import { categoryAPI } from './slices/categoryAPI';
 import { productFeAPI } from './slices/fe/productAPI';
+import { productGalleryAPI } from './slices/productGalleryAPI';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -11,10 +12,12 @@ export const makeStore = (): EnhancedStore => {
       [categoryAPI.reducerPath]: categoryAPI.reducer,
       [authAPI.reducerPath]: authAPI.reducer,
       [productFeAPI.reducerPath]: productFeAPI.reducer,
+      [productGalleryAPI.reducerPath]: productGalleryAPI.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         productAPI.middleware,
+        productGalleryAPI.middleware,
         categoryAPI.middleware,
         authAPI.middleware,
         productFeAPI.middleware

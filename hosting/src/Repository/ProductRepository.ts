@@ -16,7 +16,7 @@ import {
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
-import { StorageRepository } from './StoregeRepository';
+import { StorageRepository } from './StorageRepository';
 import { FetchDataParams, SearchProductsParams } from '@/shared/models/Search';
 
 const productCollection = collection(db, COLLECTION.PRODUCT);
@@ -140,7 +140,6 @@ export class ProductRepository {
     await setDoc(newProductDoc, productData);
   }
 
-  // async update(id: string, product: Partial<IProduct>): Promise<void> {
   async update(product: IProduct, imageFile?: File): Promise<void> {
     const isValidCategory = await ReferenceValidator.validateReference(
       COLLECTION.CATEGORY,
@@ -156,7 +155,7 @@ export class ProductRepository {
       throw new Error('Product not found');
     }
     // delete old image
-    if (productSnapshot.data().image) {
+    if (productSnapshot.data().image && imageFile) {
       await StorageRepository.deleteFile(productSnapshot.data().image);
     }
 
@@ -176,7 +175,6 @@ export class ProductRepository {
 
   async delete(id: string): Promise<void> {
     const productDoc = doc(db, COLLECTION.PRODUCT, id);
-    // remove image
     const productSnapshot = await getDoc(productDoc);
     if (productSnapshot.exists() && productSnapshot.data().image) {
       await StorageRepository.deleteFile(productSnapshot.data().image);

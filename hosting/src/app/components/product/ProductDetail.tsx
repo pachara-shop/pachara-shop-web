@@ -34,11 +34,16 @@ import { useForm } from 'react-hook-form';
 
 interface ProductDetailProps {
   initialData: ICreateProduct;
+  galleryImages?: string[];
   onSubmit: (data: ICreateProduct) => void;
+  onAddImage?: (files: File[]) => void;
+  onRemoveImage?: (imageId: string) => void;
 }
 export const ProductDetail = ({
   initialData,
   onSubmit,
+  onAddImage,
+  onRemoveImage,
 }: ProductDetailProps) => {
   const form = useForm<ICreateProduct>({
     values: initialData,
@@ -69,11 +74,17 @@ export const ProductDetail = ({
     }
   }, [categoryOptions]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      setFiles(Array.from(files));
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newFiles = Array.from(e.target.files).filter(
+      (file) => !files.some((f) => f.name === file.name)
+    );
+    if (files.length + newFiles.length > 10) {
+      return;
     }
+    if (onAddImage) {
+      await onAddImage(newFiles);
+    }
+    setFiles((prev) => [...prev, ...newFiles]);
   };
   return (
     <div className='p-4 relative'>
@@ -224,51 +235,34 @@ export const ProductDetail = ({
             <div className='bg-white w-[500px] border border-gray-200 rounded-lg p-4'>
               <h1 className='text-xl font-semibold'>Gallery</h1>
               <Title className='text-gray-500'>
-                Select multiple images to upload or drag and drop them here.
+                Select images to upload and the maximum is 10 items.
               </Title>
-              <div className='mt-4 flex flex-col p-4 border-2 border-dashed rounded-lg transition-colors hover:border-black'>
-                <input
-                  type='file'
-                  multiple
-                  className='hidden'
-                  accept='image/*'
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                />
-                <Title className='font-medium'>Images</Title>
-                <button
-                  className='mt-2 border p-2 rounded-md flex items-center justify-center gap-2 hover:bg-gray-100'
-                  type='button'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (fileInputRef.current) {
-                      fileInputRef.current.click();
-                    }
-                  }}
-                >
-                  <Icon icon='icon-[lucide--upload]' className='h-4 w-4' />
-                  <Title>Select files</Title>
-                </button>
-              </div>
+              <br />
+              <Title className='text-gray-500'>
+                {files.length} of 10 items selected
+              </Title>
               <div className='mt-4 grid grid-cols-3 gap-4'>
                 {files.map((file, index) => (
                   <div
                     key={index}
                     className='relative flex flex-col items-center justify-center bg-gray-100 
-                    p-0 border-1 rounded-sm object-cover hover:scale-110 transition-transform'
+                    p-0 border-1 rounded-sm object-cover hover:scale-110 transition-transform group'
                   >
                     <Icon
                       icon='icon-[lucide--trash-2]'
                       className='absolute top-1 right-1 h-4 w-4 cursor-pointer 
-                      text-gray-500 hover:scale-110 transition-transform'
+                      text-gray-500 hover:scale-110 transition-opacity duration-300 opacity-0 group-hover:opacity-100'
                       onClick={() => {
-                        setFiles((prev) => prev.filter((_, i) => i !== index));
+                        if (onRemoveImage) {
+                          onRemoveImage(file.name);
+                        }
+                        // setFiles((prev) => prev.filter((_, i) => i !== index));
                       }}
                     />
                     <Image
                       src={URL.createObjectURL(file)}
                       alt='preview'
-                      className='h-30 cursor-pointer'
+                      className='max-h-40 cursor-pointer border-dashed border rounded-sm object-contain'
                       width={160}
                       height={160}
                       onClick={() => {
@@ -277,6 +271,31 @@ export const ProductDetail = ({
                     />
                   </div>
                 ))}
+                <input
+                  type='file'
+                  multiple
+                  className='hidden'
+                  accept='image/*'
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  disabled={files.length >= 10}
+                />
+                <div
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (fileInputRef.current) {
+                      fileInputRef.current.click();
+                    }
+                  }}
+                  className={`h-[144px] hover:scale-105 transition-transform  
+                  relative flex flex-col items-center justify-center bg-white border-1 
+                  border-dashed border rounded-sm text-gray-500 hover:text-gray-600 ${
+                    files.length >= 10 ? 'cursor-not-allowed' : 'cursor-pointer'
+                  }`}
+                >
+                  <Icon icon='icon-[lucide--image]' />
+                  <Title>Add image</Title>
+                </div>
               </div>
             </div>
           </div>
