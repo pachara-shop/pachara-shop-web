@@ -4,6 +4,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   deleteObject,
+  listAll,
 } from 'firebase/storage';
 
 const storage = getStorage();
@@ -38,5 +39,16 @@ export class StorageRepository {
     const snapshot = await uploadBytesResumable(storageRef, file);
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
+  }
+
+  static async getAllImages(path: string): Promise<string[]> {
+    const storageRef = ref(storage, path);
+    const listResult = await listAll(storageRef);
+    const urls = await Promise.all(
+      listResult.items.map(async (itemRef) => {
+        return await getDownloadURL(itemRef);
+      })
+    );
+    return urls;
   }
 }

@@ -4,7 +4,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { DialogTitle } from '../atoms/dialog';
 
 interface ImagePreviewModalProps {
-  file: File;
+  file: string;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -26,9 +26,9 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             onClick={onClose}
           />
           <Image
-            src={URL.createObjectURL(file)}
+            src={file}
             alt='preview'
-            className='object-cover mt-4'
+            className='object-cover mt-4 max-h-[90vh]'
             width={500}
             height={500}
           />

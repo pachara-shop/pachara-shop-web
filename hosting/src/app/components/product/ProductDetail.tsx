@@ -41,6 +41,7 @@ interface ProductDetailProps {
 }
 export const ProductDetail = ({
   initialData,
+  galleryImages,
   onSubmit,
   onAddImage,
   onRemoveImage,
@@ -56,9 +57,9 @@ export const ProductDetail = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
-  const handleImageClick = (file: File) => {
+  const handleImageClick = (file: string) => {
     setSelectedFile(file);
     setIsModalOpen(true);
   };
@@ -239,14 +240,15 @@ export const ProductDetail = ({
               </Title>
               <br />
               <Title className='text-gray-500'>
-                {files.length} of 10 items selected
+                {galleryImages?.length || 0} of 10 items selected
               </Title>
               <div className='mt-4 grid grid-cols-3 gap-4'>
-                {files.map((file, index) => (
+                {galleryImages?.map((file, index) => (
                   <div
                     key={index}
-                    className='relative flex flex-col items-center justify-center bg-gray-100 
-                    p-0 border-1 rounded-sm object-cover hover:scale-110 transition-transform group'
+                    className='relative flex flex-col items-center justify-center  
+                    p-0 border-1 object-cover hover:scale-110 transition-transform group
+                    cursor-pointer border-dashed border rounded-sm'
                   >
                     <Icon
                       icon='icon-[lucide--trash-2]'
@@ -254,15 +256,14 @@ export const ProductDetail = ({
                       text-gray-500 hover:scale-110 transition-opacity duration-300 opacity-0 group-hover:opacity-100'
                       onClick={() => {
                         if (onRemoveImage) {
-                          onRemoveImage(file.name);
+                          onRemoveImage(file);
                         }
-                        // setFiles((prev) => prev.filter((_, i) => i !== index));
                       }}
                     />
                     <Image
-                      src={URL.createObjectURL(file)}
+                      src={file}
                       alt='preview'
-                      className='max-h-40 cursor-pointer border-dashed border rounded-sm object-contain'
+                      className='max-h-40  object-contain'
                       width={160}
                       height={160}
                       onClick={() => {

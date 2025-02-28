@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/Repository/ProductRepository';
+import { ProductGalleryRepository } from '@/Repository/ProductGalleryRepository';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { NextRequest } from 'next/server';
 
@@ -8,42 +8,28 @@ const getProductGalleryById = async (req: NextRequest, query) => {
     if (!id) {
       return handleError(400, new Error('The id is require'));
     }
-    const repo = new ProductRepository();
-    const product = await repo.getById(id);
-    if (!product) {
+    const repo = new ProductGalleryRepository();
+    const gallery = await repo.getProductGalleryById(id);
+    if (!gallery) {
       return handleError(404, 'Product not found');
     }
-    return handleSuccess({ data: product });
+    return handleSuccess({ data: gallery });
   } catch (err) {
     return handleError(500, err);
   }
 };
 
-const updateProductGallery = async (_req: NextRequest, _query) => {
+const updateProductGallery = async (req: NextRequest, query) => {
   try {
-    // const { id } = (await query?.params) ?? {};
-    // if (!id) {
-    //   return handleError(400, new Error('The id is require'));
-    // }
-    // const formData = await req.formData();
-    // let image = formData.get('file') as File;
-    // if (typeof image === 'string') {
-    //   image = undefined;
-    // }
+    const { id } = (await query?.params) ?? {};
+    if (!id) {
+      return handleError(400, new Error('The id is require'));
+    }
+    const formData = await req.formData();
+    const files = formData.getAll('files') as File[];
 
-    // const parseObject = parseFormData(formData);
-
-    // const product: IProduct = {
-    //   id: parseObject.id as string,
-    //   name: parseObject.name as string,
-    //   description: parseObject.description as string,
-    //   price: parseObject.price as number,
-    //   image: '', // This will be updated after image upload
-    //   category: parseObject.category as string,
-    // };
-
-    // const repo = new ProductRepository();
-    // await repo.update(product, image);
+    const repo = new ProductGalleryRepository();
+    await repo.updateGallery(id, files);
 
     return handleSuccess({ data: 'success' });
   } catch (err) {
