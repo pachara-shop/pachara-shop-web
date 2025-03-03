@@ -8,16 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci
-      - run: npm run build
+      - run: yarn install
+      - run: yarn build
       - name: Debug Info
         run: |
           echo "Node version:"
           node -v
-          echo "NPM version:"
-          npm -v
+          echo "Yarn version:"
+          yarn -v
           echo "Installed packages:"
-          npm list
+          yarn list
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
