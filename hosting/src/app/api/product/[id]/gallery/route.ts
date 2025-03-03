@@ -1,4 +1,4 @@
-import { ProductGalleryRepository } from '@/Repository/ProductGalleryRepository';
+import { ProductGalleryRepository } from '@/repositories/ProductGalleryRepository';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { NextRequest } from 'next/server';
 

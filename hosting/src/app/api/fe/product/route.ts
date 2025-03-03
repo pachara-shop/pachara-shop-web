@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/Repository/ProductRepository';
+import { ProductRepository } from '@/repositories/ProductRepository';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { NextRequest } from 'next/server';
 

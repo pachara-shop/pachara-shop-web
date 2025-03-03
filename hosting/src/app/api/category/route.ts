@@ -1,4 +1,4 @@
-import { CategoryRepository } from '@/Repository/CategoryRepository';
+import { CategoryRepository } from '@/repositories/CategoryRepository';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { getSearchParamsFromRequest } from '@/utils/api/search';
 import { NextRequest } from 'next/server';

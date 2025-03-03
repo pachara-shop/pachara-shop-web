@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/Repository/ProductRepository';
+import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { parseFormData } from '@/utils/parseFormData';

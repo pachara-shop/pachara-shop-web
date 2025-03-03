@@ -1,4 +1,4 @@
-import { AuthRepository } from '@/Repository/AuthRepository';
+import { AuthRepository } from '@/repositories/AuthRepository';
 import { handleError } from '@/utils/api/handler';
 import { NextRequest, NextResponse } from 'next/server';
 
