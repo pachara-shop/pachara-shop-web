@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: yarn install
       - name: Install Firebase CLI
-        run: yarn add -g firebase-tools@13.29.1
+        run: yarn add -g firebase-tools
       - run: yarn build
       - name: Debug Info
         run: |
