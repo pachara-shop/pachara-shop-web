@@ -7,13 +7,13 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16'
 
       - name: Install dependencies
         run: yarn install
@@ -24,14 +24,14 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Debug Info
-        run: |
-          echo "Node version:"
-          node -v
-          echo "Yarn version:"
-          yarn -v
-          echo "Installed packages:"
-          yarn list
+      # - name: Debug Info
+      #   run: |
+      #     echo "Node version:"
+      #     node -v
+      #     echo "Yarn version:"
+      #     yarn -v
+      #     echo "Installed packages:"
+      #     yarn list
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
