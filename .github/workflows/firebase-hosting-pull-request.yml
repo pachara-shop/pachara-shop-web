@@ -18,3 +18,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PACHARA_SHOP_DEV }}'
           channelId: live
           projectId: pachara-shop-dev
+    defaults:
+      run:
+        working-directory: hosting
