@@ -99,7 +99,7 @@ export default function Page() {
             </ul>
           </div>
           <div className='flex items-center space-x-4'>
-            <span className='font-light'>{items.length} สินค้า</span>
+            <span className='font-light'>{items.length} สินค้า </span>
             <Select
               onValueChange={setSelectedSorting}
               defaultValue={selectedSorting}
