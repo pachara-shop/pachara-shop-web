@@ -12,7 +12,7 @@ const NavBar = () => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
-      const scrollThreshold = windowHeight * 0.2; // 20% of the window height
+      const scrollThreshold = windowHeight * 0.05; // 20% of the window height
 
       if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
         setIsVisible(false);
@@ -30,7 +30,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`bg-white p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 ${
+      className={`bg-white p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 shadow-md backdrop-blur-sm ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
@@ -48,11 +48,6 @@ const NavBar = () => {
                 เกี่ยวกับเรา
               </Link>
             </li>
-            {/* <li>
-              <Link href='/contact' className='text-black'>
-                Contact
-              </Link>
-            </li> */}
           </ul>
         </div>
         <div className='relative'>

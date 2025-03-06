@@ -45,6 +45,7 @@ export default function Page() {
         name: data.data.name,
         price: Number(data.data.price),
         file: data.data.image,
+        bannerFile: data.data.banner,
         categoryId: (data.data.category as ICategory).id,
         description: data.data.description,
         image: data.data.image,
