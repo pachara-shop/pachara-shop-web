@@ -1,4 +1,3 @@
-import { Banner2 } from '../components/layouts/Banner2';
 import NavBar from '../components/layouts/NavBar';
 
 export default function RootLayout({
@@ -9,7 +8,6 @@ export default function RootLayout({
   return (
     <div>
       <NavBar />
-      <Banner2 />
       <div>{children}</div>
     </div>
   );

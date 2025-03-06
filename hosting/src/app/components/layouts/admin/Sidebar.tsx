@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const menus = [
   {
     name: 'Dashboard',
-    link: '#',
+    link: 'manage',
   },
   {
     name: 'Products',
@@ -25,13 +26,15 @@ const Sidebar: React.FC = () => {
     >
       <div className='h-full px-3 py-4 overflow-y-auto bg-white border-r pt-0'>
         <div className='h-[120px] pt-3'>
-          <Image
-            src='/logo.png'
-            alt='Logo'
-            width={120}
-            height={10}
-            className='h-14 w-auto m-auto'
-          />
+          <Link href='/'>
+            <Image
+              src='/logo.png'
+              alt='Logo'
+              width={120}
+              height={10}
+              className='h-14 w-auto m-auto'
+            />
+          </Link>
         </div>
 
         <ul className='space-y-2 font-medium'>

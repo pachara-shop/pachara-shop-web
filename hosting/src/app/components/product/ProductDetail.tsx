@@ -93,7 +93,7 @@ export const ProductDetail = ({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='flex gap-4'>
             <div className='bg-white w-[500px] border border-gray-200 rounded-lg p-4'>
-              <h1 className='text-xl font-semibold'>Create Product</h1>
+              <h1 className='text-xl font-semibold'>Product detail</h1>
               <FormField
                 control={form.control}
                 name='name'
@@ -203,6 +203,35 @@ export const ProductDetail = ({
               />
               <FormField
                 control={form.control}
+                name='bannerFile'
+                render={({ field }) => (
+                  <FormItem className='my-4 mr-4'>
+                    <Title className='font-medium'>
+                      <span className='text-destructive mr-1'>*</span>Banner
+                    </Title>
+                    <FormControl>
+                      <ImageDropzone
+                        {...field}
+                        className='w-[380px]'
+                        imageUrl={initialData?.banner}
+                        customName={
+                          initialData?.banner &&
+                          (initialData?.banner as string).split('/').pop()
+                        }
+                        setValue={(e) => {
+                          form.setValue('bannerFile', e);
+                        }}
+                        formTrigger={() => {
+                          form.trigger('bannerFile');
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name='description'
                 render={({ field }) => (
                   <FormItem className='my-4 mr-4'>
@@ -263,12 +292,14 @@ export const ProductDetail = ({
                     <Image
                       src={file}
                       alt='preview'
-                      className='max-h-40  object-contain'
+                      className='max-h-40 object-contain'
                       width={160}
                       height={160}
                       onClick={() => {
                         handleImageClick(file);
                       }}
+                      loading='lazy'
+                      quality={50}
                     />
                   </div>
                 ))}
@@ -295,7 +326,7 @@ export const ProductDetail = ({
                   }`}
                 >
                   <Icon icon='icon-[lucide--image]' />
-                  <Title>Add image</Title>
+                  <Title>Upload images</Title>
                 </div>
               </div>
             </div>

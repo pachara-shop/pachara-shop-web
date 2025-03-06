@@ -17,6 +17,7 @@ export default function Page() {
   const onSubmit = async (data: ICreateProduct) => {
     const formData = new FormData();
     formData.append('file', data.file);
+    formData.append('bannerFile', data.bannerFile);
     formData.append('name', data.name);
     formData.append('price', data.price.toString());
     formData.append('description', data.description);

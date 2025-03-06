@@ -32,6 +32,10 @@ const updateProduct = async (req: NextRequest, query) => {
     if (typeof image === 'string') {
       image = undefined;
     }
+    let bannerFile = formData.get('bannerFile') as File;
+    if (typeof bannerFile === 'string') {
+      bannerFile = undefined;
+    }
 
     const parseObject = parseFormData(formData);
 
@@ -42,10 +46,11 @@ const updateProduct = async (req: NextRequest, query) => {
       price: parseObject.price as number,
       image: '', // This will be updated after image upload
       category: parseObject.category as string,
+      banner: '',
     };
 
     const repo = new ProductRepository();
-    await repo.update(product, image);
+    await repo.update(product, image, bannerFile);
 
     return handleSuccess({ data: product });
   } catch (err) {

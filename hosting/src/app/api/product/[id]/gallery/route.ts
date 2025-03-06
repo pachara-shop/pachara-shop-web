@@ -2,7 +2,7 @@ import { ProductGalleryRepository } from '@/repositories/ProductGalleryRepositor
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { NextRequest } from 'next/server';
 
-const getProductGalleryById = async (req: NextRequest, query) => {
+const getProductGalleryByProductId = async (req: NextRequest, query) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -19,7 +19,7 @@ const getProductGalleryById = async (req: NextRequest, query) => {
   }
 };
 
-const updateProductGallery = async (req: NextRequest, query) => {
+const uploadProductImages = async (req: NextRequest, query) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -37,5 +37,26 @@ const updateProductGallery = async (req: NextRequest, query) => {
   }
 };
 
-export const GET = getProductGalleryById;
-export const PUT = updateProductGallery;
+const deleteProductImage = async (req: NextRequest, query) => {
+  try {
+    const { id } = (await query?.params) ?? {};
+    if (!id) {
+      return handleError(400, new Error('The id is require'));
+    }
+
+    const { image } = await req.json();
+    if (!image) {
+      return handleError(400, new Error('The image is require'));
+    }
+
+    const repo = new ProductGalleryRepository();
+    await repo.deleteProductImageWithFullPath(image);
+    return handleSuccess({ data: 'success' });
+  } catch (err) {
+    return handleError(500, err);
+  }
+};
+
+export const GET = getProductGalleryByProductId;
+export const POST = uploadProductImages;
+export const DELETE = deleteProductImage;

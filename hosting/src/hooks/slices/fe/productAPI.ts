@@ -1,6 +1,6 @@
 import { axiosInternalBaseQuery } from '@/lib/axiosBaseQuery';
 import { IProduct } from '@/shared/models/Product';
-import { IResponse } from '@/shared/models/Response';
+import { ISearchResponse } from '@/shared/models/Response';
 import { SearchProductsParams } from '@/shared/models/Search';
 import { createApi } from '@reduxjs/toolkit/query/react';
 
@@ -10,7 +10,7 @@ export const productFeAPI = createApi({
   tagTypes: ['product-fe'],
   endpoints: (builder) => ({
     searchFrontendProducts: builder.mutation<
-      IResponse<IProduct[]>,
+      ISearchResponse<IProduct[]>,
       SearchProductsParams
     >({
       query: (params) => ({

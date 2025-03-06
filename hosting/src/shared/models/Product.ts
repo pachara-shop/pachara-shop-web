@@ -7,6 +7,7 @@ export interface IProduct {
   description?: string;
   price: number;
   image: string;
+  banner: string;
   category?: string | DocumentReference<ICategory> | ICategory;
 }
 
@@ -16,7 +17,9 @@ export interface ICreateProduct {
   description?: string;
   price: number;
   image?: string;
+  banner?: string;
   file?: File | string;
+  bannerFile?: File | string;
   category?: string | DocumentReference<ICategory> | ICategory;
   categoryId?: string;
 }

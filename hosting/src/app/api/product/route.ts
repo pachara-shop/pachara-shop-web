@@ -23,6 +23,7 @@ const createProduct = async (req: NextRequest) => {
   try {
     const formData = await req.formData();
     const image = formData.get('file') as File;
+    const bannerFile = formData.get('bannerFile') as File;
 
     const parseObject = parseFormData(formData);
 
@@ -33,10 +34,11 @@ const createProduct = async (req: NextRequest) => {
       price: parseObject.price as number,
       image: '', // This will be updated after image upload
       category: parseObject.category as string,
+      banner: '',
     };
 
     const repo = new ProductRepository();
-    await repo.add(product, image);
+    await repo.add(product, image, bannerFile);
     return handleSuccess({ data: 'success' });
   } catch (err) {
     return handleError(500, err);

@@ -1,6 +1,6 @@
 import { axiosInternalBaseQuery } from '@/lib/axiosBaseQuery';
 import { ICategory } from '@/shared/models/Category';
-import { IResponse } from '@/shared/models/Response';
+import { ISearchResponse } from '@/shared/models/Response';
 import { ISearchParams } from '@/shared/models/Search';
 import { createApi } from '@reduxjs/toolkit/query/react';
 
@@ -9,7 +9,10 @@ export const categoryAPI = createApi({
   baseQuery: axiosInternalBaseQuery(),
   tagTypes: ['category'],
   endpoints: (builder) => ({
-    searchCategory: builder.mutation<IResponse<ICategory[]>, ISearchParams>({
+    searchCategory: builder.mutation<
+      ISearchResponse<ICategory[]>,
+      ISearchParams
+    >({
       query: (params) => ({
         url: '/api/category',
         method: 'GET',
@@ -17,14 +20,14 @@ export const categoryAPI = createApi({
       }),
       invalidatesTags: ['category'],
     }),
-    getCategoryById: builder.query<IResponse<ICategory>, { id: string }>({
+    getCategoryById: builder.query<ISearchResponse<ICategory>, { id: string }>({
       query: ({ id }) => ({
         url: `/api/category/${id}`,
         method: 'GET',
       }),
       providesTags: ['category'],
     }),
-    createCategory: builder.mutation<IResponse<ICategory>, ICategory>({
+    createCategory: builder.mutation<ISearchResponse<ICategory>, ICategory>({
       query: (category) => ({
         url: '/api/category',
         method: 'POST',
@@ -33,7 +36,7 @@ export const categoryAPI = createApi({
       invalidatesTags: ['category'],
     }),
     updateCategory: builder.mutation<
-      IResponse<ICategory>,
+      ISearchResponse<ICategory>,
       { id: string; data: ICategory }
     >({
       query: ({ id, data }) => ({
@@ -43,7 +46,10 @@ export const categoryAPI = createApi({
       }),
       invalidatesTags: ['category'],
     }),
-    deleteCategory: builder.mutation<IResponse<ICategory>, { id: string }>({
+    deleteCategory: builder.mutation<
+      ISearchResponse<ICategory>,
+      { id: string }
+    >({
       query: ({ id }) => ({
         url: `/api/category/${id}`,
         method: 'DELETE',

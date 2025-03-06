@@ -8,7 +8,7 @@ import {
 import {
   useDeleteProductGalleryByIdMutation,
   useGetProductGalleryByIdQuery,
-  useUpdateProductGalleryMutation,
+  useUploadProductGalleryMutation,
 } from '@/hooks/slices/productGalleryAPI';
 import { toast } from '@/hooks/use-toast';
 import { ICategory } from '@/shared/models/Category';
@@ -24,7 +24,7 @@ export default function Page() {
   const { data: galleryData, refetch } =
     useGetProductGalleryByIdQuery(productId);
   const [onUpdate] = useUpdateProductMutation();
-  const [onUpdateGallery] = useUpdateProductGalleryMutation();
+  const [onUpdateGallery] = useUploadProductGalleryMutation();
   const [onRemoveImage] = useDeleteProductGalleryByIdMutation();
 
   const [initialData, setInitialData] = useState<ICreateProduct>({
@@ -35,6 +35,7 @@ export default function Page() {
     categoryId: '',
     description: '',
     image: '',
+    banner: '',
   });
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function Page() {
         categoryId: (data.data.category as ICategory).id,
         description: data.data.description,
         image: data.data.image,
+        banner: data.data.banner,
       });
     }
   }, [data]);
@@ -55,6 +57,7 @@ export default function Page() {
     const formData = new FormData();
     formData.append('id', productId);
     formData.append('file', data.file);
+    formData.append('bannerFile', data.bannerFile);
     formData.append('name', data.name);
     formData.append('price', data.price.toString());
     formData.append('description', data.description);

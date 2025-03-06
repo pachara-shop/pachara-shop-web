@@ -57,9 +57,6 @@ export default function RootLayout({
         </nav>
       </header>
       <MainContent>{children}</MainContent>
-      {/* <main className={'p-4 transition-margin duration-300 mt-[120px] ml-64'}>
-        {children}
-      </main> */}
     </div>
   );
 }
