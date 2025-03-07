@@ -1,26 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-// import { firebaseAuth } from './config/firebaseConfig';
-// import { getAppCheck } from 'firebase-admin/app-check';
-
 const protectedRoutes = ['/manage'];
 
 export async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   console.warn('next.path', nextUrl.pathname);
-  const token = req.cookies.get('token');
+
   const isProtectedRoute = protectedRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
-  if (isProtectedRoute) {
-    if (!token) {
-      // return    NextResponse.redirect(new URL('/auth', req.nextUrl).toString());
-    }
-    // verify token
-    // firebaseAuth.verifyIdToken(token).catch((error) => {
-    //   console.error('error', error);
-    //   // return NextResponse.redirect(new URL('/auth', req.nextUrl).toString());
-    // });
-  }
+  // if (isProtectedRoute) {
+  // if (!token) {
+  // const url = req.nextUrl.clone();
+  // url.pathname = '/admin/login';
+  // return NextResponse.redirect(url);
+  // }
+  // }
 
   return NextResponse.next();
 }

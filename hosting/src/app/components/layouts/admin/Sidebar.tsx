@@ -1,6 +1,10 @@
+'use client';
+
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const menus = [
   {
@@ -18,6 +22,12 @@ const menus = [
 ];
 
 const Sidebar: React.FC = () => {
+  const { logout } = useAuth();
+  const router = useRouter();
+  const handleLogout = async () => {
+    await logout();
+    router.push('/auth/admin/login');
+  };
   return (
     <aside
       className={
@@ -49,6 +59,15 @@ const Sidebar: React.FC = () => {
             </li>
           ))}
         </ul>
+        <div className='space-y-2 font-medium flex'>
+          <span
+            onClick={handleLogout}
+            className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 
+          cursor-pointer absolute bottom-0 w-[90%]'
+          >
+            Logout
+          </span>
+        </div>
       </div>
     </aside>
   );

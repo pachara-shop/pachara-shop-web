@@ -9,9 +9,16 @@ import {
   onLoadingChange,
   removeLoadingChangeListener,
 } from '@/emitter/loadingEmitter';
+import { AuthProvider } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 function MainContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { currentUser } = useAuth();
+  if (!currentUser) router.push('/admin/login');
+
   useEffect(() => {
     const handleLoadingChange = (loading: boolean) => {
       setIsLoading(loading);
@@ -39,24 +46,21 @@ export default function RootLayout({
 }) {
   return (
     <div className='min-h-[calc(100vh-120px)] bg-gray-100'>
-      <Sidebar />
-      <header className='fixed top-0 z-50 w-full bg-white border-b shadow-sm h-[120px] ml-64'>
-        <nav>
-          <div className='px-3 py-3 lg:px-5 lg:pl-3'>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center'></div>
+      <AuthProvider>
+        <MainContent>
+          <Sidebar />
+          <header>
+            <div className=' flex items-center justify-end bg-white  h-[120px] px-4 absolute top-0  w-[calc(100%-20rem)]'>
               <div className='flex items-center'>
-                <button className='flex items-center p-2 rounded-lg hover:bg-gray-100'>
-                  <User className='w-6 h-6' />
-                  <span className='ml-2'>Admin</span>
-                  <ChevronDown className='w-4 h-4 ml-1' />
-                </button>
+                <User size={24} />
+                <span className='ml-2'>Admin</span>
+                <ChevronDown size={24} className='ml-2' />
               </div>
             </div>
-          </div>
-        </nav>
-      </header>
-      <MainContent>{children}</MainContent>
+          </header>
+          {children}
+        </MainContent>
+      </AuthProvider>
     </div>
   );
 }
