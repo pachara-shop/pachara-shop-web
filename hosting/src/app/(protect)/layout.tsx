@@ -12,13 +12,14 @@ import {
 import { AuthProvider } from '@/context/AuthContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Header } from '../components/layouts/admin/Header';
 
 function MainContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { currentUser } = useAuth();
-  if (!currentUser) router.push('/admin/login');
-
+  // if (!currentUser) if (router) router.push('/admin/login');
+  if (!currentUser) if (router) window.location.href = '/admin/login';
   useEffect(() => {
     const handleLoadingChange = (loading: boolean) => {
       setIsLoading(loading);
@@ -49,15 +50,7 @@ export default function RootLayout({
       <AuthProvider>
         <MainContent>
           <Sidebar />
-          <header>
-            <div className=' flex items-center justify-end bg-white  h-[120px] px-4 absolute top-0  w-[calc(100%-20rem)]'>
-              <div className='flex items-center'>
-                <User size={24} />
-                <span className='ml-2'>Admin</span>
-                <ChevronDown size={24} className='ml-2' />
-              </div>
-            </div>
-          </header>
+          <Header />
           {children}
         </MainContent>
       </AuthProvider>

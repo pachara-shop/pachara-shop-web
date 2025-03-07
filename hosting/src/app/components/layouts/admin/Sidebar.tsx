@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
   const router = useRouter();
   const handleLogout = async () => {
     await logout();
-    router.push('/auth/admin/login');
+    router.push('/admin/login');
   };
   return (
     <aside
@@ -50,12 +50,12 @@ const Sidebar: React.FC = () => {
         <ul className='space-y-2 font-medium'>
           {menus.map((menu) => (
             <li key={menu.name}>
-              <a
+              <Link
                 href={'/' + menu.link}
                 className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'
               >
                 {menu.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

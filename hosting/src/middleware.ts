@@ -4,17 +4,9 @@ const protectedRoutes = ['/manage'];
 export async function middleware(req: NextRequest) {
   const { nextUrl } = req;
   console.warn('next.path', nextUrl.pathname);
-
   const isProtectedRoute = protectedRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
-  // if (isProtectedRoute) {
-  // if (!token) {
-  // const url = req.nextUrl.clone();
-  // url.pathname = '/admin/login';
-  // return NextResponse.redirect(url);
-  // }
-  // }
 
   return NextResponse.next();
 }
