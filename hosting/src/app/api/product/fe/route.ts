@@ -5,8 +5,8 @@ import { NextRequest } from 'next/server';
 const getFrontendProductList = async (req: NextRequest) => {
   try {
     // get value from params
-    const category = req.nextUrl.searchParams.get('c');
-    const sorting = req.nextUrl.searchParams.get('s');
+    const category = req.nextUrl.searchParams.get('c') || undefined;
+    const sorting = req.nextUrl.searchParams.get('s') || undefined;
     const repo = new ProductRepository();
     const product = await repo.searchFrontendProductList({
       c: category,

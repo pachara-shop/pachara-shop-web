@@ -1,6 +1,12 @@
 import Image from 'next/image';
 
-export const TableImage = ({ src, alt, ...props }) => {
+interface TableImageProps {
+  src: string;
+  alt: string;
+  [key: string]: unknown;
+}
+
+export const TableImage = ({ src, alt, ...props }: TableImageProps) => {
   return (
     <Image
       src={src}

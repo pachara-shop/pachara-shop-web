@@ -21,12 +21,14 @@ export class ProductGalleryRepository {
 
   async updateGallery(productId: string, imageFiles?: File[]): Promise<void> {
     const imagePaths = 'products/' + productId + '/gallery/';
-    await Promise.all(
-      imageFiles.map(async (imageFile) => {
-        const fullPath = imagePaths + imageFile.name;
-        await StorageRepository.uploadImage(imageFile, fullPath);
-      })
-    );
+    if (imageFiles) {
+      await Promise.all(
+        imageFiles.map(async (imageFile) => {
+          const fullPath = imagePaths + imageFile.name;
+          await StorageRepository.uploadImage(imageFile, fullPath);
+        })
+      );
+    }
   }
 
   async deleteProductImageWithFullPath(fullPath: string): Promise<void> {

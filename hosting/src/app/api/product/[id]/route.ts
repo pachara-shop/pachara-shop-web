@@ -1,11 +1,11 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
-import { QueryParams } from '@/shared/types';
+// import { QueryReq } from '@/shared/types';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';
 
-const getProductById = async (req: NextRequest, query: QueryParams) => {
+const getProductById = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -22,7 +22,7 @@ const getProductById = async (req: NextRequest, query: QueryParams) => {
   }
 };
 
-const updateProduct = async (req: NextRequest, query: QueryParams) => {
+const updateProduct = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -59,7 +59,7 @@ const updateProduct = async (req: NextRequest, query: QueryParams) => {
   }
 };
 
-const deleteProduct = async (req: NextRequest, query: QueryParams) => {
+const deleteProduct = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
