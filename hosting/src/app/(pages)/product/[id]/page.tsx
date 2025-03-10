@@ -17,8 +17,8 @@ import { useEffect, useState } from 'react';
 export default function Page() {
   const { id } = useParams();
   const productId = Array.isArray(id) ? id[0] : id;
-  const { data } = useGetProductByIdQuery(productId);
-  const { data: galleryData } = useGetProductGalleryByIdQuery(productId);
+  const { data } = useGetProductByIdQuery(productId || '');
+  const { data: galleryData } = useGetProductGalleryByIdQuery(productId || '');
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);

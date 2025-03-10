@@ -20,9 +20,10 @@ export default function Page() {
   const { id } = useParams();
   const productId = Array.isArray(id) ? id[0] : id;
 
-  const { data } = useGetProductByIdQuery(productId);
-  const { data: galleryData, refetch } =
-    useGetProductGalleryByIdQuery(productId);
+  const { data } = useGetProductByIdQuery(productId || '');
+  const { data: galleryData, refetch } = useGetProductGalleryByIdQuery(
+    productId || ''
+  );
   const [onUpdate] = useUpdateProductMutation();
   const [onUpdateGallery] = useUploadProductGalleryMutation();
   const [onRemoveImage] = useDeleteProductGalleryByIdMutation();
@@ -31,7 +32,7 @@ export default function Page() {
     id: '',
     name: '',
     price: 0,
-    file: null,
+    file: undefined,
     categoryId: '',
     description: '',
     image: '',
@@ -56,13 +57,15 @@ export default function Page() {
 
   const onSubmit = async (data: ICreateProduct) => {
     const formData = new FormData();
-    formData.append('id', productId);
-    formData.append('file', data.file);
-    formData.append('bannerFile', data.bannerFile);
-    formData.append('name', data.name);
-    formData.append('price', data.price.toString());
-    formData.append('description', data.description);
-    formData.append('category', data.categoryId.toString());
+    if (productId) formData.append('id', productId);
+    if (data.file) formData.append('file', data.file);
+    if (data.bannerFile) formData.append('bannerFile', data.bannerFile);
+    if (data.name) formData.append('name', data.name);
+    if (data.price !== undefined)
+      formData.append('price', data.price.toString());
+    if (data.description) formData.append('description', data.description);
+    if (data.categoryId)
+      formData.append('category', data.categoryId.toString());
 
     await onUpdate(formData)
       .unwrap()
@@ -76,7 +79,7 @@ export default function Page() {
 
   const onAddImage = async (files: File[]) => {
     const formData = new FormData();
-    formData.append('id', productId);
+    if (productId) formData.append('id', productId);
     files.forEach((file) => {
       formData.append('files', file);
     });

@@ -1,8 +1,12 @@
 import { ProductGalleryRepository } from '@/repositories/ProductGalleryRepository';
+import { QueryParams } from '@/shared/types';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { NextRequest } from 'next/server';
 
-const getProductGalleryByProductId = async (req: NextRequest, query) => {
+const getProductGalleryByProductId = async (
+  req: NextRequest,
+  query: QueryParams
+) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -19,7 +23,7 @@ const getProductGalleryByProductId = async (req: NextRequest, query) => {
   }
 };
 
-const uploadProductImages = async (req: NextRequest, query) => {
+const uploadProductImages = async (req: NextRequest, query: QueryParams) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -37,7 +41,7 @@ const uploadProductImages = async (req: NextRequest, query) => {
   }
 };
 
-const deleteProductImage = async (req: NextRequest, query) => {
+const deleteProductImage = async (req: NextRequest, query: QueryParams) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {

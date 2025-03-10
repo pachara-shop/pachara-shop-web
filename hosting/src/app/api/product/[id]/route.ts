@@ -1,10 +1,11 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
+import { QueryParams } from '@/shared/types';
 import { handleError, handleSuccess } from '@/utils/api/handler';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';
 
-const getProductById = async (req: NextRequest, query) => {
+const getProductById = async (req: NextRequest, query: QueryParams) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -21,18 +22,18 @@ const getProductById = async (req: NextRequest, query) => {
   }
 };
 
-const updateProduct = async (req: NextRequest, query) => {
+const updateProduct = async (req: NextRequest, query: QueryParams) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
       return handleError(400, new Error('The id is require'));
     }
     const formData = await req.formData();
-    let image = formData.get('file') as File;
+    let image: File | undefined = formData.get('file') as File;
     if (typeof image === 'string') {
       image = undefined;
     }
-    let bannerFile = formData.get('bannerFile') as File;
+    let bannerFile: File | undefined = formData.get('bannerFile') as File;
     if (typeof bannerFile === 'string') {
       bannerFile = undefined;
     }
@@ -58,7 +59,7 @@ const updateProduct = async (req: NextRequest, query) => {
   }
 };
 
-const deleteProduct = async (req: NextRequest, query) => {
+const deleteProduct = async (req: NextRequest, query: QueryParams) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
