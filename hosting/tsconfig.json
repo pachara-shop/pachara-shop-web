@@ -8,7 +8,14 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true, // เปิดใช้งาน strict type checking
+    "noImplicitAny": true, // ห้ามใช้ตัวแปรที่ไม่มีการกำหนดประเภท (type) อย่างชัดเจน
+    "strictNullChecks": true, // ตรวจสอบการใช้งานตัวแปรที่อาจเป็น null หรือ undefined
+    "strictFunctionTypes": true, // ตรวจสอบประเภทของฟังก์ชันอย่างเข้มงวด
+    "strictBindCallApply": true, // ตรวจสอบการใช้งาน bind, call, และ apply อย่างเข้มงวด
+    "strictPropertyInitialization": true, // ตรวจสอบการกำหนดค่าเริ่มต้นของ property ใน class
+    "noImplicitThis": true, // ห้ามใช้ this ที่ไม่มีการกำหนดประเภท (type) อย่างชัดเจน
+    "alwaysStrict": true, // เพิ่ม use strict ในทุกไฟล์
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,

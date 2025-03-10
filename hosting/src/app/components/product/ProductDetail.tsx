@@ -53,7 +53,9 @@ export const ProductDetail = ({
 
   const route = useRouter();
   const { data: categoryOptions } = useGetCategoryOptionsQuery();
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    []
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,9 +78,11 @@ export const ProductDetail = ({
   }, [categoryOptions]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = Array.from(e.target.files).filter(
-      (file) => !files.some((f) => f.name === file.name)
-    );
+    const newFiles = e.target.files
+      ? Array.from(e.target.files).filter(
+          (file) => !files.some((f) => f.name === file.name)
+        )
+      : [];
     if (files.length + newFiles.length > 10) {
       return;
     }
@@ -166,7 +170,7 @@ export const ProductDetail = ({
                     </Select>
                     <FormDescription>
                       You can manage category in{' '}
-                      <Link href='/manage/category'>category settings</Link>.
+                      <Link href='/dashboard/category'>category settings</Link>.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -252,7 +256,7 @@ export const ProductDetail = ({
                   type='button'
                   variant='outline'
                   onClick={() => {
-                    route.push('/manage/product');
+                    route.push('/dashboard/product');
                   }}
                 >
                   Cancel

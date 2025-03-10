@@ -28,7 +28,7 @@ const Page = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/manage/product');
+      router.push('/dashboard/product');
     }
   }, []);
   const [login] = useLoginMutation();
@@ -53,7 +53,7 @@ const Page = () => {
       .unwrap()
       .then((response) => {
         localStorage.setItem('token', response.data.token);
-        router.push('/manage/product');
+        router.push('/dashboard/product');
       });
   };
 

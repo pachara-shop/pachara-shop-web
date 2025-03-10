@@ -63,7 +63,9 @@ export default function Page() {
         c: categoryId || selectedFilter,
         s: selectedSorting,
       });
-      setItems(data.data);
+      if (data) {
+        setItems(data.data);
+      }
     };
     loadItems();
   }, [searchParams, isCategoryOptionsLoading]);

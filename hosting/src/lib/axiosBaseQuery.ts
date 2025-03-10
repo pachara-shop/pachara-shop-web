@@ -2,6 +2,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import axiosInstance from './axiosInstance';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { setLoading } from '@/emitter/loadingEmitter';
+import { getSession } from './session';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   showToastError?: boolean;
@@ -16,7 +17,7 @@ export const axiosInternalBaseQuery =
   async ({ url, method, data, params }) => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = await getSession('session_token');
       const result = await axiosInstance({
         url,
         method,

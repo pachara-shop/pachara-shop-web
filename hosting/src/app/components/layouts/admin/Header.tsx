@@ -1,5 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
-import { ChevronDown, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 const Header = () => {
   const { currentUser } = useAuth();

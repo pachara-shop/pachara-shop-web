@@ -14,24 +14,16 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => config,
   (error: AxiosError) =>
-  // Handle request error
+    // Handle request error
     Promise.reject(error)
 );
 
 // Response Interceptor
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) =>
-  // Handle successful response
+    // Handle successful response
     response,
   (error: AxiosError) => {
-    // Handle response errors
-    // if (error.response?.status === 401) {
-    //     console.error('Unauthorized! Redirecting to login...');
-    //     if (typeof window !== 'undefined') {
-    //         window.location.href = '/login';
-    //     }
-    // }
-
     return Promise.reject(error);
   }
 );

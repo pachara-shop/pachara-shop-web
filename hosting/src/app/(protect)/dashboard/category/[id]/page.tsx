@@ -33,7 +33,7 @@ export default function Page() {
     await onUpdate({ id: id as string, data })
       .unwrap()
       .then(() => {
-        route.push('/manage/category');
+        route.push('/dashboard/category');
       });
   };
 

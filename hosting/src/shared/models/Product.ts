@@ -15,7 +15,7 @@ export interface ICreateProduct {
   id?: string;
   name: string;
   description?: string;
-  price: number;
+  price?: number;
   image?: string;
   banner?: string;
   file?: File | string;

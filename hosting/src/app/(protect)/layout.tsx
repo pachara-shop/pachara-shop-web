@@ -8,11 +8,15 @@ import {
   onLoadingChange,
   removeLoadingChangeListener,
 } from '@/emitter/loadingEmitter';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Header } from '../components/layouts/admin/Header';
+import { useRouter } from 'next/navigation';
 
 function MainContent({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { currentUser } = useAuth();
+  if (!currentUser) router.push('/admin/login');
   useEffect(() => {
     const handleLoadingChange = (loading: boolean) => {
       setIsLoading(loading);

@@ -64,7 +64,7 @@ export default function Page(): JSX.Element {
             <Button
               type='button'
               onClick={() => {
-                route.push(`/manage/category/${id}`);
+                route.push(`/dashboard/category/${id}`);
               }}
             >
               Edit
@@ -123,7 +123,7 @@ export default function Page(): JSX.Element {
           <Button
             type='button'
             onClick={() => {
-              route.push('/manage/category/create');
+              route.push('/dashboard/category/create');
             }}
           >
             Add Category
