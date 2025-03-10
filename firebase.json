@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "public": ".next",
     "source": "hosting",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "site": "pachara-shop-dev",
