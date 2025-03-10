@@ -1,5 +1,6 @@
 'use client';
 
+import { MobileMenu } from '@/components/molecules/mobileMenu';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
@@ -36,9 +37,18 @@ const NavBar = () => {
     >
       <div className='container mx-auto flex items-center justify-between'>
         <div className='flex items-center space-x-4 absolute'>
-          <span className='text-black text-xl font-bold'>Pachara Shop</span>
+          <span className='text-black text-xl font-bold '>Pachara Shop</span>
         </div>
-        <div className='flex-1 flex justify-center'>
+        <div
+          className='absolute right-4 md:hidden flex-1 justify-center'
+          id='mobile'
+        >
+          <MobileMenu />
+        </div>
+        <div>
+          <br />
+        </div>
+        <div className='flex-1 justify-end hidden md:flex' id='desktop'>
           <ul className='flex space-x-4 font-bold'>
             <li>
               <Link href='/'>หน้าแรก</Link>
@@ -49,11 +59,6 @@ const NavBar = () => {
               </Link>
             </li>
           </ul>
-        </div>
-        <div className='relative'>
-          {/* <button className='text-black font-bold focus:outline-none'>
-            Search
-          </button> */}
         </div>
       </div>
     </nav>

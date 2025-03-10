@@ -36,9 +36,9 @@ export default function Page() {
 
   return (
     <div className='container mx-auto px-4 py-8'>
-      <div className='flex gap-8'>
-        {/* Carousel Section (70%) */}
-        <div className='w-[70%]'>
+      <div className='flex gap-8 flex-col lg:flex-row'>
+        {/* gallery */}
+        <div className='border-b-2 lg:border-b-0 lg:w-[70%]'>
           <div className='relative'>
             <Carousel
               opts={{
@@ -65,8 +65,7 @@ export default function Page() {
               <CarouselNext className='absolute right-4 top-1/2 z-10' />
             </Carousel>
 
-            {/* Black bar with thumbnails */}
-            <div className=' bottom-0 left-0 right-0 bg-black backdrop-blur-sm p-4'>
+            <div className='bottom-0 left-0 right-0 bg-black backdrop-blur-sm p-4 hidden md:block'>
               <div className='flex gap-2 justify-center'>
                 {galleryData?.data?.map((image, index) => (
                   <div
@@ -87,28 +86,20 @@ export default function Page() {
             </div>
           </div>
         </div>
-
-        {/* Product Details Section (30%) */}
-        <div className='w-[30%] space-y-6 border-l pl-8 h-svh'>
-          <div className='border-b pb-6 mt-14'>
+        {/* detail */}
+        <div className='md:space-y-6 lg:border-l lg:pl-8 h-svh lg:w-[30%]'>
+          <div className='border-b pb-6 lg:mt-14'>
             <h1 className='text-3xl font-semibold mb-2'>{data?.data?.name}</h1>
             <p className='text-2xl font-bold text-gray-900'>
               ฿{data?.data?.price?.toLocaleString()}
             </p>
           </div>
-
-          <div className='space-y-4'>
+          <div className='space-y-4 mt-4'>
             <h2 className='text-xl font-semibold'>รายละเอียดสินค้า</h2>
             <p className='text-gray-600 whitespace-pre-wrap'>
               {data?.data?.description}
             </p>
           </div>
-
-          {/* <div className='pt-6 border-t'>
-            <button className='w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors'>
-              Add to Cart
-            </button>
-          </div> */}
         </div>
       </div>
     </div>

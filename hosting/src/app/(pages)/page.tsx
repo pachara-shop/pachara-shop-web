@@ -21,6 +21,7 @@ const sortingOptions = [
   { name: 'ราคา', value: 'price' },
   { name: 'ประเภท', value: 'category' },
 ];
+
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -72,8 +73,8 @@ export default function Page() {
       <Banner2 />
       <div className='flex justify-center p-4'>
         <div className='w-full max-w-screen-xl'>
-          <div className='flex justify-between items-center mb-4'>
-            <div className='flex space-x-4'>
+          <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
+            <div className='flex space-x-4 overflow-x-auto md:w-1/2 w-full'>
               <ul className='flex'>
                 <li
                   key={'select-all'}
@@ -101,7 +102,10 @@ export default function Page() {
                 ))}
               </ul>
             </div>
-            <div className='flex items-center space-x-4'>
+            <div
+              className='flex md:justify-end space-x-4 mt-4 w-full md:mt-0  md:ml-0 ml-4 md:w-1/2 focus:outline'
+              id='sorting'
+            >
               <span className='font-light'>{items.length} สินค้า </span>
               <Select
                 onValueChange={setSelectedSorting}
