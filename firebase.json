@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "public": "build",
     "source": "hosting",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "site": "pachara-shop-dev",
