@@ -1,10 +1,6 @@
 import { auth } from '@/config/firebaseConfig';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
-} from 'firebase/auth';
+import { createSession, deleteSession } from '@/lib/session';
+import { User } from 'firebase/auth';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const AuthContext = createContext<any>(null);
@@ -20,30 +16,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const userInfo = useRef();
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
-  }
-
-  function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
-  }
-
-  function logout() {
-    return signOut(auth);
-  }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      const token = await user?.getIdToken();
+      if (user) {
+        createSession('session_token', token);
+        setCurrentUser(user);
+      } else {
+        deleteSession('session_token');
+        setCurrentUser(null);
+      }
       setLoading(false);
     });
     return unsubscribe;
   }, []);
   const value = {
     currentUser,
-    signup,
-    login,
-    logout,
     userInfo,
     loading,
   };

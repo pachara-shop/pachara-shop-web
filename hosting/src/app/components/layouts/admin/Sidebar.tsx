@@ -3,8 +3,9 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/config/firebaseConfig';
 
 const menus = [
   {
@@ -22,10 +23,9 @@ const menus = [
 ];
 
 const Sidebar: React.FC = () => {
-  const { logout } = useAuth();
   const router = useRouter();
   const handleLogout = async () => {
-    await logout();
+    await signOut(auth);
     router.push('/admin/login');
   };
   return (

@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/config/firebaseConfig';
+import { createSession, getSession } from '@/lib/session';
+import Loading from '@/components/atoms/Loading';
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -11,12 +13,26 @@ export default function Page() {
   const [error, setError] = useState('');
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  useEffect(() => {
+    async function checkSession() {
+      const token = await getSession('session_token');
+      if (token != undefined) {
+        router.push('/manage');
+      } else {
+        setIsChecking(false);
+      }
+    }
+    checkSession();
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      const token = await auth.currentUser?.getIdToken();
+      createSession('session_token', token);
       router.push('/manage');
     } catch (e: any) {
       console.error(e);
@@ -25,6 +41,9 @@ export default function Page() {
       setLoading(false);
     }
   };
+  if (isChecking) {
+    return <Loading />;
+  }
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
