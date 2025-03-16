@@ -1,10 +1,13 @@
 import { CategoryRepository } from '@/repositories/CategoryRepository';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { NextRequestWithUser, withAuth } from '@/utils/api/request-handle';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { getSearchParamsFromRequest } from '@/utils/api/search';
 import { NextRequest } from 'next/server';
+export const runtime = 'nodejs';
 
-const getCategoryList = async (req: NextRequest) => {
+const getCategoryList = async (req: NextRequestWithUser) => {
   try {
+    // const token = req.headers.get('Authorization');
     const params = getSearchParamsFromRequest(req.nextUrl);
     const category = await CategoryRepository.getAll(params);
     if (!category) {
@@ -29,5 +32,5 @@ const createCategory = async (req: NextRequest) => {
   }
 };
 
-export const GET = getCategoryList;
+export const GET = withAuth(getCategoryList);
 export const POST = createCategory;

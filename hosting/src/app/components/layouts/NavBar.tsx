@@ -2,9 +2,11 @@
 
 import { MobileMenu } from '@/components/molecules/mobileMenu';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
 const NavBar = () => {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -37,7 +39,12 @@ const NavBar = () => {
     >
       <div className='container mx-auto flex items-center justify-between'>
         <div className='flex items-center space-x-4 absolute'>
-          <span className='text-black text-xl font-bold '>Pachara Shop</span>
+          <span
+            className='text-black text-xl font-bold cursor-pointer'
+            onClick={() => router.push('/')}
+          >
+            Pachara Shop
+          </span>
         </div>
         <div
           className='absolute right-4 md:hidden flex-1 justify-center'

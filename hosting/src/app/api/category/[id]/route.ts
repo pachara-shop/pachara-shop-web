@@ -1,5 +1,5 @@
 import { CategoryRepository } from '@/repositories/CategoryRepository';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { NextRequest } from 'next/server';
 
 const getCategoryById = async (

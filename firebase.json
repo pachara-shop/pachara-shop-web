@@ -2,7 +2,6 @@
   "hosting": {
     "source": "hosting",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "site": "pachara-shop-dev",
     "frameworksBackend": {
       "region": "asia-east1"
     }

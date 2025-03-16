@@ -15,7 +15,7 @@ export class StorageRepository {
       const downloadURL = await getDownloadURL(storageRef);
       return downloadURL;
     } catch (e) {
-      console.warn(e);
+      console.error(e);
       return '';
     }
   }
@@ -30,7 +30,7 @@ export class StorageRepository {
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 
