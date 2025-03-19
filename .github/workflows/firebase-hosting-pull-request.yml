@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci
-      - run: npm install esbuild
-      - run: npm run build
+      - run: yarn install
+      - run: yarn add esbuild
+      - run: yarn build
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools@13.29.1
-      - name: Debug Node and NPM versions
+        run: yarn global add firebase-tools@13.29.1
+      - name: Debug Node and Yarn versions
         run: |
           node -v
-          npm -v
+          yarn -v
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
