@@ -64,6 +64,7 @@
     "@types/react-redux": "^7.1.34",
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
+    "depcheck": "^1.4.7",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.18.0",
     "eslint-config-next": "15.1.6",
