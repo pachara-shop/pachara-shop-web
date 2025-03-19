@@ -13,7 +13,7 @@ export default function Page() {
     await onCreate(data)
       .unwrap()
       .then(() => {
-        route.push('/dashboard/category');
+        route.push('/manage/category');
       });
   };
   return (

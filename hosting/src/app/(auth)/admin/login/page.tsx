@@ -18,7 +18,7 @@ export default function Page() {
     async function checkSession() {
       const token = await getSession('session_token');
       if (token != undefined) {
-        router.push('/dashboard');
+        router.push('/manage');
       } else {
         setIsChecking(false);
       }
@@ -31,23 +31,10 @@ export default function Page() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      await new Promise((resolve) => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-          if (user) {
-            unsubscribe();
-            resolve(user);
-          }
-        });
-      });
-
       const token = await auth.currentUser?.getIdToken();
-      if (token) {
-        createSession('session_token', token);
-      } else {
-        setError('Failed to retrieve token');
-      }
-      router.push('/dashboard');
-    } catch (e: unknown) {
+      createSession('session_token', token);
+      router.push('/manage');
+    } catch (e: any) {
       console.error(e);
       setError('Invalid email or password');
     } finally {

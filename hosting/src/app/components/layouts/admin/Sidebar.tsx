@@ -10,15 +10,15 @@ import { auth } from '@/config/firebaseConfig';
 const menus = [
   {
     name: 'Dashboard',
-    link: 'dashboard',
+    link: 'manage',
   },
   {
     name: 'Products',
-    link: 'dashboard/product',
+    link: 'manage/product',
   },
   {
     name: 'Category',
-    link: 'dashboard/category',
+    link: 'manage/category',
   },
 ];
 

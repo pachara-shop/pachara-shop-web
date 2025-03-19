@@ -21,9 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const token = await user?.getIdToken();
       if (user) {
-        if (token) {
-          createSession('session_token', token);
-        }
+        createSession('session_token', token);
         setCurrentUser(user);
       } else {
         deleteSession('session_token');

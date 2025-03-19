@@ -36,11 +36,11 @@ export class ProductRepository {
           if (categoryDoc.exists()) {
             const categoryData = categoryDoc.data();
             product.category = {
-              ...categoryData,
               id: categoryDoc.id,
+              ...categoryData,
             } as ICategory;
           } else {
-            product.category = undefined;
+            product.category = null;
           }
         }
         return product;
@@ -74,11 +74,11 @@ export class ProductRepository {
           if (categoryDoc.exists()) {
             const categoryData = categoryDoc.data();
             product.category = {
-              ...categoryData,
               id: categoryDoc.id,
+              ...categoryData,
             } as ICategory;
           } else {
-            product.category = undefined;
+            product.category = null;
           }
         }
         return product;
@@ -107,8 +107,8 @@ export class ProductRepository {
       }
       if (categoryDoc.exists()) {
         product.category = {
-          ...categoryDoc.data(),
           id: categoryDoc.id,
+          ...categoryDoc.data(),
         } as ICategory;
       }
     }
@@ -165,9 +165,6 @@ export class ProductRepository {
       throw new Error('Invalid category reference');
     }
     // check exit product
-    if (!product.id) {
-      throw new Error('Product ID is required');
-    }
     const productDoc = doc(db, COLLECTION.PRODUCT, product.id);
     const productSnapshot = await getDoc(productDoc);
     if (!productSnapshot.exists()) {

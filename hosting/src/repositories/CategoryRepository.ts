@@ -79,7 +79,7 @@ export class CategoryRepository {
     });
     return categories;
   }
-  static async getById(id: string): Promise<ICategory | null> {
+  static async getById(id: string): Promise<ICategory> {
     const docRef = doc(db, categoryCollection, id);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
