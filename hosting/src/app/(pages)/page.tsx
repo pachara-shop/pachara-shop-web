@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { IProduct } from '@/shared/models/Product';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { useRouter, useSearchParams } from 'next/navigation';

@@ -1,34 +1,19 @@
 /** @type {import('next').NextConfig} */
 
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['www.eef.or.th', 'inwfile.com', 'encrypted-tbn0.gstatic.com'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'www.eef.or.th',
-        pathname: '/wp-content/**',
-        search: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'inwfile.com',
-        pathname: '/s-e/**',
-        search: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'encrypted-tbn0.gstatic.com',
-        pathname: '/images/**',
-        search: '**',
-      },
-    ],
     unoptimized: true,
   },
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);
