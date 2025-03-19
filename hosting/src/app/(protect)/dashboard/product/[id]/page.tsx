@@ -114,6 +114,7 @@ export default function Page() {
       onAddImage={onAddImage}
       galleryImages={galleryData?.data}
       onRemoveImage={onRemoveGalleryItem}
+      mode='edit'
     />
   );
 }

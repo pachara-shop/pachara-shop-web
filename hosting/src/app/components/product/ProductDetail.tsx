@@ -33,6 +33,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ProductDetailProps {
+  mode: 'create' | 'edit';
   initialData: ICreateProduct;
   galleryImages?: string[];
   onSubmit: (data: ICreateProduct) => void;
@@ -40,6 +41,7 @@ interface ProductDetailProps {
   onRemoveImage?: (imageId: string) => void;
 }
 export const ProductDetail = ({
+  mode,
   initialData,
   galleryImages,
   onSubmit,
@@ -314,7 +316,7 @@ export const ProductDetail = ({
                   accept='image/*'
                   ref={fileInputRef}
                   onChange={handleFileChange}
-                  disabled={files.length >= 10}
+                  disabled={files.length >= 10 || mode === 'create'}
                 />
                 <div
                   onClick={(e) => {

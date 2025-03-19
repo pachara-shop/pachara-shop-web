@@ -3,6 +3,7 @@ import axiosInstance from './axiosInstance';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { setLoading } from '@/emitter/loadingEmitter';
 import { getSession } from './session';
+import { toast } from '@/hooks/use-toast';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   showToastError?: boolean;
@@ -25,9 +26,21 @@ export const axiosInternalBaseQuery =
         params,
         headers: { Authorization: `Bearer ${token}` },
       });
+      toast({
+        toastType: 'success',
+        title: 'Success',
+        description: 'Request completed successfully',
+      });
       return { data: result.data };
     } catch (axiosError) {
       const error = axiosError as AxiosError;
+      const errorText =
+        (error.response?.data as { message: string }).message || error.message;
+      toast({
+        toastType: 'error',
+        title: error.response?.statusText,
+        description: errorText,
+      });
       return {
         error: {
           status: error.response?.status,
@@ -36,5 +49,10 @@ export const axiosInternalBaseQuery =
       };
     } finally {
       setLoading(false);
+      toast({
+        toastType: 'success',
+        title: 'Success',
+        description: 'Request completed successfully',
+      });
     }
   };
