@@ -1,6 +1,6 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { getSearchParamsFromRequest } from '@/utils/api/search';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { IProduct } from '@/shared/models/Product';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -14,7 +15,7 @@ import {
 } from '@/components/atoms/select';
 import { ProductCart } from '@/components/molecules/ProductCard';
 import { useSearchFrontendProductsMutation } from '@/hooks/slices/fe/productAPI';
-import { Banner2 } from '../components/layouts/Banner2';
+import { Banner } from '../components/layouts/Banner';
 
 const sortingOptions = [
   { name: 'ชื่อ', value: 'name' },
@@ -72,7 +73,7 @@ export default function Page() {
 
   return (
     <>
-      <Banner2 />
+      <Banner />
       <div className='flex justify-center p-4'>
         <div className='w-full max-w-screen-xl'>
           <div className='flex flex-col md:flex-row justify-between items-center mb-4'>

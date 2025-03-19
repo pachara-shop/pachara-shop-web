@@ -1,7 +1,7 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
 // import { QueryReq } from '@/shared/types';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';
 

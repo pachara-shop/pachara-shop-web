@@ -1,6 +1,6 @@
 import { ProductGalleryRepository } from '@/repositories/ProductGalleryRepository';
 // import { QueryReq } from '@/shared/types';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { NextRequest } from 'next/server';
 
 const getProductGalleryByProductId = async (req: NextRequest, query: any) => {

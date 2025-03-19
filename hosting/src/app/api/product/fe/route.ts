@@ -1,5 +1,5 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { NextRequest } from 'next/server';
 
 const getFrontendProductList = async (req: NextRequest) => {

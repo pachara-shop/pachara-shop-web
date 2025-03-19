@@ -40,5 +40,11 @@ export default function Page() {
       });
   };
 
-  return <ProductDetail initialData={initialData} onSubmit={onSubmit} />;
+  return (
+    <ProductDetail
+      initialData={initialData}
+      onSubmit={onSubmit}
+      mode='create'
+    />
+  );
 }

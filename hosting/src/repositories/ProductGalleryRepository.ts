@@ -36,7 +36,7 @@ export class ProductGalleryRepository {
       const realPath = ProductGalleryRepository.extractPathFromUrl(fullPath);
       await StorageRepository.deleteFile(realPath);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 

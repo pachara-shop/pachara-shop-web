@@ -1,5 +1,5 @@
 import { CategoryRepository } from '@/repositories/CategoryRepository';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 
 const getCategoryOptions = async () => {
   try {
