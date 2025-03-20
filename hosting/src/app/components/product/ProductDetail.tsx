@@ -33,6 +33,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ProductDetailProps {
+  mode: 'create' | 'edit';
   initialData: ICreateProduct;
   galleryImages?: string[];
   onSubmit: (data: ICreateProduct) => void;
@@ -40,6 +41,7 @@ interface ProductDetailProps {
   onRemoveImage?: (imageId: string) => void;
 }
 export const ProductDetail = ({
+  mode,
   initialData,
   galleryImages,
   onSubmit,
@@ -53,7 +55,9 @@ export const ProductDetail = ({
 
   const route = useRouter();
   const { data: categoryOptions } = useGetCategoryOptionsQuery();
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    []
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,9 +80,11 @@ export const ProductDetail = ({
   }, [categoryOptions]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = Array.from(e.target.files).filter(
-      (file) => !files.some((f) => f.name === file.name)
-    );
+    const newFiles = e.target.files
+      ? Array.from(e.target.files).filter(
+          (file) => !files.some((f) => f.name === file.name)
+        )
+      : [];
     if (files.length + newFiles.length > 10) {
       return;
     }
@@ -93,7 +99,7 @@ export const ProductDetail = ({
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='flex gap-4'>
             <div className='bg-white w-[500px] border border-gray-200 rounded-lg p-4'>
-              <h1 className='text-xl font-semibold'>Create Product</h1>
+              <h1 className='text-xl font-semibold'>Product detail</h1>
               <FormField
                 control={form.control}
                 name='name'
@@ -166,7 +172,7 @@ export const ProductDetail = ({
                     </Select>
                     <FormDescription>
                       You can manage category in{' '}
-                      <Link href='/manage/category'>category settings</Link>.
+                      <Link href='/dashboard/category'>category settings</Link>.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -203,6 +209,35 @@ export const ProductDetail = ({
               />
               <FormField
                 control={form.control}
+                name='bannerFile'
+                render={({ field }) => (
+                  <FormItem className='my-4 mr-4'>
+                    <Title className='font-medium'>
+                      <span className='text-destructive mr-1'>*</span>Banner
+                    </Title>
+                    <FormControl>
+                      <ImageDropzone
+                        {...field}
+                        className='w-[380px]'
+                        imageUrl={initialData?.banner}
+                        customName={
+                          initialData?.banner &&
+                          (initialData?.banner as string).split('/').pop()
+                        }
+                        setValue={(e) => {
+                          form.setValue('bannerFile', e);
+                        }}
+                        formTrigger={() => {
+                          form.trigger('bannerFile');
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name='description'
                 render={({ field }) => (
                   <FormItem className='my-4 mr-4'>
@@ -223,7 +258,7 @@ export const ProductDetail = ({
                   type='button'
                   variant='outline'
                   onClick={() => {
-                    route.push('/manage/product');
+                    route.push('/dashboard/product');
                   }}
                 >
                   Cancel
@@ -263,12 +298,14 @@ export const ProductDetail = ({
                     <Image
                       src={file}
                       alt='preview'
-                      className='max-h-40  object-contain'
+                      className='max-h-40 object-contain'
                       width={160}
                       height={160}
                       onClick={() => {
                         handleImageClick(file);
                       }}
+                      loading='lazy'
+                      quality={50}
                     />
                   </div>
                 ))}
@@ -279,7 +316,7 @@ export const ProductDetail = ({
                   accept='image/*'
                   ref={fileInputRef}
                   onChange={handleFileChange}
-                  disabled={files.length >= 10}
+                  disabled={files.length >= 10 || mode === 'create'}
                 />
                 <div
                   onClick={(e) => {
@@ -295,7 +332,7 @@ export const ProductDetail = ({
                   }`}
                 >
                   <Icon icon='icon-[lucide--image]' />
-                  <Title>Add image</Title>
+                  <Title>Upload images</Title>
                 </div>
               </div>
             </div>

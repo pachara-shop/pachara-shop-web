@@ -1,10 +1,11 @@
 import { ProductRepository } from '@/repositories/ProductRepository';
 import { IProduct } from '@/shared/models/Product';
-import { handleError, handleSuccess } from '@/utils/api/handler';
+// import { QueryReq } from '@/shared/types';
+import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';
 
-const getProductById = async (req: NextRequest, query) => {
+const getProductById = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
@@ -21,16 +22,20 @@ const getProductById = async (req: NextRequest, query) => {
   }
 };
 
-const updateProduct = async (req: NextRequest, query) => {
+const updateProduct = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {
       return handleError(400, new Error('The id is require'));
     }
     const formData = await req.formData();
-    let image = formData.get('file') as File;
+    let image: File | undefined = formData.get('file') as File;
     if (typeof image === 'string') {
       image = undefined;
+    }
+    let bannerFile: File | undefined = formData.get('bannerFile') as File;
+    if (typeof bannerFile === 'string') {
+      bannerFile = undefined;
     }
 
     const parseObject = parseFormData(formData);
@@ -42,10 +47,11 @@ const updateProduct = async (req: NextRequest, query) => {
       price: parseObject.price as number,
       image: '', // This will be updated after image upload
       category: parseObject.category as string,
+      banner: '',
     };
 
     const repo = new ProductRepository();
-    await repo.update(product, image);
+    await repo.update(product, image, bannerFile);
 
     return handleSuccess({ data: product });
   } catch (err) {
@@ -53,7 +59,7 @@ const updateProduct = async (req: NextRequest, query) => {
   }
 };
 
-const deleteProduct = async (req: NextRequest, query) => {
+const deleteProduct = async (req: NextRequest, query: any) => {
   try {
     const { id } = (await query?.params) ?? {};
     if (!id) {

@@ -14,6 +14,18 @@ export const createProductSchema = z.object({
     .refine((value) => imageTypeRefine(value), {
       message: 'Support only file type(jpeg, png, gif, jpg).',
     }),
+  bannerFile: z
+    .any()
+    .refine((value) => value !== undefined, {
+      message: 'Banner is required.',
+    })
+    .refine((value) => value !== null, { message: 'Banner is required.' })
+    .refine((value) => imageSizeRefine(value), {
+      message: 'Banner size should not be more than 10MB.',
+    })
+    .refine((value) => imageTypeRefine(value), {
+      message: 'Support only file type(jpeg, png, gif, jpg).',
+    }),
   name: z
     .string({ required_error: 'Name is required.' })
     .nonempty('Name is required.'),

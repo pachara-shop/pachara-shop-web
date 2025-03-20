@@ -1,7 +1,9 @@
 {
   "hosting": {
-    "site": "pachara-shop-dev",
     "source": "hosting",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "frameworksBackend": {
+      "region": "asia-east1"
+    }
   }
 }

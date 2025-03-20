@@ -9,25 +9,42 @@ export default function Page() {
   const route = useRouter();
   const [onCreate] = useCreateProductMutation();
   const initialData: ICreateProduct = {
-    image: null,
+    image: undefined,
     id: '',
     name: '',
     price: undefined,
   };
   const onSubmit = async (data: ICreateProduct) => {
     const formData = new FormData();
-    formData.append('file', data.file);
+    if (data.file) {
+      formData.append('file', data.file);
+    }
+    if (data.bannerFile) {
+      formData.append('bannerFile', data.bannerFile);
+    }
     formData.append('name', data.name);
-    formData.append('price', data.price.toString());
-    formData.append('description', data.description);
-    formData.append('category', data.categoryId.toString());
+    if (data.price !== undefined) {
+      formData.append('price', data.price.toString());
+    }
+    if (data.description !== undefined) {
+      formData.append('description', data.description);
+    }
+    if (data.categoryId !== undefined) {
+      formData.append('category', data.categoryId.toString());
+    }
 
     await onCreate(formData)
       .unwrap()
       .then(() => {
-        route.push('/manage/product');
+        route.push('/dashboard/product');
       });
   };
 
-  return <ProductDetail initialData={initialData} onSubmit={onSubmit} />;
+  return (
+    <ProductDetail
+      initialData={initialData}
+      onSubmit={onSubmit}
+      mode='create'
+    />
+  );
 }

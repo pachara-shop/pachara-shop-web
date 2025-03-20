@@ -98,10 +98,12 @@ export default function Page(): JSX.Element {
             isEdit
             isDelete
             onClickEdit={() => {
-              route.push(`/manage/product/${row.original.id}`);
+              route.push(`/dashboard/product/${row.original.id}`);
             }}
             onClickDelete={() => {
-              onDeleteProduct(row.original.id);
+              if (row.original.id) {
+                onDeleteProduct(row.original.id);
+              }
             }}
           />
         );
@@ -127,7 +129,7 @@ export default function Page(): JSX.Element {
             <Button
               type='button'
               onClick={() => {
-                route.push('/manage/product/create');
+                route.push('/dashboard/product/create');
               }}
             >
               Add Product

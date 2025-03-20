@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { IProduct } from '@/shared/models/Product';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -14,12 +15,14 @@ import {
 } from '@/components/atoms/select';
 import { ProductCart } from '@/components/molecules/ProductCard';
 import { useSearchFrontendProductsMutation } from '@/hooks/slices/fe/productAPI';
+import { Banner } from '../components/layouts/Banner';
 
 const sortingOptions = [
   { name: 'ชื่อ', value: 'name' },
   { name: 'ราคา', value: 'price' },
   { name: 'ประเภท', value: 'category' },
 ];
+
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -61,88 +64,96 @@ export default function Page() {
         c: categoryId || selectedFilter,
         s: selectedSorting,
       });
-      setItems(data.data);
+      if (data) {
+        setItems(data.data);
+      }
     };
     loadItems();
   }, [searchParams, isCategoryOptionsLoading]);
 
   return (
-    <div className='flex justify-center p-4'>
-      <div className='w-full max-w-screen-xl'>
-        <div className='flex justify-between items-center mb-4'>
-          <div className='flex space-x-4'>
-            <ul className='flex'>
-              <li
-                key={'select-all'}
-                className={`px-2 py-2 cursor-pointer text-sm ${
-                  selectedFilter === 'all'
-                    ? ' text-black font-bold underline'
-                    : ' text-gray-700'
-                }`}
-                onClick={() => setSelectedFilter('all')}
-              >
-                ทั้งหมด
-              </li>
-              {categoryOptions?.data?.map((item) => (
+    <>
+      <Banner />
+      <div className='flex justify-center p-4'>
+        <div className='w-full max-w-screen-xl'>
+          <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
+            <div className='flex space-x-4 overflow-x-auto md:w-1/2 w-full'>
+              <ul className='flex'>
                 <li
-                  key={item.id}
-                  className={`px-2 py-2 cursor-pointer text-sm hover:font-bold ${
-                    selectedFilter === item.name
+                  key={'select-all'}
+                  className={`px-2 py-2 cursor-pointer text-sm ${
+                    selectedFilter === 'all'
                       ? ' text-black font-bold underline'
                       : ' text-gray-700'
                   }`}
-                  onClick={() => setSelectedFilter(item.name)}
+                  onClick={() => setSelectedFilter('all')}
                 >
-                  {item.name}
+                  ทั้งหมด
                 </li>
-              ))}
-            </ul>
-          </div>
-          <div className='flex items-center space-x-4'>
-            <span className='font-light'>{items.length} สินค้า</span>
-            <Select
-              onValueChange={setSelectedSorting}
-              defaultValue={selectedSorting}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='เรียงลำดับ' />
-              </SelectTrigger>
-              <SelectContent>
-                {sortingOptions.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
+                {categoryOptions?.data?.map((item) => (
+                  <li
+                    key={item.id}
+                    className={`px-2 py-2 cursor-pointer text-sm hover:font-bold ${
+                      selectedFilter === item.name
+                        ? ' text-black font-bold underline'
+                        : ' text-gray-700'
+                    }`}
+                    onClick={() => setSelectedFilter(item.name)}
+                  >
                     {item.name}
-                  </SelectItem>
+                  </li>
                 ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        {isLoading && (
-          <div>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div
-                  key={index}
-                  className='flex flex-col transition-all duration-300 ease-in-out'
-                >
-                  <Skeleton className='h-[320px] w-full bg-gray-100 p-1' />
-                  <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
-                  <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
-                </div>
-              ))}
+              </ul>
+            </div>
+            <div
+              className='flex md:justify-end space-x-4 mt-4 w-full md:mt-0  md:ml-0 ml-4 md:w-1/2 focus:outline'
+              id='sorting'
+            >
+              <span className='font-light'>{items.length} สินค้า </span>
+              <Select
+                onValueChange={setSelectedSorting}
+                defaultValue={selectedSorting}
+              >
+                <SelectTrigger className='w-[180px]'>
+                  <SelectValue placeholder='เรียงลำดับ' />
+                </SelectTrigger>
+                <SelectContent>
+                  {sortingOptions.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        )}
-        <div>
-          {!isLoading && items.length > 0 && (
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
-              {items.map((item) => (
-                <ProductCart key={item.id} product={item} />
-              ))}
+          {isLoading && (
+            <div>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className='flex flex-col transition-all duration-300 ease-in-out'
+                  >
+                    <Skeleton className='h-[320px] w-full bg-gray-100 p-1' />
+                    <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
+                    <Skeleton className='h-5 w-full bg-gray-100 mt-2' />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
+          <div>
+            {!isLoading && items.length > 0 && (
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                {items.map((item) => (
+                  <ProductCart key={item.id} product={item} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

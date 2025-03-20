@@ -36,11 +36,11 @@ export class ProductRepository {
           if (categoryDoc.exists()) {
             const categoryData = categoryDoc.data();
             product.category = {
-              id: categoryDoc.id,
               ...categoryData,
+              id: categoryDoc.id,
             } as ICategory;
           } else {
-            product.category = null;
+            product.category = undefined;
           }
         }
         return product;
@@ -74,11 +74,11 @@ export class ProductRepository {
           if (categoryDoc.exists()) {
             const categoryData = categoryDoc.data();
             product.category = {
-              id: categoryDoc.id,
               ...categoryData,
+              id: categoryDoc.id,
             } as ICategory;
           } else {
-            product.category = null;
+            product.category = undefined;
           }
         }
         return product;
@@ -102,17 +102,24 @@ export class ProductRepository {
       if (product.image) {
         product.image = await StorageRepository.getImageUrl(product.image);
       }
+      if (product.banner) {
+        product.banner = await StorageRepository.getImageUrl(product.banner);
+      }
       if (categoryDoc.exists()) {
         product.category = {
-          id: categoryDoc.id,
           ...categoryDoc.data(),
+          id: categoryDoc.id,
         } as ICategory;
       }
     }
     return product;
   }
 
-  async add(product: IProduct, imageFile: File): Promise<void> {
+  async add(
+    product: IProduct,
+    imageFile: File,
+    bannerFile: File
+  ): Promise<void> {
     if (!product || typeof product !== 'object') {
       throw new Error('Invalid product data');
     }
@@ -132,6 +139,11 @@ export class ProductRepository {
       await StorageRepository.uploadImage(imageFile, imagePath);
       product.image = imagePath;
     }
+    if (bannerFile) {
+      const filePath = `products/images/${product.id}/${bannerFile.name}`;
+      await StorageRepository.uploadImage(bannerFile, filePath);
+      product.banner = filePath;
+    }
     const productData = {
       ...product,
       category: doc(db, COLLECTION.CATEGORY, product.category as string), // Set category as DocumentReference
@@ -140,7 +152,11 @@ export class ProductRepository {
     await setDoc(newProductDoc, productData);
   }
 
-  async update(product: IProduct, imageFile?: File): Promise<void> {
+  async update(
+    product: IProduct,
+    imageFile?: File,
+    bannerFile?: File
+  ): Promise<void> {
     const isValidCategory = await ReferenceValidator.validateReference(
       COLLECTION.CATEGORY,
       product.category as string
@@ -149,6 +165,9 @@ export class ProductRepository {
       throw new Error('Invalid category reference');
     }
     // check exit product
+    if (!product.id) {
+      throw new Error('Product ID is required');
+    }
     const productDoc = doc(db, COLLECTION.PRODUCT, product.id);
     const productSnapshot = await getDoc(productDoc);
     if (!productSnapshot.exists()) {
@@ -158,13 +177,23 @@ export class ProductRepository {
     if (productSnapshot.data().image && imageFile) {
       await StorageRepository.deleteFile(productSnapshot.data().image);
     }
-
     if (imageFile) {
       const imagePath = `products/images/${product.id}/${imageFile.name}`;
       await StorageRepository.uploadImage(imageFile, imagePath);
       product.image = imagePath;
     } else {
       product.image = productSnapshot.data().image;
+    }
+    // delete old image
+    if (productSnapshot.data().banner && bannerFile) {
+      await StorageRepository.deleteFile(productSnapshot.data().image);
+    }
+    if (bannerFile) {
+      const imagePath = `products/images/${product.id}/${bannerFile.name}`;
+      await StorageRepository.uploadImage(bannerFile, imagePath);
+      product.banner = imagePath;
+    } else {
+      product.banner = productSnapshot.data().image;
     }
     const productData = {
       ...product,

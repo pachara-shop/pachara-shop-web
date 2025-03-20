@@ -38,7 +38,7 @@ export default function Page(): JSX.Element {
       .unwrap()
       .then((res) => {
         setProductList(res.data);
-        setTotal(res.pagination.total);
+        setTotal(res.pagination ? res.pagination.total : 0);
       });
   };
 
@@ -64,7 +64,7 @@ export default function Page(): JSX.Element {
             <Button
               type='button'
               onClick={() => {
-                route.push(`/manage/category/${id}`);
+                route.push(`/dashboard/category/${id}`);
               }}
             >
               Edit
@@ -75,10 +75,13 @@ export default function Page(): JSX.Element {
                 await deleteCategory({ id })
                   .unwrap()
                   .then(() => {
-                    const sorting = tableInstance?.getState().sorting;
+                    const sorting = tableInstance?.getState().sorting || [];
                     const columnFilters =
-                      tableInstance?.getState().columnFilters;
-                    const pagination = tableInstance?.getState().pagination;
+                      tableInstance?.getState().columnFilters || [];
+                    const pagination = tableInstance?.getState().pagination || {
+                      pageIndex: 0,
+                      pageSize: 10,
+                    };
                     fetchProducts({ sorting, columnFilters, pagination });
                   });
               }}
@@ -123,7 +126,7 @@ export default function Page(): JSX.Element {
           <Button
             type='button'
             onClick={() => {
-              route.push('/manage/category/create');
+              route.push('/dashboard/category/create');
             }}
           >
             Add Category

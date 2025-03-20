@@ -70,7 +70,7 @@ const CategoryDetail: React.FC<categoryDetailProps> = ({
                 type='button'
                 variant='outline'
                 onClick={() => {
-                  route.push('/manage/category');
+                  route.push('/dashboard/category');
                 }}
               >
                 Cancel

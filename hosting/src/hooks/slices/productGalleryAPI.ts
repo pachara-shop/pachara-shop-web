@@ -1,5 +1,5 @@
 import { axiosInternalBaseQuery } from '@/lib/axiosBaseQuery';
-import { IResponse } from '@/shared/models/Response';
+import { ISearchResponse } from '@/shared/models/Response';
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 export const productGalleryAPI = createApi({
@@ -7,20 +7,20 @@ export const productGalleryAPI = createApi({
   baseQuery: axiosInternalBaseQuery(),
   tagTypes: ['productGallery'],
   endpoints: (builder) => ({
-    getProductGalleryById: builder.query<IResponse<string[]>, string>({
+    getProductGalleryById: builder.query<ISearchResponse<string[]>, string>({
       query: (id) => ({
         url: '/api/product/' + id + '/gallery',
         method: 'GET',
       }),
       providesTags: ['productGallery'],
     }),
-    updateProductGallery: builder.mutation<
+    uploadProductGallery: builder.mutation<
       void,
       { id: string; formData: FormData }
     >({
       query: ({ id, formData }) => ({
         url: '/api/product/' + id + '/gallery',
-        method: 'PUT',
+        method: 'POST',
         data: formData,
       }),
       invalidatesTags: ['productGallery'],
@@ -41,6 +41,6 @@ export const productGalleryAPI = createApi({
 
 export const {
   useGetProductGalleryByIdQuery,
-  useUpdateProductGalleryMutation,
+  useUploadProductGalleryMutation,
   useDeleteProductGalleryByIdMutation,
 } = productGalleryAPI;

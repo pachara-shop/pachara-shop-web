@@ -79,10 +79,10 @@ export default function DataTable<T>({
       url.searchParams.set('pagination', endCodePagination);
       url.searchParams.set('sorting', endCodeSorting);
       url.searchParams.set('columnFilter', endCodeColumnFilters);
-
       window.history.replaceState({}, '', url.toString());
     }
     stableFetchData({ sorting, columnFilters, pagination });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sorting, columnFilters, pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable<T>({

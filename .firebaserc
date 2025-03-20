@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "pachara-shop-dev"
-  }
+    "default": "pachara-shop-dev",
+    "prod": "pachara-shop"
+  },
+  "targets": {},
+  "etags": {}
 }

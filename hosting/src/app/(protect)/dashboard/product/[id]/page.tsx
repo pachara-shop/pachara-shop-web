@@ -8,7 +8,7 @@ import {
 import {
   useDeleteProductGalleryByIdMutation,
   useGetProductGalleryByIdQuery,
-  useUpdateProductGalleryMutation,
+  useUploadProductGalleryMutation,
 } from '@/hooks/slices/productGalleryAPI';
 import { toast } from '@/hooks/use-toast';
 import { ICategory } from '@/shared/models/Category';
@@ -20,21 +20,23 @@ export default function Page() {
   const { id } = useParams();
   const productId = Array.isArray(id) ? id[0] : id;
 
-  const { data } = useGetProductByIdQuery(productId);
-  const { data: galleryData, refetch } =
-    useGetProductGalleryByIdQuery(productId);
+  const { data } = useGetProductByIdQuery(productId || '');
+  const { data: galleryData, refetch } = useGetProductGalleryByIdQuery(
+    productId || ''
+  );
   const [onUpdate] = useUpdateProductMutation();
-  const [onUpdateGallery] = useUpdateProductGalleryMutation();
+  const [onUpdateGallery] = useUploadProductGalleryMutation();
   const [onRemoveImage] = useDeleteProductGalleryByIdMutation();
 
   const [initialData, setInitialData] = useState<ICreateProduct>({
     id: '',
     name: '',
     price: 0,
-    file: null,
+    file: undefined,
     categoryId: '',
     description: '',
     image: '',
+    banner: '',
   });
 
   useEffect(() => {
@@ -44,21 +46,26 @@ export default function Page() {
         name: data.data.name,
         price: Number(data.data.price),
         file: data.data.image,
+        bannerFile: data.data.banner,
         categoryId: (data.data.category as ICategory).id,
         description: data.data.description,
         image: data.data.image,
+        banner: data.data.banner,
       });
     }
   }, [data]);
 
   const onSubmit = async (data: ICreateProduct) => {
     const formData = new FormData();
-    formData.append('id', productId);
-    formData.append('file', data.file);
-    formData.append('name', data.name);
-    formData.append('price', data.price.toString());
-    formData.append('description', data.description);
-    formData.append('category', data.categoryId.toString());
+    if (productId) formData.append('id', productId);
+    if (data.file) formData.append('file', data.file);
+    if (data.bannerFile) formData.append('bannerFile', data.bannerFile);
+    if (data.name) formData.append('name', data.name);
+    if (data.price !== undefined)
+      formData.append('price', data.price.toString());
+    if (data.description) formData.append('description', data.description);
+    if (data.categoryId)
+      formData.append('category', data.categoryId.toString());
 
     await onUpdate(formData)
       .unwrap()
@@ -72,7 +79,7 @@ export default function Page() {
 
   const onAddImage = async (files: File[]) => {
     const formData = new FormData();
-    formData.append('id', productId);
+    if (productId) formData.append('id', productId);
     files.forEach((file) => {
       formData.append('files', file);
     });
@@ -107,6 +114,7 @@ export default function Page() {
       onAddImage={onAddImage}
       galleryImages={galleryData?.data}
       onRemoveImage={onRemoveGalleryItem}
+      mode='edit'
     />
   );
 }

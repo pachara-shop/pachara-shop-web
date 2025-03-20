@@ -1,5 +1,5 @@
+import { storage } from '@/config/firebaseConfig';
 import {
-  getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
@@ -7,7 +7,7 @@ import {
   listAll,
 } from 'firebase/storage';
 
-const storage = getStorage();
+// const storage = getStorage();
 export class StorageRepository {
   static async getImageUrl(path: string): Promise<string> {
     try {
@@ -15,7 +15,7 @@ export class StorageRepository {
       const downloadURL = await getDownloadURL(storageRef);
       return downloadURL;
     } catch (e) {
-      console.warn(e);
+      console.error(e);
       return '';
     }
   }
@@ -30,7 +30,7 @@ export class StorageRepository {
       const storageRef = ref(storage, path);
       await deleteObject(storageRef);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 
