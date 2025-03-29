@@ -22,6 +22,8 @@ import { Editor } from '@tiptap/react';
 import { Icon } from '@/components/atoms/Icon';
 import { FormatType } from './format-type';
 import { getHtml } from './html';
+import { ToggleGroup, Toolbar } from '@/components/atoms/Toolbar';
+import { Toggle } from '@/components/atoms/Toggle';
 
 interface EditorToolbarProps {
   editor: Editor;

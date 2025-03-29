@@ -44,13 +44,11 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className='min-h-[calc(100vh-120px)] bg-gray-100'>
+    <div className='min-h-[calc(100vh-120px)] bg-gray-100 relative'>
       <AuthProvider>
-        <MainContent>
-          <Sidebar />
-          <Header />
-          {children}
-        </MainContent>
+        <Header />
+        <Sidebar />
+        <MainContent>{children}</MainContent>
       </AuthProvider>
     </div>
   );

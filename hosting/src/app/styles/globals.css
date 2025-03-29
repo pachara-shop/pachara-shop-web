@@ -78,3 +78,21 @@
   width: auto;
   margin: 0 auto;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: revert;
+  font-weight: revert;
+}
+
+.tiptap.ProseMirror {
+  outline: none;
+}
+
+#rich-text-editor > div:first-child {
+  background-color: hsl(210deg 40% 96.1% / 40%);
+}

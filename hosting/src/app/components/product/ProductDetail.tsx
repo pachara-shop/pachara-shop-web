@@ -18,9 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/atoms/select';
-import { Textarea } from '@/components/atoms/textarea';
 import { Title } from '@/components/atoms/Typography';
 import { ImagePreviewModal } from '@/components/molecules/ImagePreviewModal';
+import Editor from '@/components/molecules/rich-text/editor';
 import { CustomButton } from '@/components/ui/CustomButton';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { createProductSchema } from '@/shared/form-schema/product';
@@ -243,10 +243,12 @@ export const ProductDetail = ({
                   <FormItem className='my-4 mr-4'>
                     <Title className='font-medium'>Description</Title>
                     <FormControl>
-                      <Textarea
-                        placeholder='Description'
-                        className='resize-none'
-                        {...field}
+                      <Editor
+                        content={field.value ?? ''}
+                        onChange={field.onChange}
+                        placeholder='Write your post here...'
+                        exportName='Maintenance'
+                        className='min-h-80'
                       />
                     </FormControl>
                     <FormMessage />
