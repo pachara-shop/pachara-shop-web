@@ -29,23 +29,23 @@ export default function Page() {
 
   const [getProduct, { isLoading }] = useSearchFrontendProductsMutation();
   const [selectedFilter, setSelectedFilter] = useState<string>(
-    searchParams.get('c') || 'all'
+    searchParams?.get('c') || 'all'
   );
   const [items, setItems] = useState<IProduct[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<string>(
-    searchParams.get('s') || ''
+    searchParams?.get('s') || ''
   );
   const { data: categoryOptions, isLoading: isCategoryOptionsLoading } =
     useGetCategoryOptionsQuery();
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams || '');
     params.set('s', selectedSorting);
     router.replace(`?${params.toString()}`, { scroll: false });
   }, [selectedSorting]);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams || '');
     if (selectedFilter !== 'all') {
       params.set('c', selectedFilter);
     } else {
@@ -77,7 +77,7 @@ export default function Page() {
       <div className='flex justify-center p-4'>
         <div className='w-full max-w-screen-xl'>
           <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
-            <div className='flex space-x-4 overflow-x-auto md:w-1/2 w-full'>
+            <div className='flex space-x-4 overflow-x-auto md:w-1/2 w-full whitespace-nowrap'>
               <ul className='flex'>
                 <li
                   key={'select-all'}
@@ -109,7 +109,9 @@ export default function Page() {
               className='flex md:justify-end space-x-4 mt-4 w-full md:mt-0  md:ml-0 ml-4 md:w-1/2 focus:outline'
               id='sorting'
             >
-              <span className='font-light'>{items.length} สินค้า </span>
+              <span className='font-light flex items-center'>
+                {items.length} สินค้า
+              </span>
               <Select
                 onValueChange={setSelectedSorting}
                 defaultValue={selectedSorting}

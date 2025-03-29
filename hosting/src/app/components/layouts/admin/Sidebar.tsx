@@ -20,6 +20,10 @@ const menus = [
     name: 'Category',
     link: 'dashboard/category',
   },
+  {
+    name: 'Settings',
+    link: 'dashboard/settings',
+  },
 ];
 
 const Sidebar: React.FC = () => {

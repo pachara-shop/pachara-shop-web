@@ -11,7 +11,8 @@ import { ICategory } from '@/shared/models/Category';
 
 export default function Page() {
   const route = useRouter();
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id && Array.isArray(params.id) ? params.id[0] : params?.id;
   const { data, refetch } = useGetCategoryByIdQuery({ id: id as string });
   const [onUpdate] = useUpdateCategoryMutation();
   const [initialValue, setInitialValue] = useState<ICategory>({

@@ -4,6 +4,7 @@ import { authAPI } from './slices/authAPI';
 import { categoryAPI } from './slices/categoryAPI';
 import { productFeAPI } from './slices/fe/productAPI';
 import { productGalleryAPI } from './slices/productGalleryAPI';
+import layoutSlice from './slices/layoutSlice';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = (): EnhancedStore => {
       [authAPI.reducerPath]: authAPI.reducer,
       [productFeAPI.reducerPath]: productFeAPI.reducer,
       [productGalleryAPI.reducerPath]: productGalleryAPI.reducer,
+      layout: layoutSlice,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(

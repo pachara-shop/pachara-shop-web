@@ -12,6 +12,7 @@ import { FetchDataParams } from '@/shared/models/Search';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { HeaderWrapper } from '../../components/HeaderWrapper';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
@@ -95,44 +96,46 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <DataTable
-      data={productList}
-      total={total}
-      columns={columnsSetting}
-      fetchData={fetchProducts}
-      onTableInstanceChange={handleTableInstanceChange}
-    >
-      <div className='flex justify-between'>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            tableInstance?.resetPageIndex();
-            tableInstance?.getColumn('name')?.setFilterValue(search);
-          }}
-        >
-          <div className='flex w-full max-w-sm items-center space-x-2'>
-            <Input
-              type='text'
-              placeholder='Search...'
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-            <Button type='submit'>Search</Button>
-          </div>
-        </form>
-        <div className='flex justify-end'>
-          <Button
-            type='button'
-            onClick={() => {
-              route.push('/dashboard/category/create');
+    <HeaderWrapper title='Category' subTitle=''>
+      <DataTable
+        data={productList}
+        total={total}
+        columns={columnsSetting}
+        fetchData={fetchProducts}
+        onTableInstanceChange={handleTableInstanceChange}
+      >
+        <div className='flex justify-between'>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              tableInstance?.resetPageIndex();
+              tableInstance?.getColumn('name')?.setFilterValue(search);
             }}
           >
-            Add Category
-          </Button>
+            <div className='flex w-full max-w-sm items-center space-x-2'>
+              <Input
+                type='text'
+                placeholder='Search...'
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+              <Button type='submit'>Search</Button>
+            </div>
+          </form>
+          <div className='flex justify-end'>
+            <Button
+              type='button'
+              onClick={() => {
+                route.push('/dashboard/category/create');
+              }}
+            >
+              Add Category
+            </Button>
+          </div>
         </div>
-      </div>
-    </DataTable>
+      </DataTable>
+    </HeaderWrapper>
   );
 }

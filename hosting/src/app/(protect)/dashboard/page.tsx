@@ -1,3 +1,9 @@
+import { HeaderWrapper } from '../components/HeaderWrapper';
+
 export default function Page() {
-  return <> Dashboard</>;
+  return (
+    <HeaderWrapper title='Dashboard' subTitle=''>
+      <> Dashboard</>
+    </HeaderWrapper>
+  );
 }

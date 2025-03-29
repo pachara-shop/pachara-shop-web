@@ -17,7 +17,9 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id && Array.isArray(params.id) ? params.id[0] : params?.id;
+
   const productId = Array.isArray(id) ? id[0] : id;
 
   const { data } = useGetProductByIdQuery(productId || '');

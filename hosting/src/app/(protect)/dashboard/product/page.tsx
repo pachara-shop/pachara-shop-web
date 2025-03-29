@@ -13,6 +13,7 @@ import { IProduct } from '@/shared/models/Product';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { HeaderWrapper } from '../../components/HeaderWrapper';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
@@ -112,31 +113,33 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <div>
-      <DataTable
-        data={products}
-        total={products.length}
-        columns={columnsSetting}
-        fetchData={fetchProducts}
-        onTableInstanceChange={handleTableInstanceChange}
-      >
-        <div className='flex justify-between'>
-          <div className='flex w-full max-w-sm items-center space-x-2'>
-            <Input type='text' placeholder='Search...' />
-            <Button type='submit'>Search</Button>
+    <HeaderWrapper title='Products' subTitle=''>
+      <div>
+        <DataTable
+          data={products}
+          total={products.length}
+          columns={columnsSetting}
+          fetchData={fetchProducts}
+          onTableInstanceChange={handleTableInstanceChange}
+        >
+          <div className='flex justify-between'>
+            <div className='flex w-full max-w-sm items-center space-x-2'>
+              <Input type='text' placeholder='Search...' />
+              <Button type='submit'>Search</Button>
+            </div>
+            <div className='flex justify-end'>
+              <Button
+                type='button'
+                onClick={() => {
+                  route.push('/dashboard/product/create');
+                }}
+              >
+                Add Product
+              </Button>
+            </div>
           </div>
-          <div className='flex justify-end'>
-            <Button
-              type='button'
-              onClick={() => {
-                route.push('/dashboard/product/create');
-              }}
-            >
-              Add Product
-            </Button>
-          </div>
-        </div>
-      </DataTable>
-    </div>
+        </DataTable>
+      </div>
+    </HeaderWrapper>
   );
 }
