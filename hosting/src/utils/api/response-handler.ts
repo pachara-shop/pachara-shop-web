@@ -1,10 +1,11 @@
-import { ISearchResponse } from '@/shared/models/Response';
+import { IResponse, ISearchResponse } from '@/shared/models/Response';
 import { NextResponse } from 'next/server';
 
 export const handleSuccess = (
-  data?: ISearchResponse<unknown>
+  data?: ISearchResponse<unknown> | IResponse<unknown>
 ): NextResponse => {
-  const responseData = { ...data };
+  const message = 'Success';
+  const responseData = { ...data, message };
   return new NextResponse(JSON.stringify(responseData), {
     status: 200,
   });

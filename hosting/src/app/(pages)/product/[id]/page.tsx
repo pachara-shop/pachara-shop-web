@@ -1,4 +1,4 @@
-import { ProductItemDetail } from '@/app/components/fe/product/ProductItemDetail';
+import { ProductItemDetail } from '@/app/(pages)/components/product/ProductItemDetail';
 
 async function fetchProductData(productId: string) {
   const productResponse = await fetch(

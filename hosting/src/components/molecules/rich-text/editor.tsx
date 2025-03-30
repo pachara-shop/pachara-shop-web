@@ -58,7 +58,7 @@ const Editor = ({
         <EditorContent
           editor={editor}
           placeholder={placeholder}
-          className={cn('focus-visible:outline-none', className)}
+          className={cn('focus-visible:outline-none mb-4', className)}
         />
       </div>
     </div>

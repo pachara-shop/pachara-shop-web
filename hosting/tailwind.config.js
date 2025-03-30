@@ -71,6 +71,7 @@ module.exports = {
   },
   plugins: [
     tailwindcssAnimate,
+    require('@tailwindcss/typography'),
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('tailwindcss-animate'),
     addDynamicIconSelectors(),

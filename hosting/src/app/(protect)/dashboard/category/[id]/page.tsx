@@ -5,7 +5,7 @@ import {
   useGetCategoryByIdQuery,
   useUpdateCategoryMutation,
 } from '@/hooks/slices/categoryAPI';
-import { CategoryDetail } from '@/app/components/category/CategoryDetail';
+import { CategoryDetail } from '@/app/(protect)/components/category/CategoryDetail';
 import { useEffect, useState } from 'react';
 import { ICategory } from '@/shared/models/Category';
 

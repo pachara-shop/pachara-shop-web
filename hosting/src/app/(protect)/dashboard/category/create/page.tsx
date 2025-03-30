@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useCreateCategoryMutation } from '@/hooks/slices/categoryAPI';
-import { CategoryDetail } from '@/app/components/category/CategoryDetail';
+import { CategoryDetail } from '@/app/(protect)/components/category/CategoryDetail';
 import { ICategory } from '@/shared/models/Category';
 
 export default function Page() {
