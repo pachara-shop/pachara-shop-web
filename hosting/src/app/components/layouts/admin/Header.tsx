@@ -9,7 +9,7 @@ const Header = () => {
     (state: RootState) => state.layout.header
   );
   return (
-    <header className='flex items-center justify-between bg-white h-[120px] pr-12 fixed top-0 w-[calc(100%-16rem)] z-99 left-64 pl-14'>
+    <header className='flex items-center justify-between bg-white h-[120px] pr-12 fixed top-0 w-[calc(100%-16rem)] z-50 left-64 pl-14'>
       <div className='flex flex-col'>
         <h1 className='text-2xl font-bold'>{title ?? ''}</h1>
         <p className='text-gray-500'>{subTitle}</p>

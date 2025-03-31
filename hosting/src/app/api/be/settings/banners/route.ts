@@ -15,13 +15,13 @@ const getBannerSettings = async () => {
 const addBannerSettings = async (req: Request) => {
   try {
     const formData = await req.formData();
-    const file = formData.get('file') as File;
-    if (!file) {
-      return handleError(400, 'File is required');
+    const files = formData.getAll('files') as File[];
+    if (!files) {
+      return handleError(400, 'Files is required');
     }
     const repo = new SettingsRepository();
-    await repo.addBanner(file);
-    return handleSuccess({ data: 'Banner added successfully' });
+    const result = await repo.addBanner(files);
+    return handleSuccess({ data: result });
   } catch (err) {
     return handleError(500, err);
   }

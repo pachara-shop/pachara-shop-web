@@ -43,30 +43,44 @@ export class SettingsRepository {
     }
   }
 
-  async addBanner(banner: File): Promise<void> {
-    const bannerPath = 'settings/banners/' + banner.name.replace(/\s/g, '_');
-    const imagePath = await StorageRepository.uploadImage(banner, bannerPath);
-    const settingsRef = collection(db, COLLECTION.SETTINGS);
-    const q = query(settingsRef, limit(1));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      const defaultSettings = { banners: [] };
-      const newDocRef = doc(settingsRef);
-      await setDoc(newDocRef, defaultSettings);
+  async addBanner(banners: File[]): Promise<SettingBanner[]> {
+    if (banners.length === 0) {
+      throw new Error('No file provided');
     }
-    const firstDoc = querySnapshot.docs[0];
-    const bannersCollectionRef = collection(
-      db,
-      COLLECTION.SETTINGS,
-      firstDoc.id,
-      'banners'
+    const result = await Promise.all(
+      banners.map(async (banner) => {
+        const bannerPath =
+          'settings/banners/' + banner.name.replace(/\s/g, '_');
+        const imagePath = await StorageRepository.uploadImage(
+          banner,
+          bannerPath
+        );
+        const settingsRef = collection(db, COLLECTION.SETTINGS);
+        const q = query(settingsRef, limit(1));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          const defaultSettings = { banners: [] };
+          const newDocRef = doc(settingsRef);
+          await setDoc(newDocRef, defaultSettings);
+        }
+        const firstDoc = querySnapshot.docs[0];
+        const bannersCollectionRef = collection(
+          db,
+          COLLECTION.SETTINGS,
+          firstDoc.id,
+          'banners'
+        );
+        const newBannerRef = doc(bannersCollectionRef);
+        const newBanner: SettingBanner = {
+          id: newBannerRef.id,
+          url: imagePath,
+        };
+        await setDoc(newBannerRef, newBanner);
+        return newBanner;
+      })
     );
-    const newBannerRef = doc(bannersCollectionRef);
-    const newBanner: SettingBanner = {
-      id: newBannerRef.id,
-      url: imagePath,
-    };
-    await setDoc(newBannerRef, newBanner);
+
+    return result;
   }
 
   async deleteBanner(id: string): Promise<void> {
