@@ -97,7 +97,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
             </p>
           </div>
           <div className='space-y-4 mt-4'>
-            <h2 className='text-xl font-semibold'>รายละเอียดสินค้า</h2>
+            <h2 className='text-xl font-semibold'>Description</h2>
             <p className='text-gray-600 whitespace-pre-wrap'>
               {data?.description}
             </p>

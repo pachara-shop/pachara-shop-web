@@ -20,7 +20,7 @@ export default function LoadingPage() {
             <Skeleton className='h-8' />
           </div>
           <div className='space-y-4 mt-4'>
-            <h2 className='text-xl font-semibold'>รายละเอียดสินค้า</h2>
+            <h2 className='text-xl font-semibold'>Description</h2>
             <Skeleton className='h-8' />
           </div>
         </div>
