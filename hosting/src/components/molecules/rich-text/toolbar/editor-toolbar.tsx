@@ -10,7 +10,7 @@ import {
   Redo,
   Strikethrough,
   Undo,
-  Image,
+  // Image,
   Indent,
   Outdent,
 } from 'lucide-react';
@@ -200,7 +200,7 @@ const EditorToolbar = ({
           <Minus className='h-4 w-4' />
         </Toggle>
         <FormatType editor={editor} />
-        <Toggle
+        {/* <Toggle
           size='sm'
           className='mr-1'
           onPressedChange={() => editor.chain().focus().addImage().run()}
@@ -208,7 +208,7 @@ const EditorToolbar = ({
           pressed={editor.isActive('image')}
         >
           <Image className='h-4 w-4' />
-        </Toggle>
+        </Toggle> */}
         <Toggle
           size='sm'
           className='mr-1'

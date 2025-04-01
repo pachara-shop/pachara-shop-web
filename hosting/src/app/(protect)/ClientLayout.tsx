@@ -11,6 +11,7 @@ import {
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Header } from '../components/layouts/admin/Header';
 import { useRouter } from 'next/navigation';
+import { Toaster } from '@/components/atoms/toaster';
 
 function MainContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -48,7 +49,10 @@ export default function ClientLayout({
       <AuthProvider>
         <Header />
         <Sidebar />
-        <MainContent>{children}</MainContent>
+        <MainContent>
+          {children}
+          <Toaster />
+        </MainContent>
       </AuthProvider>
     </div>
   );

@@ -6,7 +6,8 @@ import { productFeAPI } from './slices/fe/productAPI';
 import { productGalleryAPI } from './slices/productGalleryAPI';
 import layoutSlice from './slices/layoutSlice';
 import { rteAPI } from './slices/rte/rteAPI';
-import { settingBannerAPI } from './slices/be/settings/bannerAPI.ts';
+import { settingBannerAPI } from './slices/be/settings/bannerAPI';
+import { settingAboutAPI } from './slices/be/settings/aboutAPI';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -18,6 +19,7 @@ export const makeStore = (): EnhancedStore => {
       [productGalleryAPI.reducerPath]: productGalleryAPI.reducer,
       [rteAPI.reducerPath]: rteAPI.reducer,
       [settingBannerAPI.reducerPath]: settingBannerAPI.reducer,
+      [settingAboutAPI.reducerPath]: settingAboutAPI.reducer,
       layout: layoutSlice,
     },
     middleware: (getDefaultMiddleware) =>
@@ -28,6 +30,7 @@ export const makeStore = (): EnhancedStore => {
         authAPI.middleware,
         productFeAPI.middleware,
         settingBannerAPI.middleware,
+        settingAboutAPI.middleware,
         rteAPI.middleware
       ),
   });

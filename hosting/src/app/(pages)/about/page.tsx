@@ -1,97 +1,20 @@
-// filepath: d:\Work\pachara-shop\pachara-shop-web\hosting\src\app\(pages)\about\page.tsx
 import React from 'react';
+import AboutViewer from '../components/about/AboutViewer';
 
-export default function Page() {
+export default async function Page() {
+  const response = await fetch(process.env.NEXT_PUBLIC_API_PATH + '/fe/about', {
+    method: 'GET',
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+  const { data } = await response.json();
+
   return (
     <div className='pt-24 pb-16 px-4 max-w-screen-md mx-auto'>
-      <h1 className='text-3xl font-bold mb-8 text-center'>เกี่ยวกับเรา</h1>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>แบรนด์ของเรา</h2>
-        <p className='leading-relaxed text-gray-700'>
-          เราคือแบรนด์กระเป๋าหนังสัญชาติไทยที่ทุ่มเทให้กับการสร้างสรรค์กระเป๋าหนังคุณภาพสูง
-          ที่ผสมผสานความคลาสสิกกับความทันสมัยได้อย่างลงตัว
-          เราเชื่อว่ากระเป๋าไม่ใช่แค่ของใช้
-          แต่เป็นส่วนหนึ่งของตัวตนและไลฟ์สไตล์ของผู้สวมใส่
-        </p>
-        <p className='leading-relaxed text-gray-700 mt-2'>
-          เราจึงใส่ใจในทุกรายละเอียดตั้งแต่การเลือกวัสดุคุณภาพเยี่ยมไปจนถึงการออกแบบที่สวยงาม
-          และใช้งานได้จริง เพื่อให้มั่นใจว่ากระเป๋าของเราจะอยู่กับคุณไปได้ยาวนาน
-        </p>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>ปรัชญาของเรา</h2>
-        <p className='leading-relaxed text-gray-700'>
-          เราเชื่อว่าความงามอยู่ที่ความเรียบง่ายและความคลาสสิก
-          กระเป๋าของเราจึงมีดีไซน์ที่เรียบง่ายแต่ไม่ธรรมดา
-          เน้นการใช้งานที่สะดวกสบายและทนทาน เราใช้วัสดุคุณภาพสูง เช่น
-          หนังแท้จากอิตาลีและฮาร์ดแวร์คุณภาพดี
-          เพื่อให้มั่นใจว่ากระเป๋าของเราจะอยู่กับคุณไปนาน
-        </p>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>ทีมงานของเรา</h2>
-        <p className='leading-relaxed text-gray-700'>
-          ทีมงานของเราประกอบด้วยนักออกแบบที่มีความสามารถและช่างฝีมือที่มีประสบการณ์
-          เราทำงานร่วมกันอย่างใกล้ชิดเพื่อสร้างสรรค์กระเป๋าที่สวยงามและมีคุณภาพสูง
-          เราใส่ใจในทุกรายละเอียดและมุ่งมั่นที่จะสร้างสรรค์ผลิตภัณฑ์ที่ดีที่สุดให้กับลูกค้าของเรา
-        </p>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>ความรับผิดชอบต่อสังคม</h2>
-        <p className='leading-relaxed text-gray-700'>
-          เราให้ความสำคัญกับความรับผิดชอบต่อสังคมและสิ่งแวดล้อม
-          ใช้วัสดุที่เป็นมิตรต่อสิ่งแวดล้อมและสนับสนุนชุมชนท้องถิ่น
-          เราเชื่อว่าธุรกิจควรเป็นส่วนหนึ่งของสังคมและควรมีส่วนร่วมในการพัฒนาชุมชน
-        </p>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>พันธกิจของเรา</h2>
-        <p className='leading-relaxed text-gray-700'>
-          พันธกิจของเราคือการสร้างสรรค์กระเป๋าหนังคุณภาพสูงที่ตอบสนองความต้องการ
-          และไลฟ์สไตล์ของลูกค้า
-          เราต้องการให้กระเป๋าของเราเป็นส่วนหนึ่งของชีวิตประจำวันของลูกค้า
-          และช่วยให้ลูกค้าแสดงออกถึงความเป็นตัวตนของตนเอง
-        </p>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>คำถามที่พบบ่อย</h2>
-        <ul className='list-disc list-inside text-gray-700 space-y-2'>
-          <li>
-            <strong>กระเป๋าของคุณทำจากวัสดุอะไร?</strong> <br />
-            เราใช้หนังแท้คุณภาพสูงจากอิตาลีและฮาร์ดแวร์คุณภาพดี
-          </li>
-          <li>
-            <strong>กระเป๋าของคุณมีขนาดเท่าใด?</strong> <br />
-            เรามีกระเป๋าหลายขนาดให้เลือกตามความต้องการของคุณ
-          </li>
-          <li>
-            <strong>กระเป๋าของคุณสามารถซักได้หรือไม่?</strong> <br />
-            เราแนะนำให้ทำความสะอาดกระเป๋าด้วยผ้าแห้ง
-          </li>
-          <li>
-            <strong>คุณมีนโยบายการรับประกันหรือไม่?</strong> <br />
-            เรามีการรับประกันสินค้า 1 ปี
-          </li>
-          <li>
-            <strong>ฉันสามารถสั่งซื้อกระเป๋าของคุณได้ที่ไหน?</strong> <br />
-            คุณสามารถสั่งซื้อกระเป๋าของเราได้ทางเว็บไซต์ของเราหรือร้านค้าตัวแทนจำหน่ายของเรา
-          </li>
-        </ul>
-      </section>
-
-      <section className='mb-8'>
-        <h2 className='text-xl font-semibold mb-2'>ติดต่อเรา</h2>
-        <p className='leading-relaxed text-gray-700'>
-          หากคุณมีคำถามหรือข้อสงสัยใด ๆ โปรดติดต่อเราได้ที่ [อีเมล] หรือ
-          [เบอร์โทรศัพท์] ขอบคุณที่สนใจในแบรนด์ของเรา!
-        </p>
-      </section>
+      {data && <AboutViewer content={data} />}
     </div>
   );
 }

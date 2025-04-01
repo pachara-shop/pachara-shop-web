@@ -13,9 +13,9 @@ import { IProduct } from '@/shared/models/Product';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 const sortingOptions = [
-  { name: 'name', value: 'name' },
-  { name: 'price', value: 'price' },
-  { name: 'category', value: 'category' },
+  { name: 'Name', value: 'name' },
+  { name: 'Price', value: 'price' },
+  { name: 'Category', value: 'category' },
 ];
 interface CategoryOption {
   id: string;
@@ -109,14 +109,14 @@ export function ProductPageClient({
             id='sorting'
           >
             <span className='font-light flex items-center'>
-              {items.length} products
+              {items.length} Products
             </span>
             <Select
               onValueChange={setSelectedSorting}
               defaultValue={selectedSorting}
             >
               <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='sorting' />
+                <SelectValue placeholder='Sorting' />
               </SelectTrigger>
               <SelectContent>
                 {sortingOptions.map((item) => (

@@ -10,19 +10,70 @@ import {
 
 import Editor from '@/components/molecules/rich-text/editor';
 import { CustomButton } from '@/components/ui/CustomButton';
-import { Title } from '@radix-ui/react-toast';
+import {
+  useGetSettingAboutQuery,
+  useUpdateSettingAboutMutation,
+} from '@/hooks/slices/be/settings/aboutAPI';
+import { useToast } from '@/hooks/use-toast';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 export function AboutSection() {
-  const form = useForm({});
+  const { toast } = useToast();
+  const { data } = useGetSettingAboutQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const [onUpdateAbout] = useUpdateSettingAboutMutation();
+  const form = useForm({
+    defaultValues: {
+      data: '',
+    },
+  });
+  useEffect(() => {
+    if (data?.data !== undefined) {
+      form.reset({ data: data.data });
+    }
+  }, [data, form]);
+  const handleSubmit = async (formData: { data: string }) => {
+    try {
+      await onUpdateAbout(formData.data).unwrap();
+      toast({
+        title: 'Success',
+        description: 'About section updated successfully',
+        variant: 'default',
+      });
+    } catch (error) {
+      console.error('Failed to update about section:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to update about section',
+        variant: 'destructive',
+      });
+    }
+  };
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 relative'>
       <h2 className='text-lg font-semibold'>About</h2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => console.log(data))}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <div className='absolute right-0 top-0 '>
+            {/* <CustomButton
+              type='button'
+              variant='outline'
+              onClick={() => {
+                // route.push('/dashboard/product');
+              }}
+            >
+              Cancel
+            </CustomButton> */}
+            <CustomButton variant='black' type='submit'>
+              Save
+            </CustomButton>
+          </div>
+
           <FormField
             control={form.control}
-            name='description'
+            name='data'
             render={({ field }) => (
               <FormItem className='my-4 '>
                 <FormControl>
@@ -38,26 +89,8 @@ export function AboutSection() {
               </FormItem>
             )}
           />
-          <div className=' flex space-x-2 pt-4 justify-end'>
-            <CustomButton
-              type='button'
-              variant='outline'
-              onClick={() => {
-                // route.push('/dashboard/product');
-              }}
-            >
-              Cancel
-            </CustomButton>
-            <CustomButton className='' variant='black' type='submit'>
-              Save
-            </CustomButton>
-          </div>
         </form>
       </Form>
-      <p className='text-sm text-gray-500'>
-        This is a simple hosting service for your static website. You can deploy
-        your website using the GitHub integration or upload your files directly.
-      </p>
     </div>
   );
 }
