@@ -4,13 +4,23 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 import { Icon } from '../atoms/Icon';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
+import { SettingSocialMedia } from '@/shared/models/Settings';
+import { socialPlatforms } from '@/shared/socialIcons';
+import { LinkIcon } from 'lucide-react';
 
-const MobileMenu: React.FC = () => {
+interface MobileMenuProps {
+  icons: SettingSocialMedia[]; // Replace 'any' with the appropriate type for 'icons' if known
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+  function getSocialIcon(type: string): React.ReactNode {
+    const platform = socialPlatforms.find((p) => p.id === type);
+    return platform?.icon || <LinkIcon className='h-5 w-5' />;
+  }
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
@@ -41,15 +51,16 @@ const MobileMenu: React.FC = () => {
           </ul>
           <div className='mt-auto'>
             <div className='flex justify-end space-x-4'>
-              <Link href='https://www.facebook.com' target='_blank'>
-                <Icon icon='icon-[lucide--facebook]' />
-              </Link>
-              <Link href='https://www.twitter.com' target='_blank'>
-                <Icon icon='icon-[lucide--twitter]' />
-              </Link>
-              <Link href='https://www.instagram.com' target='_blank'>
-                <Icon icon='icon-[lucide--instagram]' />
-              </Link>
+              {icons.map((icon) => (
+                <Link
+                  key={icon.id}
+                  href={icon.url || '#'}
+                  target='_blank'
+                  onClick={handleLinkClick}
+                >
+                  {getSocialIcon(icon.type)}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

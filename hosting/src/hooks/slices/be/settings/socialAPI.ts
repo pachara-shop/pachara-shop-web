@@ -16,16 +16,7 @@ export const settingSocialAPI = createApi({
       }),
       providesTags: ['setting-social-media'],
     }),
-    addSettingSocial: builder.mutation<
-      IResponse<SettingSocialMedia[]>,
-      FormData
-    >({
-      query: (body) => ({
-        url: '/api/be/settings/social-media',
-        method: 'POST',
-        data: body,
-      }),
-    }),
+
     updateSettingSocial: builder.mutation<
       IResponse<void>,
       SettingSocialMedia[]
@@ -36,18 +27,8 @@ export const settingSocialAPI = createApi({
         data: body,
       }),
     }),
-    deleteSettingSocial: builder.mutation<IResponse<void>, string>({
-      query: (id) => ({
-        url: '/api/be/settings/social-media/' + id,
-        method: 'DELETE',
-      }),
-    }),
   }),
 });
 
-export const {
-  useGetSettingSocialQuery,
-  useAddSettingSocialMutation,
-  useDeleteSettingSocialMutation,
-  useUpdateSettingSocialMutation,
-} = settingSocialAPI;
+export const { useGetSettingSocialQuery, useUpdateSettingSocialMutation } =
+  settingSocialAPI;

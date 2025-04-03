@@ -19,59 +19,17 @@ import { CustomButton } from '@/components/ui/CustomButton';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube,
-  Linkedin,
-  Trash2,
-  PlusCircle,
-  Link as LinkIcon,
-} from 'lucide-react';
+import { Trash2, PlusCircle, LinkIcon } from 'lucide-react';
 import {
   useGetSettingSocialQuery,
   useUpdateSettingSocialMutation,
 } from '@/hooks/slices/be/settings/socialAPI';
 import { SettingSocialMedia } from '@/shared/models/Settings';
 import { Button } from '@/components/atoms/Button';
-import { Icon } from '@/components/atoms/Icon';
-
-// Social Media ที่รองรับ
-const socialPlatforms = [
-  { id: 'facebook', name: 'Facebook', icon: <Facebook className='h-5 w-5' /> },
-  {
-    id: 'instagram',
-    name: 'Instagram',
-    icon: <Instagram className='h-5 w-5' />,
-  },
-  {
-    id: 'tiktok',
-    name: 'TikTok',
-    icon: <Icon className='h-5 w-5' icon='icon-[ic--baseline-tiktok]' />,
-  },
-  {
-    id: 'line',
-    name: 'Line',
-    icon: <Icon className='h-5 w-5' icon='icon-[mage--line]' />,
-  },
-  {
-    id: 'discord',
-    name: 'Discord',
-    icon: <Icon className='h-5 w-5' icon='icon-[logos--discord]' />,
-  },
-  {
-    id: 'github',
-    name: 'GitHub',
-    icon: <Icon className='h-5 w-5' icon='icon-[mdi--github]' />,
-  },
-  { id: 'twitter', name: 'Twitter', icon: <Twitter className='h-5 w-5' /> },
-  { id: 'youtube', name: 'YouTube', icon: <Youtube className='h-5 w-5' /> },
-  { id: 'linkedin', name: 'LinkedIn', icon: <Linkedin className='h-5 w-5' /> },
-  { id: 'other', name: 'Other', icon: <LinkIcon className='h-5 w-5' /> },
-];
+import { socialPlatforms } from '@/shared/socialIcons';
 
 // Interface สำหรับข้อมูล Social Media
+
 export function SocialSection() {
   const { toast } = useToast();
   const { data, isLoading } = useGetSettingSocialQuery();
@@ -123,6 +81,7 @@ export function SocialSection() {
     // ตรวจสอบว่า URL ถูกต้องหรือไม่
     try {
       new URL(values.url);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       toast({
         title: 'Invalid URL',

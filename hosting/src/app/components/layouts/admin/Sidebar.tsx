@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/config/firebaseConfig';
 
@@ -32,6 +32,7 @@ const Sidebar: React.FC = () => {
     await signOut(auth);
     router.push('/admin/login');
   };
+  const pathname = usePathname();
   return (
     <aside
       className={
@@ -42,7 +43,7 @@ const Sidebar: React.FC = () => {
         <div className='h-[120px] pt-3'>
           <Link href='/'>
             <Image
-              src='/logo.png'
+              src='/logo.jpg'
               alt='Logo'
               width={120}
               height={10}
@@ -56,7 +57,10 @@ const Sidebar: React.FC = () => {
             <li key={menu.name}>
               <Link
                 href={'/' + menu.link}
-                className='flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100'
+                className={
+                  'flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 ' +
+                  (pathname === '/' + menu.link ? ' bg-gray-100' : '')
+                }
               >
                 {menu.name}
               </Link>

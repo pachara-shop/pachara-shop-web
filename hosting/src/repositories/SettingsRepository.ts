@@ -200,7 +200,7 @@ export class SettingsRepository {
       const newSocialRef = doc(socialsCollectionRef);
       const socialWithId = {
         ...item,
-        id: item.id || newSocialRef.id, // ใช้ ID เดิมถ้ามี หรือสร้างใหม่
+        id: item.id || newSocialRef.id,
       };
 
       return setDoc(newSocialRef, socialWithId);
