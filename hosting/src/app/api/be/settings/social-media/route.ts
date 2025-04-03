@@ -12,11 +12,11 @@ const getAllSocialMedia = async () => {
   }
 };
 
-const addSocialMedia = async (req: NextRequest) => {
+const updateSocialMedia = async (req: NextRequest) => {
   try {
     const data = await req.json();
     const repo = new SettingsRepository();
-    await repo.addSocial(data);
+    await repo.updateSocial(data);
     return handleSuccess({ data: 'Social media added successfully' });
   } catch (err) {
     return handleError(500, err);
@@ -24,4 +24,4 @@ const addSocialMedia = async (req: NextRequest) => {
 };
 
 export const GET = getAllSocialMedia;
-export const POST = addSocialMedia;
+export const PUT = updateSocialMedia;

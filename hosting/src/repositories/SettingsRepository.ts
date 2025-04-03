@@ -174,7 +174,7 @@ export class SettingsRepository {
       );
     }
   }
-  async addSocial(data: SettingSocialMedia): Promise<void> {
+  async updateSocial(data: SettingSocialMedia[]): Promise<void> {
     const settingsRef = collection(db, COLLECTION.SETTINGS);
     const q = query(settingsRef, limit(1));
     const querySnapshot = await getDocs(q);
@@ -190,45 +190,22 @@ export class SettingsRepository {
       firstDoc.id,
       'socials'
     );
-    const newSocialDocRef = doc(socialsCollectionRef);
-    await setDoc(newSocialDocRef, { ...data, id: newSocialDocRef.id });
-  }
-
-  async updateSocial(id: string, data: SettingSocialMedia): Promise<void> {
-    const settingsRef = collection(db, COLLECTION.SETTINGS);
-    const q = query(settingsRef, limit(1));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      const defaultSettings = { socials: [] };
-      const newDocRef = doc(settingsRef);
-      await setDoc(newDocRef, defaultSettings);
-    }
-    const firstDoc = querySnapshot.docs[0];
-    const socialsCollectionRef = collection(
-      db,
-      COLLECTION.SETTINGS,
-      firstDoc.id,
-      'socials'
+    const existingSocialsSnapshot = await getDocs(socialsCollectionRef);
+    const deletionPromises = existingSocialsSnapshot.docs.map((doc) =>
+      deleteDoc(doc.ref)
     );
-    const socialDocRef = doc(socialsCollectionRef, id);
-    await setDoc(socialDocRef, data);
-  }
+    await Promise.all(deletionPromises);
 
-  async deleteSocial(id: string): Promise<void> {
-    const settingsRef = collection(db, COLLECTION.SETTINGS);
-    const q = query(settingsRef, limit(1));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      throw new Error('No settings document found');
-    }
-    const firstDoc = querySnapshot.docs[0];
-    const socialsCollectionRef = collection(
-      db,
-      COLLECTION.SETTINGS,
-      firstDoc.id,
-      'socials'
-    );
-    const socialDocRef = doc(socialsCollectionRef, id);
-    await deleteDoc(socialDocRef);
+    const addPromises = data.map((item) => {
+      const newSocialRef = doc(socialsCollectionRef);
+      const socialWithId = {
+        ...item,
+        id: item.id || newSocialRef.id, // ใช้ ID เดิมถ้ามี หรือสร้างใหม่
+      };
+
+      return setDoc(newSocialRef, socialWithId);
+    });
+
+    await Promise.all(addPromises);
   }
 }

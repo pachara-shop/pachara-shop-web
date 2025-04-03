@@ -5,9 +5,10 @@ export interface SettingBanner {
 
 export interface SettingSocialMedia {
   id: string;
-  name: string;
-  icon: string;
-  link: string;
+  name?: string;
+  icon?: string;
+  url?: string;
+  type: string;
 }
 
 export interface ISettings {

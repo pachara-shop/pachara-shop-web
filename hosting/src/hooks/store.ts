@@ -8,6 +8,7 @@ import layoutSlice from './slices/layoutSlice';
 import { rteAPI } from './slices/rte/rteAPI';
 import { settingBannerAPI } from './slices/be/settings/bannerAPI';
 import { settingAboutAPI } from './slices/be/settings/aboutAPI';
+import { settingSocialAPI } from './slices/be/settings/socialAPI';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -20,6 +21,7 @@ export const makeStore = (): EnhancedStore => {
       [rteAPI.reducerPath]: rteAPI.reducer,
       [settingBannerAPI.reducerPath]: settingBannerAPI.reducer,
       [settingAboutAPI.reducerPath]: settingAboutAPI.reducer,
+      [settingSocialAPI.reducerPath]: settingSocialAPI.reducer,
       layout: layoutSlice,
     },
     middleware: (getDefaultMiddleware) =>
@@ -31,6 +33,7 @@ export const makeStore = (): EnhancedStore => {
         productFeAPI.middleware,
         settingBannerAPI.middleware,
         settingAboutAPI.middleware,
+        settingSocialAPI.middleware,
         rteAPI.middleware
       ),
   });
