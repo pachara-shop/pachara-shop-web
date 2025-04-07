@@ -5,8 +5,47 @@ import { Icon } from '../atoms/Icon';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
 import { SettingSocialMedia } from '@/shared/models/Settings';
-import { socialPlatforms } from '@/shared/socialIcons';
-import { LinkIcon } from 'lucide-react';
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  LinkIcon,
+  Twitter,
+  Youtube,
+} from 'lucide-react';
+
+const socialPlatforms = [
+  { id: 'facebook', name: 'Facebook', icon: <Facebook className='h-5 w-5' /> },
+  {
+    id: 'instagram',
+    name: 'Instagram',
+    icon: <Instagram className='h-5 w-5' />,
+  },
+  {
+    id: 'tiktok',
+    name: 'TikTok',
+    icon: <Icon className='h-5 w-5' icon='icon-[logos--tiktok-icon]' />,
+  },
+  {
+    id: 'line',
+    name: 'Line',
+    icon: <Icon className='h-5 w-5' icon='icon-[mage--line]' />,
+  },
+  {
+    id: 'discord',
+    name: 'Discord',
+    icon: <Icon className='h-5 w-5' icon='icon-[logos--discord]' />,
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    icon: <Icon className='h-5 w-5' icon='icon-[mdi--github]' />,
+  },
+  { id: 'twitter', name: 'Twitter', icon: <Twitter className='h-5 w-5' /> },
+  { id: 'youtube', name: 'YouTube', icon: <Youtube className='h-5 w-5' /> },
+  { id: 'linkedin', name: 'LinkedIn', icon: <Linkedin className='h-5 w-5' /> },
+  { id: 'other', name: 'Other', icon: <LinkIcon className='h-5 w-5' /> },
+];
 
 interface MobileMenuProps {
   icons: SettingSocialMedia[]; // Replace 'any' with the appropriate type for 'icons' if known
@@ -30,13 +69,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
       </SheetTrigger>
       <SheetContent>
         <VisuallyHidden>
-          <SheetTitle className='hidden'>เมนู</SheetTitle>
+          <SheetTitle className='hidden'>Menu</SheetTitle>
         </VisuallyHidden>
         <div className='grid gap-4 py-4 h-full mt-4'>
           <ul className='flex flex-col items-end space-y-4 font-bold flex-grow'>
             <li className='border-b border-gray-200 w-full text-right'>
               <Link onClick={handleLinkClick} href='/'>
-                หน้าแรก
+                Home
               </Link>
             </li>
             <li className='border-b border-gray-200 w-full text-right'>
@@ -45,7 +84,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
                 href='/about'
                 className='text-black'
               >
-                เกี่ยวกับเรา
+                About
               </Link>
             </li>
           </ul>

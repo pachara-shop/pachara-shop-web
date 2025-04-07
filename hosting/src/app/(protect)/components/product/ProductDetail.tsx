@@ -22,6 +22,7 @@ import { Title } from '@/components/atoms/Typography';
 import { ImagePreviewModal } from '@/components/molecules/ImagePreviewModal';
 import Editor from '@/components/molecules/rich-text/editor';
 import { CustomButton } from '@/components/ui/CustomButton';
+import { Switch } from '@/components/ui/switch';
 import { useGetCategoryOptionsQuery } from '@/hooks/slices/categoryAPI';
 import { createProductSchema } from '@/shared/form-schema/product';
 import { ICreateProduct } from '@/shared/models/Product';
@@ -131,7 +132,8 @@ export const ProductDetail = ({
                     <FormControl>
                       <Input
                         placeholder='Enter price'
-                        {...field}
+                        value={field.value?.toString() || ''}
+                        // {...field}
                         type='text'
                         className='w-full'
                         onKeyPress={(e) => {
@@ -139,7 +141,60 @@ export const ProductDetail = ({
                             e.preventDefault();
                           }
                         }}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        onChange={(e) => {
+                          field.onChange(Number(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='isDiscounted'
+                render={({ field }) => (
+                  <FormItem className='my-4 '>
+                    <Title className='font-medium'>Use discount</Title>
+                    <br />
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={(e) => {
+                          field.onChange(e);
+                          form.trigger('discountPrice');
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='discountPrice'
+                render={({ field }) => (
+                  <FormItem className='my-4'>
+                    <Title className='font-medium'>
+                      <span className='text-destructive mr-1'>*</span>Discount
+                    </Title>
+                    <FormControl>
+                      <Input
+                        disabled={!form.watch('isDiscounted')}
+                        placeholder='Enter price'
+                        value={field.value?.toString() || ''}
+                        // {...field}
+                        type='text'
+                        className='w-full'
+                        onKeyPress={(e) => {
+                          if (!/[0-9]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        onChange={(e) => {
+                          field.onChange(Number(e.target.value));
+                          form.trigger('discountPrice');
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

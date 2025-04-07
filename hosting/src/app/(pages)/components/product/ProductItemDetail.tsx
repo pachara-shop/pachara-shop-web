@@ -1,5 +1,6 @@
 'use client';
 
+import Viewer from '@/components/molecules/rich-text/viewer';
 import {
   Carousel,
   CarouselApi,
@@ -99,7 +100,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
           <div className='space-y-4 mt-4'>
             <h2 className='text-xl font-semibold'>Description</h2>
             <p className='text-gray-600 whitespace-pre-wrap'>
-              {data?.description}
+              <Viewer content={data?.description || ''} styling='prose' />
             </p>
           </div>
         </div>

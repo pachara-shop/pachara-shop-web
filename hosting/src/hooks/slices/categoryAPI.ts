@@ -58,7 +58,7 @@ export const categoryAPI = createApi({
     }),
     getCategoryOptions: builder.query<{ data: ICategory[] }, void>({
       query: () => ({
-        url: '/api/category/option',
+        url: '/api/fe/category',
         method: 'GET',
       }),
       providesTags: ['category'],
