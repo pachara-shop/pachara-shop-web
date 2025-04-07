@@ -43,6 +43,14 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
         {/* gallery */}
         <div className='border-b-2 lg:border-b-0 lg:w-[70%]'>
           <div className='relative'>
+            <div>
+              {data?.isDiscounted && (
+                <span className='absolute top-2 left-2 z-[5] rounded-md bg-red-500 px-2 py-1 text-lg font-medium text-white shadow-sm flex items-center justify-center h-15 w-20'>
+                  Sale
+                </span>
+              )}
+            </div>
+
             <Carousel
               opts={{
                 align: 'center',
@@ -93,9 +101,20 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
         <div className='md:space-y-6 lg:border-l lg:pl-8 h-svh lg:w-[30%]'>
           <div className='border-b pb-6 lg:mt-14'>
             <h1 className='text-3xl font-semibold mb-2'>{data?.name}</h1>
-            <p className='text-2xl font-bold text-gray-900'>
-              ฿{data?.price?.toLocaleString()}
-            </p>
+            <div>
+              <p
+                className={`text-sm font-medium  text-gray-500 ${
+                  data?.isDiscounted ? 'line-through' : ''
+                }`}
+              >
+                ${data?.price?.toLocaleString()}
+              </p>
+              {data?.isDiscounted && (
+                <p className='text-2xl font-bold text-gray-900 '>
+                  ${data?.discountPrice?.toLocaleString()}
+                </p>
+              )}
+            </div>
           </div>
           <div className='space-y-4 mt-4'>
             <h2 className='text-xl font-semibold'>Description</h2>

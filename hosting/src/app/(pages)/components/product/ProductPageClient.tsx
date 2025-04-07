@@ -56,7 +56,6 @@ export function ProductPageClient({
   }, [selectedFilter]);
 
   useEffect(() => {
-    // if (isCategoryOptionsLoading) return;
     const loadItems = async () => {
       const categoryId = categoryOptions?.find(
         (item) => item.name === selectedFilter

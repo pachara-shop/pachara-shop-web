@@ -53,6 +53,8 @@ export default function Page() {
         description: data.data.description,
         image: data.data.image,
         banner: data.data.banner,
+        isDiscounted: data.data.isDiscounted,
+        discountPrice: data.data.discountPrice,
       });
     }
   }, [data]);
