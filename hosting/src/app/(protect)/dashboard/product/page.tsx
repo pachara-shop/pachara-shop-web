@@ -113,7 +113,7 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <HeaderWrapper title='Products' subTitle=''>
+    <HeaderWrapper title='Products' subTitle='Manage your products'>
       <div>
         <DataTable
           data={products}

@@ -96,7 +96,7 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <HeaderWrapper title='Category' subTitle=''>
+    <HeaderWrapper title='Category' subTitle='Manage your categories'>
       <DataTable
         data={productList}
         total={total}
