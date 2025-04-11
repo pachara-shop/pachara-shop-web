@@ -72,8 +72,20 @@ const socialPlatforms = [
 
 export function SocialSection() {
   const { toast } = useToast();
-  const { data, isLoading } = useGetSettingSocialQuery();
+  const { data, isLoading, refetch } = useGetSettingSocialQuery();
   const [onUpdateSocialMedia] = useUpdateSettingSocialMutation();
+
+  // โหลดข้อมูลใหม่ทุกครั้งที่ component ถูกโหลด
+  useEffect(() => {
+    // เรียก refetch เพื่อดึงข้อมูลใหม่จาก API
+    refetch();
+
+    // เมื่อข้อมูลมาถึง อัปเดต state
+    if (data?.data) {
+      setSocialMediaList(data.data);
+      setOriginalData(JSON.parse(JSON.stringify(data.data)));
+    }
+  }, [refetch]); // เอา data ออกจาก dependency เพื่อไม่ให้ trigger ซ้ำ
 
   // State เก็บรายการ social media
   const [socialMediaList, setSocialMediaList] = useState<SettingSocialMedia[]>(

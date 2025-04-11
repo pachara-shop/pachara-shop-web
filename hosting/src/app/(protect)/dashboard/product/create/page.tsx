@@ -32,6 +32,10 @@ export default function Page() {
     if (data.categoryId !== undefined) {
       formData.append('category', data.categoryId.toString());
     }
+    if (data.isDiscounted)
+      formData.append('isDiscounted', data.isDiscounted.toString());
+    if (data.discountPrice)
+      formData.append('discountPrice', data.discountPrice.toString());
 
     await onCreate(formData)
       .unwrap()

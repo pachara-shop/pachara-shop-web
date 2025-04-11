@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "pachara-shop-dev",
+    "dev": "pachara-shop-dev",
     "prod": "pachara-shop"
   },
   "targets": {},

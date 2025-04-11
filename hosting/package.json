@@ -6,9 +6,7 @@
     "start": "next start",
     "lint": "next lint",
     "prod": "dotenv -e .env.production next dev",
-    "build-prod": "dotenv -e .env.production next build",
-    "deploy-prod": "dotenv -e .env.production firebase deploy",
-    "deploy-dev": "rimraf .next && dotenv -e .env.development -- next build && firebase deploy --only hosting"
+    "deploy": "rimraf .next && next build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
