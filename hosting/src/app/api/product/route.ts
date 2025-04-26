@@ -46,6 +46,80 @@ const createProduct = async (req: NextRequest) => {
     return handleError(500, err);
   }
 };
-
+/**
+ * @swagger
+ * /api/product:
+ *   get:
+ *     summary: ดึงข้อมูลสินค้าทั้งหมด
+ *     description: รับรายการสินค้าทั้งหมดจากระบบ
+ *     tags:
+ *       - Products
+ *     responses:
+ *       200:
+ *         description: รายการสินค้าทั้งหมด
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   price:
+ *                     type: number
+ *                   imageUrl:
+ *                     type: string
+ */
 export const GET = getProductList;
+
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: สร้างสินค้าใหม่
+ *     description: เพิ่มสินค้าใหม่เข้าสู่ระบบ
+ *     tags:
+ *       - Products
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - price
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: สินค้าถูกสร้างเรียบร้อย
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 price:
+ *                   type: number
+ *       400:
+ *         description: ข้อมูลไม่ถูกต้อง
+ *       401:
+ *         description: ยังไม่ได้เข้าสู่ระบบ
+ */
 export const POST = createProduct;

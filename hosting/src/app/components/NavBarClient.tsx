@@ -10,7 +10,6 @@ export function NavBarClient({ initialIcons = [] }) {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
 
-  // จัดการ scroll event ซึ่งต้องทำใน client
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -35,7 +34,7 @@ export function NavBarClient({ initialIcons = [] }) {
 
   return (
     <nav
-      className={`bg-white p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 shadow-md backdrop-blur-sm min-h-24 flex ${
+      className={`bg-primary p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 backdrop-blur-sm min-h-24 flex ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >

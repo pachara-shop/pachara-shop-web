@@ -5,50 +5,11 @@ import { Icon } from '../atoms/Icon';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
 import { SettingSocialMedia } from '@/shared/models/Settings';
-import {
-  Facebook,
-  Instagram,
-  Linkedin,
-  LinkIcon,
-  Twitter,
-  Youtube,
-} from 'lucide-react';
-
-const socialPlatforms = [
-  { id: 'facebook', name: 'Facebook', icon: <Facebook className='h-5 w-5' /> },
-  {
-    id: 'instagram',
-    name: 'Instagram',
-    icon: <Instagram className='h-5 w-5' />,
-  },
-  {
-    id: 'tiktok',
-    name: 'TikTok',
-    icon: <Icon className='h-5 w-5' icon='icon-[logos--tiktok-icon]' />,
-  },
-  {
-    id: 'line',
-    name: 'Line',
-    icon: <Icon className='h-5 w-5' icon='icon-[mage--line]' />,
-  },
-  {
-    id: 'discord',
-    name: 'Discord',
-    icon: <Icon className='h-5 w-5' icon='icon-[logos--discord]' />,
-  },
-  {
-    id: 'github',
-    name: 'GitHub',
-    icon: <Icon className='h-5 w-5' icon='icon-[mdi--github]' />,
-  },
-  { id: 'twitter', name: 'Twitter', icon: <Twitter className='h-5 w-5' /> },
-  { id: 'youtube', name: 'YouTube', icon: <Youtube className='h-5 w-5' /> },
-  { id: 'linkedin', name: 'LinkedIn', icon: <Linkedin className='h-5 w-5' /> },
-  { id: 'other', name: 'Other', icon: <LinkIcon className='h-5 w-5' /> },
-];
+import { LinkIcon } from 'lucide-react';
+import { socialPlatforms } from '@/app/(protect)/components/settings/SocialSection';
 
 interface MobileMenuProps {
-  icons: SettingSocialMedia[]; // Replace 'any' with the appropriate type for 'icons' if known
+  icons: SettingSocialMedia[];
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {

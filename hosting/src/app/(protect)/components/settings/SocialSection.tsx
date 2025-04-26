@@ -23,8 +23,6 @@ import {
   Trash2,
   PlusCircle,
   LinkIcon,
-  Facebook,
-  Instagram,
   Linkedin,
   Twitter,
   Youtube,
@@ -37,12 +35,16 @@ import { SettingSocialMedia } from '@/shared/models/Settings';
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
 
-const socialPlatforms = [
-  { id: 'facebook', name: 'Facebook', icon: <Facebook className='h-5 w-5' /> },
+export const socialPlatforms = [
+  {
+    id: 'facebook',
+    name: 'Facebook',
+    icon: <Icon icon='icon-[logos--facebook]' className='h-5 w-5' />,
+  },
   {
     id: 'instagram',
     name: 'Instagram',
-    icon: <Instagram className='h-5 w-5' />,
+    icon: <Icon icon='icon-[skill-icons--instagram]' className='h-5 w-5' />,
   },
   {
     id: 'tiktok',

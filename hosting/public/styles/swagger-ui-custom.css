@@ -1,0 +1,35 @@
+/* styles/swagger-ui-custom.css */
+.swagger-ui .response-col_description__inner div.markdown,
+.swagger-ui .response-col_description__inner pre {
+  font-family: monospace !important;
+  white-space: pre-wrap !important;
+}
+
+.swagger-ui .highlight-code {
+  padding: 10px !important;
+  border-radius: 4px !important;
+  background-color: #f0f0f0 !important;
+  overflow: auto !important;
+}
+
+/* เพิ่มการจัดรูปแบบให้ syntax highlighting */
+.swagger-ui .highlight-code pre {
+  margin: 0 !important;
+}
+
+/* เพิ่มสีให้กับ JSON keys และ values */
+.swagger-ui .token.string {
+  color: #d14 !important;
+}
+
+.swagger-ui .token.number {
+  color: #0086b3 !important;
+}
+
+.swagger-ui .token.boolean {
+  color: #0086b3 !important;
+}
+
+.swagger-ui .token.null {
+  color: #0086b3 !important;
+}
