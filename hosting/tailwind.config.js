@@ -1,7 +1,8 @@
 import shadcnConfig from './shadcn.config.js';
 import { addDynamicIconSelectors } from '@iconify/tailwind';
 import tailwindcssAnimate from 'tailwindcss-animate';
-
+import typography from '@tailwindcss/typography';
+import animate from 'tailwindcss-animate';
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -9,6 +10,15 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      xxs: '375px', // มือถือขนาดกลาง (iPhone 8+, SE 2020)
+      xs: '480px', // มือถือขนาดกลาง (iPhone 8+, SE 2020)
+      sm: '640px', // มือถือขนาดใหญ่/แท็บเล็ตขนาดเล็ก
+      md: '768px', // แท็บเล็ต (iPad Mini/Air)
+      lg: '1024px', // แท็บเล็ตแนวนอน/โน๊ตบุ๊คขนาดเล็ก
+      xl: '1280px', // เดสก์ท็อปขนาดกลาง
+      '2xl': '1536px', // เดสก์ท็อปขนาดใหญ่
+    },
     extend: {
       ...shadcnConfig.theme.extend,
       borderRadius: {
@@ -69,11 +79,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    tailwindcssAnimate,
-    require('@tailwindcss/typography'),
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('tailwindcss-animate'),
-    addDynamicIconSelectors(),
-  ],
+  plugins: [tailwindcssAnimate, typography, animate, addDynamicIconSelectors()],
 };

@@ -34,12 +34,13 @@ export function NavBarClient({ initialIcons = [] }) {
 
   return (
     <nav
-      className={`bg-primary p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 backdrop-blur-sm min-h-24 flex ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+      className={`pd-1 border-b-2 bg-primary p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 backdrop-blur-sm min-h-24 flex ${
+        // isVisible ? 'translate-y-0' : '-translate-y-full'
+        isVisible ? '' : ''
       }`}
     >
       <div className='container mx-auto flex items-center justify-between'>
-        <div className='flex items-center space-x-4 absolute'>
+        <div className='items-center space-x-4 absolute hidden'>
           <Image
             src='/logo.jpg'
             alt='Pachara Shop'

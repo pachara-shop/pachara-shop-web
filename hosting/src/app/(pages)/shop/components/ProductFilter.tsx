@@ -5,12 +5,9 @@ import { useState } from 'react';
 
 const ProductFilter = () => {
   const filterOptions = [
-    { name: 'All', value: 'all' },
-    { name: 'Category', value: 'category' },
-    { name: 'Price', value: 'price' },
+    { name: 'Sale', value: 'sale' },
+    { name: 'Categories', value: 'categories' },
     { name: 'Search', value: 'Search' },
-    { name: 'Menu1', value: 'menu1' },
-    { name: 'Menu2', value: 'menu2' },
   ];
   const searchParams = useSearchParams();
 
@@ -18,7 +15,7 @@ const ProductFilter = () => {
     searchParams?.get('c') || 'all'
   );
   return (
-    <div className='border-b border-t-4 pt-2'>
+    <div className='border-b pt-2 lg:hidden'>
       <div className='w-full'>
         <div className='flex space-x-4 overflow-x-auto md:w-1/2 w-full whitespace-nowrap pb-2 px-2'>
           <ul className='flex gap-2'>
