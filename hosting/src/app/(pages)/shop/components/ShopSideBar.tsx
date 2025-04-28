@@ -1,8 +1,29 @@
+'use client';
+import React from 'react';
+
 import { Icon } from '@/components/atoms/Icon';
 import { Input } from '@/components/atoms/input';
-import { Title } from '@/components/atoms/Typography';
+import { H3, Title } from '@/components/atoms/Typography';
+import { useGetCategoryFEQuery } from '@/hooks/slices/fe/categoryAPI';
+import { ICategory } from '@/shared/models/Category';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+// import { Checkbox } from '@/components/ui/checkbox';
 
+// const prices = [
+//   { min: 0, max: 1000 },
+//   { min: 1001, max: 5000 },
+//   { min: 5001, max: 10000 },
+// ];
 const ShopSideBar = () => {
+  const { data } = useGetCategoryFEQuery();
+  const [categoryOptions, setCategoryOptions] = useState<ICategory[]>([]);
+  useEffect(() => {
+    if (data?.data) {
+      setCategoryOptions(data.data);
+    }
+  }, [data]);
+
   return (
     <div className='sticky top-0 h-screen overflow-y-auto border-r shadow p-4 bg-white'>
       <div className='border-b relative'>
@@ -16,41 +37,40 @@ const ShopSideBar = () => {
           type='text'
         />
       </div>
-      <h3 className='font-semibold text-lg mb-3 mt-2'>Categories</h3>
+      <H3 className='font-semibold text-lg mb-3 mt-4'>Categories</H3>
       <div className='space-y-4'>
         <div className='border-b pb-3'>
-          <h4 className='font-medium mb-2'>All</h4>
-          <ul className='space-y-1'>
-            <li>
-              <Title>หมวดหมู่ 2</Title>
-            </li>
-            <li>
-              <Title>หมวดหมู่ 3</Title>
-            </li>
-            <li>
-              <Title>หมวดหมู่ 4</Title>
-            </li>
-            <li>
-              <Title>หมวดหมู่ 5</Title>
-            </li>
-            <li>
-              <Title>หมวดหมู่ 6</Title>
-            </li>
-            <li>
-              <Title>หมวดหมู่ 7</Title>
-            </li>
+          <Title className='font-bold cursor-pointer hover:text-blue-500 '>
+            <Link href={'/shop/'}>All</Link>
+          </Title>
+          <ul className='space-y-3 mt-2'>
+            {categoryOptions.map((category) => (
+              <li
+                key={category.id}
+                className='cursor-pointer hover:text-blue-500'
+              >
+                <Link href={'/shop/category/' + category.name}>
+                  <Title className='font-bold'>{category.name}</Title>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
-        <div className='border-b pb-3'>
-          <h4 className='font-medium mb-2'>Price</h4>
+        {/* <div className='border-b pb-3'>
+          <H3 className='font-medium mb-2'>Price</H3>
           <div className='space-y-1'>
-            <div>0 - 1,000</div>
-            <div>1,001 - 5,000</div>
-            <div>5,001 ...</div>
+            {prices.map((price) => (
+              <div key={price.min} className='flex items-center'>
+                <Checkbox id={`price-${price.min}`} className='mr-2' />
+                <label htmlFor={`price-${price.min}`}>
+                  {price.min} - {price.max}
+                </label>
+              </div>
+            ))}
           </div>
-        </div>
+        </div> */}
         {/* เพิ่มตัวกรองอื่นๆ */}
-        <div>
+        {/* <div>
           <h4 className='font-medium mb-2'>Other</h4>
           <ul className='space-y-1'>
             <li>
@@ -63,7 +83,7 @@ const ShopSideBar = () => {
               <Title>Incoming</Title>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

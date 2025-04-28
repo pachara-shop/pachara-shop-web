@@ -13,19 +13,5 @@ export async function generateMetadata({ searchParams }: any) {
 }
 
 export default async function Page() {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_API_PATH + '/fe/category',
-    {
-      method: 'GET',
-      cache: 'no-store',
-    }
-  );
-
-  if (!response.ok) {
-    console.error('Failed to fetch categories:', response.statusText);
-    return null;
-  }
-  const initialCategories = await response.json();
-
-  return <SearchResultClient categoryOptions={initialCategories.data} />;
+  return <SearchResultClient />;
 }

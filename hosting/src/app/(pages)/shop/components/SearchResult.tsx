@@ -13,14 +13,6 @@ interface SearchResultProps {
   isLoading: boolean;
 }
 const SearchResult = ({ items, isLoading }: SearchResultProps) => {
-  if (isLoading) {
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900'></div>
-      </div>
-    );
-  }
-
   return (
     <Suspense fallback={null}>
       <div className='w-full mx-[0.5px] relative'>
