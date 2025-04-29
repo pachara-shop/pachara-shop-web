@@ -9,59 +9,18 @@ import {
   getDoc,
   DocumentReference,
   setDoc,
-  query,
-  where,
-  orderBy,
 } from 'firebase/firestore';
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
 import { StorageRepository } from './StorageRepository';
-import { FetchDataParams, SearchProductsParams } from '@/shared/models/Search';
+import { FetchDataParams } from '@/shared/models/Search';
 
 const productCollection = collection(db, COLLECTION.PRODUCT);
 
 export class ProductRepository {
   async getAll(_params: FetchDataParams): Promise<IProduct[]> {
     const snapshot = await getDocs(productCollection);
-    const products = await Promise.all(
-      snapshot.docs.map(async (doc) => {
-        const product = { id: doc.id, ...doc.data() } as IProduct;
-        if (product.image) {
-          product.image = await StorageRepository.getImageUrl(product.image);
-        }
-        if (product.category instanceof DocumentReference) {
-          const categoryDoc = await getDoc(product.category);
-
-          if (categoryDoc.exists()) {
-            const categoryData = categoryDoc.data();
-            product.category = {
-              ...categoryData,
-              id: categoryDoc.id,
-            } as ICategory;
-          } else {
-            product.category = undefined;
-          }
-        }
-        return product;
-      })
-    );
-    return products;
-  }
-
-  async searchFrontendProductList(
-    params: SearchProductsParams
-  ): Promise<IProduct[]> {
-    let q = query(productCollection);
-    if (params.c && params.c !== 'all') {
-      const categoryRef = doc(db, COLLECTION.CATEGORY, params.c);
-      q = query(q, where('category', '==', categoryRef));
-    }
-
-    if (params.s) {
-      q = query(q, orderBy(params.s, 'asc'));
-    }
-    const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {
         const product = { id: doc.id, ...doc.data() } as IProduct;

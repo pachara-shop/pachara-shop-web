@@ -38,4 +38,8 @@ export interface SearchProductsParams {
    * pagination
    */
   p?: string;
+  /**
+   * category name
+   */
+  c_name?: string;
 }
