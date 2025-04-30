@@ -1,7 +1,7 @@
 'use client';
 
 import { ProductDetail } from '@/app/(protect)/components/product/ProductDetail';
-import { useCreateProductMutation } from '@/hooks/slices/productAPI';
+import { useCreateProductMutation } from '@/hooks/slices/be/product/productAPI';
 import { ICreateProduct } from '@/shared/models/Product';
 import { useRouter } from 'next/navigation';
 

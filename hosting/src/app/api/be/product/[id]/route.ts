@@ -43,13 +43,13 @@ const updateProduct = async (req: NextRequest, query: any) => {
     const product: IProduct = {
       id: parseObject.id as string,
       name: parseObject.name as string,
-      description: parseObject.description as string,
+      description: (parseObject.description as string) || '',
       price: parseObject.price as number,
       image: '', // This will be updated after image upload
       category: parseObject.category as string,
       banner: '',
-      isDiscounted: parseObject.isDiscounted as boolean,
-      discountPrice: parseObject.discountPrice as number,
+      isDiscounted: (parseObject.isDiscounted as boolean) || false,
+      discountPrice: (parseObject.discountPrice as number) || 0,
     };
 
     const repo = new ProductRepository();

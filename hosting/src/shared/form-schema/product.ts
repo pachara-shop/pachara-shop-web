@@ -36,19 +36,7 @@ export const createProductSchema = z
       .string({ required_error: 'Description is required.' })
       .optional(),
     isDiscounted: z.boolean().optional(),
-    discountPrice: z
-      .number()
-      .optional()
-      .nullable()
-      .refine(
-        (value) => {
-          if (value === null || value === undefined) return true;
-          return value > 0;
-        },
-        {
-          message: 'Discount price must be greater than 0.',
-        }
-      ),
+    discountPrice: z.number().optional().nullable(),
   })
   .refine(
     (data) => {

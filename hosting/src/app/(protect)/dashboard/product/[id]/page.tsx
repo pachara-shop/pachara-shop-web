@@ -4,7 +4,7 @@ import { ProductDetail } from '@/app/(protect)/components/product/ProductDetail'
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
-} from '@/hooks/slices/productAPI';
+} from '@/hooks/slices/be/product/productAPI';
 import {
   useDeleteProductGalleryByIdMutation,
   useGetProductGalleryByIdQuery,
@@ -54,7 +54,9 @@ export default function Page() {
         image: data.data.image,
         banner: data.data.banner,
         isDiscounted: data.data.isDiscounted,
-        discountPrice: data.data.discountPrice,
+        discountPrice: data.data.discountPrice
+          ? Number(data.data.discountPrice)
+          : 0,
       });
     }
   }, [data]);

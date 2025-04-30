@@ -145,14 +145,14 @@ export class ProductRepository {
     }
     // delete old image
     if (productSnapshot.data().banner && bannerFile) {
-      await StorageRepository.deleteFile(productSnapshot.data().image);
+      await StorageRepository.deleteFile(productSnapshot.data().banner);
     }
     if (bannerFile) {
-      const imagePath = `products/images/${product.id}/${bannerFile.name}`;
-      await StorageRepository.uploadImage(bannerFile, imagePath);
-      product.banner = imagePath;
+      const bannerPath = `products/images/${product.id}/banner_${bannerFile.name}`;
+      await StorageRepository.uploadImage(bannerFile, bannerPath);
+      product.banner = bannerPath;
     } else {
-      product.banner = productSnapshot.data().image;
+      product.banner = productSnapshot.data().banner;
     }
     const productData = {
       ...product,

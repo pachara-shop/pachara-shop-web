@@ -8,7 +8,7 @@ import DataTable from '@/components/organisms/DataTable';
 import {
   useDeleteProductMutation,
   useSearchProductsMutation,
-} from '@/hooks/slices/productAPI';
+} from '@/hooks/slices/be/product/productAPI';
 import { IProduct } from '@/shared/models/Product';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';

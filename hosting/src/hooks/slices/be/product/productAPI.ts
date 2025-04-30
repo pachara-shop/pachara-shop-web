@@ -14,30 +14,30 @@ export const productAPI = createApi({
       ISearchParams
     >({
       query: (params) => ({
-        url: '/api/product',
+        url: '/api/be/product',
         method: 'GET',
         params: params,
       }),
       invalidatesTags: ['Product'],
     }),
-    getProductById: builder.query<IResponse<IProduct>, string>({
-      query: (id) => ({
-        url: '/api/product/' + id,
-        method: 'GET',
-      }),
-      providesTags: ['Product'],
-    }),
     createProduct: builder.mutation<IResponse<IProduct>, FormData>({
       query: (data) => ({
-        url: '/api/product',
+        url: '/api/be/product',
         method: 'POST',
         data,
       }),
       invalidatesTags: ['Product'],
     }),
+    getProductById: builder.query<IResponse<IProduct>, string>({
+      query: (id) => ({
+        url: '/api/be/product/' + id,
+        method: 'GET',
+      }),
+      providesTags: ['Product'],
+    }),
     updateProduct: builder.mutation<IResponse<IProduct>, FormData>({
       query: (data) => ({
-        url: '/api/product/' + data.get('id'),
+        url: '/api/be/product/' + data.get('id'),
         method: 'PUT',
         data,
       }),
@@ -45,7 +45,7 @@ export const productAPI = createApi({
     }),
     deleteProduct: builder.mutation<void, string>({
       query: (id) => ({
-        url: '/api/product/' + id,
+        url: '/api/be/product/' + id,
         method: 'DELETE',
       }),
       invalidatesTags: ['Product'],

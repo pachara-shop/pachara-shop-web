@@ -180,10 +180,9 @@ export const ProductDetail = ({
                     </Title>
                     <FormControl>
                       <Input
+                        {...field}
                         disabled={!form.watch('isDiscounted')}
                         placeholder='Enter price'
-                        value={field.value?.toString() || ''}
-                        // {...field}
                         type='text'
                         className='w-full'
                         onKeyPress={(e) => {
@@ -193,7 +192,6 @@ export const ProductDetail = ({
                         }}
                         onChange={(e) => {
                           field.onChange(Number(e.target.value));
-                          form.trigger('discountPrice');
                         }}
                       />
                     </FormControl>
@@ -320,7 +318,7 @@ export const ProductDetail = ({
                 >
                   Cancel
                 </CustomButton>
-                <CustomButton className='' variant='black' type='submit'>
+                <CustomButton variant='black' type='submit'>
                   Save
                 </CustomButton>
               </div>

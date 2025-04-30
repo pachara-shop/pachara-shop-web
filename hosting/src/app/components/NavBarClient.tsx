@@ -34,23 +34,23 @@ export function NavBarClient({ initialIcons = [] }) {
 
   return (
     <nav
-      className={`pd-1 border-b-2 bg-primary p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 backdrop-blur-sm min-h-24 flex ${
+      className={`pd-1 border-b-2 bg-white p-4 fixed top-0 left-0 w-full transition-transform duration-300 z-10 backdrop-blur-sm min-h-24 flex${
         // isVisible ? 'translate-y-0' : '-translate-y-full'
         isVisible ? '' : ''
       }`}
     >
-      <div className='container mx-auto flex items-center justify-between'>
-        <div className='items-center space-x-4 absolute hidden'>
-          <Image
-            src='/logo.jpg'
-            alt='Pachara Shop'
-            width={150}
-            height={50}
-            className='cursor-pointer object-contain max-h-24'
-            onClick={() => router.push('/')}
-            priority
-          />
-        </div>
+      <div className='items-center space-x-4 absolute left-0 top-0'>
+        <Image
+          src='/logo.jpg'
+          alt='Pachara Shop'
+          width={150}
+          height={50}
+          className='cursor-pointer object-contain max-h-24 p-1'
+          onClick={() => router.push('/')}
+          priority
+        />
+      </div>
+      <div className='container mx-auto flex items-center justify-between '>
         <div
           className='absolute right-4 md:hidden flex-1 justify-center'
           id='mobile'

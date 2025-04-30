@@ -1,4 +1,4 @@
-import { productAPI } from './slices/productAPI';
+import { productAPI } from './slices/be/product/productAPI';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import { authAPI } from './slices/authAPI';
 import { categoryAPI } from './slices/categoryAPI';
