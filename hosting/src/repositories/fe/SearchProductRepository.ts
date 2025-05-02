@@ -11,7 +11,7 @@ import {
   DocumentReference,
   getDoc,
   collection,
-  orderBy,
+  limit,
 } from 'firebase/firestore';
 import { StorageRepository } from '../StorageRepository';
 
@@ -29,10 +29,6 @@ export class SearchProductRepository {
     if (params.c && params.c !== 'all') {
       const categoryRef = doc(db, COLLECTION.CATEGORY, params.c);
       q = query(q, where('category', '==', categoryRef));
-    }
-
-    if (params.s) {
-      q = query(q, orderBy(params.s, 'asc'));
     }
     const snapshot = await getDocs(q);
     const products = await Promise.all(
@@ -59,7 +55,6 @@ export class SearchProductRepository {
     );
     return products;
   }
-
   async searchProductByCategory(category: string): Promise<IProduct[]> {
     const categoryQuery = query(
       collection(db, COLLECTION.CATEGORY),
@@ -73,6 +68,34 @@ export class SearchProductRepository {
     const categoryDoc = categorySnapshot.docs[0];
     const categoryRef = doc(db, COLLECTION.CATEGORY, categoryDoc.id);
     const q = query(productCollection, where('category', '==', categoryRef));
+    const snapshot = await getDocs(q);
+    const products = await Promise.all(
+      snapshot.docs.map(async (doc) => {
+        const product = { id: doc.id, ...doc.data() } as IProduct;
+        if (product.image) {
+          product.image = await StorageRepository.getImageUrl(product.image);
+        }
+        if (product.category instanceof DocumentReference) {
+          const categoryDoc = await getDoc(product.category);
+
+          if (categoryDoc.exists()) {
+            const categoryData = categoryDoc.data();
+            product.category = {
+              ...categoryData,
+              id: categoryDoc.id,
+            } as ICategory;
+          } else {
+            product.category = undefined;
+          }
+        }
+        return product;
+      })
+    );
+    return products;
+  }
+
+  async getProductForTopPage(): Promise<IProduct[]> {
+    const q = query(productCollection, limit(8));
     const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {

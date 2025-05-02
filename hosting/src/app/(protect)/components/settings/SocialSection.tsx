@@ -19,58 +19,15 @@ import { CustomButton } from '@/components/ui/CustomButton';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Trash2,
-  PlusCircle,
-  LinkIcon,
-  Linkedin,
-  Twitter,
-  Youtube,
-} from 'lucide-react';
+import { Trash2, PlusCircle } from 'lucide-react';
 import {
   useGetSettingSocialQuery,
   useUpdateSettingSocialMutation,
 } from '@/hooks/slices/be/settings/socialAPI';
 import { SettingSocialMedia } from '@/shared/models/Settings';
 import { Button } from '@/components/atoms/Button';
-import { Icon } from '@/components/atoms/Icon';
-
-export const socialPlatforms = [
-  {
-    id: 'facebook',
-    name: 'Facebook',
-    icon: <Icon icon='icon-[logos--facebook]' className='h-5 w-5' />,
-  },
-  {
-    id: 'instagram',
-    name: 'Instagram',
-    icon: <Icon icon='icon-[skill-icons--instagram]' className='h-5 w-5' />,
-  },
-  {
-    id: 'tiktok',
-    name: 'TikTok',
-    icon: <Icon className='h-5 w-5' icon='icon-[logos--tiktok-icon]' />,
-  },
-  {
-    id: 'line',
-    name: 'Line',
-    icon: <Icon className='h-5 w-5' icon='icon-[mage--line]' />,
-  },
-  {
-    id: 'discord',
-    name: 'Discord',
-    icon: <Icon className='h-5 w-5' icon='icon-[logos--discord]' />,
-  },
-  {
-    id: 'github',
-    name: 'GitHub',
-    icon: <Icon className='h-5 w-5' icon='icon-[mdi--github]' />,
-  },
-  { id: 'twitter', name: 'Twitter', icon: <Twitter className='h-5 w-5' /> },
-  { id: 'youtube', name: 'YouTube', icon: <Youtube className='h-5 w-5' /> },
-  { id: 'linkedin', name: 'LinkedIn', icon: <Linkedin className='h-5 w-5' /> },
-  { id: 'other', name: 'Other', icon: <LinkIcon className='h-5 w-5' /> },
-];
+import { SOCIAL_PLATFORMS } from '@/shared/constants/social-platforms';
+import { SocialIcon } from '@/components/atoms/socialIcon';
 
 export function SocialSection() {
   const { toast } = useToast();
@@ -180,11 +137,6 @@ export function SocialSection() {
     }
   };
 
-  const getPlatformIcon = (type: string) => {
-    const platform = socialPlatforms.find((p) => p.id === type);
-    return platform?.icon || <LinkIcon className='h-5 w-5' />;
-  };
-
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex justify-between items-center'>
@@ -211,7 +163,7 @@ export function SocialSection() {
                 className='flex items-center justify-between p-4 border rounded-md bg-gray-50 hover:bg-gray-100'
               >
                 <div className='flex items-center gap-3'>
-                  {getPlatformIcon(social.type)}
+                  <SocialIcon type={social.type} />
                   <div>
                     <p className='font-medium capitalize'>{social.type}</p>
                     <a
@@ -237,11 +189,8 @@ export function SocialSection() {
           </div>
         )}
       </div>
-
-      {/* Add New Social Media Form */}
       <div className='mt-6'>
         <h2 className='text-lg font-medium mb-4'>Add New Social Media</h2>
-
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleAddSocialMedia)}
@@ -261,10 +210,10 @@ export function SocialSection() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {socialPlatforms.map((platform) => (
-                          <SelectItem key={platform.id} value={platform.id}>
+                        {SOCIAL_PLATFORMS.map((platform) => (
+                          <SelectItem key={platform.type} value={platform.type}>
                             <div className='flex items-center gap-2'>
-                              {platform.icon}
+                              <SocialIcon type={platform.type} />
                               <span>{platform.name}</span>
                             </div>
                           </SelectItem>

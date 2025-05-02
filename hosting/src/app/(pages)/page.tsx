@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ProductPageClient } from './components/product/ProductPageClient';
-import { BannerContainer } from './components/banner/BannerContainer';
+import { ProductPageClient } from './components/ProductPageClient';
+import { BannerContainer } from './components/BannerContainer';
 
 export async function generateMetadata({ searchParams }: any) {
   const params = await searchParams;
@@ -14,24 +14,10 @@ export async function generateMetadata({ searchParams }: any) {
 }
 
 export default async function Page() {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_API_PATH + '/fe/category',
-    {
-      method: 'GET',
-      cache: 'no-store',
-    }
-  );
-
-  if (!response.ok) {
-    console.error('Failed to fetch categories:', response.statusText);
-    return null;
-  }
-  const initialCategories = await response.json();
-
   return (
     <>
       <BannerContainer />
-      <ProductPageClient categoryOptions={initialCategories.data} />
+      <ProductPageClient />
     </>
   );
 }

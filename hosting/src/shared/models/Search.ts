@@ -42,4 +42,8 @@ export interface SearchProductsParams {
    * category name
    */
   c_name?: string;
+  /**
+   * keyword
+   */
+  k?: string;
 }

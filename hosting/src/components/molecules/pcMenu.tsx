@@ -1,17 +1,12 @@
 import { SettingSocialMedia } from '@/shared/models/Settings';
-import { LinkIcon } from 'lucide-react';
 import Link from 'next/link';
-import { socialPlatforms } from '@/app/(protect)/components/settings/SocialSection';
+import { SocialIcon } from '../atoms/socialIcon';
 
 interface PCMenuProps {
   icons: SettingSocialMedia[];
 }
 
 export const PCMenu: React.FC<PCMenuProps> = ({ icons }) => {
-  function getSocialIcon(type: string): React.ReactNode {
-    const platform = socialPlatforms.find((p) => p.id === type);
-    return platform?.icon || <LinkIcon className='h-5 w-5' />;
-  }
   return (
     <div className='hidden md:block'>
       <ul className='flex space-x-4 font-bold'>
@@ -33,7 +28,7 @@ export const PCMenu: React.FC<PCMenuProps> = ({ icons }) => {
             rel='noopener noreferrer'
             className='text-gray-600 hover:text-primary transition-colors'
           >
-            {getSocialIcon(social.type)}
+            <SocialIcon type={social.type} />
           </a>
         ))}
       </div>

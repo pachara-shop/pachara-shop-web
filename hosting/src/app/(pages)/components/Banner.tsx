@@ -4,21 +4,23 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { SettingBanner } from '@/shared/models/Settings';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Title } from '@/components/atoms/Typography';
+import { Button } from '@/components/atoms/Button';
+import { useRouter } from 'next/navigation';
 
 interface BannerProps {
   banners?: SettingBanner[];
 }
 
 const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const defaultBanner =
     'https://firebasestorage.googleapis.com/v0/b/pachara-shop-dev.firebasestorage.app/o/banner%2Fpexels-pixabay-157888.jpg?alt=media&token=beddb2d6-0055-4695-951f-ffb86c94825c';
 
-  // ใช้ banners จาก props หรือ defaultBanner ถ้าไม่มีข้อมูล
   const images =
     banners.length > 0 ? banners.map((banner) => banner.url) : [defaultBanner];
 
-  // เลื่อนภาพอัตโนมัติทุก 5 วินาที
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -44,7 +46,6 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
   return (
     <div className='w-full flex justify-center '>
       <div className='relative w-full  h-[350px] md:h-[500px] overflow-hidden '>
-        {/* Carousel images */}
         <div className='w-full h-full relative'>
           {images.map((src, index) => (
             <div
@@ -53,6 +54,21 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
                 index === currentIndex ? 'opacity-100' : 'opacity-0'
               }`}
             >
+              <div className='absolute inset-0 flex items-center justify-center z-1  bg-black/20'>
+                <div className='h-[150px] w-[280px] sm:h-[180px] sm:w-[350px] lg:h-[200px] lg:w-[450px]  bg-red-500 bg-opacity-85 rounded-sm items-center justify-center flex flex-col'>
+                  <Button
+                    className='p-3 sm:p-4 lg:p-6 rounded-full transform hover:scale-105 transition-transform cursor-pointer'
+                    type='button'
+                    onClick={() => {
+                      router.push('/shop');
+                    }}
+                  >
+                    <Title className='text-white text-2xl md:text-3xl font-bold m-4'>
+                      SHOP NOW
+                    </Title>
+                  </Button>
+                </div>
+              </div>
               <Image
                 src={src}
                 alt={`Banner ${index + 1}`}
@@ -64,11 +80,9 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
             </div>
           ))}
         </div>
-
-        {/* Previous/Next Buttons */}
         <button
           onClick={goToPrevious}
-          className='absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-10'
+          className=' hidden absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-1'
           aria-label='Previous image'
         >
           <ChevronLeft size={24} />
@@ -76,13 +90,12 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
 
         <button
           onClick={goToNext}
-          className='absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-10'
+          className='hidden absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-1'
           aria-label='Next image'
         >
           <ChevronRight size={24} />
         </button>
 
-        {/* Indicator dots */}
         <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10'>
           {images.map((_, index) => (
             <button

@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/utils';
 import { ICategory } from '@/shared/models/Category';
 import { IProduct } from '@/shared/models/Product';
 import Image from 'next/image';
@@ -36,11 +37,13 @@ const ProductCart: React.FC<IProductCart> = ({ product }) => {
             product.isDiscounted ? 'line-through' : ''
           }`}
         >
-          ${product.price.toLocaleString()}
+          {product.price ? formatCurrency(product.price, 'THB', 'th-TH') : 0}
         </p>
         {product.isDiscounted && (
           <p className='mt-1 text-xs font-medium text-gray-500'>
-            ${product.discountPrice?.toLocaleString()}
+            {product.discountPrice
+              ? formatCurrency(product.discountPrice, 'THB', 'th-TH')
+              : 0}
           </p>
         )}
       </div>

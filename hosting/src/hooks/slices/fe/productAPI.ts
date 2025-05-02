@@ -25,7 +25,14 @@ export const productFeAPI = createApi({
       string
     >({
       query: (category) => ({
-        url: '/api/fe/product/' + category,
+        url: '/api/fe/product/search/' + category,
+        method: 'GET',
+      }),
+      invalidatesTags: ['product-fe'],
+    }),
+    searchProductsTopPage: builder.mutation<ISearchResponse<IProduct[]>, void>({
+      query: () => ({
+        url: '/api/fe/product/top-page',
         method: 'GET',
       }),
       invalidatesTags: ['product-fe'],
@@ -36,4 +43,5 @@ export const productFeAPI = createApi({
 export const {
   useSearchFrontendProductsMutation,
   useSearchProductByCategoryMutation,
+  useSearchProductsTopPageMutation,
 } = productFeAPI;

@@ -1,4 +1,4 @@
-import { Banner } from '@/app/(pages)/components/banner/Banner';
+import { Banner } from '@/app/(pages)/components/Banner';
 import { SettingBanner } from '@/shared/models/Settings';
 
 const BannerContainer = async () => {
@@ -8,6 +8,7 @@ const BannerContainer = async () => {
       {
         method: 'GET',
         cache: 'no-store',
+        next: { revalidate: 3600 },
       }
     );
 

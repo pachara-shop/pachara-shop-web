@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { formatCurrency } from '@/lib/utils';
 import { IProduct } from '@/shared/models/Product';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -19,7 +20,7 @@ type ProductItemDetailProps = {
 };
 
 const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
-  data,
+  data: product,
   galleryData,
 }: ProductItemDetailProps) => {
   const [api, setApi] = useState<CarouselApi>();
@@ -44,7 +45,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
         <div className='border-b-2 lg:border-b-0 lg:w-[70%]'>
           <div className='relative'>
             <div>
-              {data?.isDiscounted && (
+              {product?.isDiscounted && (
                 <span className='absolute top-2 left-2 z-[5] rounded-md bg-red-500 px-2 py-1 text-lg font-medium text-white shadow-sm flex items-center justify-center h-15 w-20'>
                   Sale
                 </span>
@@ -100,18 +101,22 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
         {/* detail */}
         <div className='md:space-y-6 lg:border-l lg:pl-8 h-svh lg:w-[30%]'>
           <div className='border-b pb-6 lg:mt-14'>
-            <h1 className='text-3xl font-semibold mb-2'>{data?.name}</h1>
+            <h1 className='text-3xl font-semibold mb-2'>{product?.name}</h1>
             <div>
               <p
                 className={`text-sm font-medium  text-gray-500 ${
-                  data?.isDiscounted ? 'line-through' : ''
+                  product?.isDiscounted ? 'line-through' : ''
                 }`}
               >
-                ${data?.price?.toLocaleString()}
+                {product?.price
+                  ? formatCurrency(product.price, 'THB', 'th-TH')
+                  : 0}
               </p>
-              {data?.isDiscounted && (
+              {product?.isDiscounted && (
                 <p className='text-2xl font-bold text-gray-900 '>
-                  ${data?.discountPrice?.toLocaleString()}
+                  {product.discountPrice
+                    ? formatCurrency(product.discountPrice, 'THB', 'th-TH')
+                    : 0}
                 </p>
               )}
             </div>
@@ -119,7 +124,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
           <div className='space-y-4 mt-4'>
             <h2 className='text-xl font-semibold'>Description</h2>
             <div className='text-gray-600 whitespace-pre-wrap'>
-              <Viewer content={data?.description || ''} styling='prose' />
+              <Viewer content={product?.description || ''} styling='prose' />
             </div>
           </div>
         </div>

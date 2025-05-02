@@ -1,26 +1,28 @@
 'use client';
+
 import { Title } from '@radix-ui/react-toast';
 import { useSearchFrontendProductsMutation } from '@/hooks/slices/fe/productAPI';
 import { useEffect, useState } from 'react';
 import { IProduct } from '@/shared/models/Product';
-import Link from 'next/link';
-import { formatCurrency } from '@/lib/utils';
-import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { ShopProductCard } from './ShopProductCard';
 export function SearchResultClient() {
+  const searchParams = useSearchParams();
   const [getProduct, { isLoading }] = useSearchFrontendProductsMutation();
   const [items, setItems] = useState<IProduct[]>([]);
-
+  const keyword = searchParams.get('k') || undefined;
   useEffect(() => {
     const loadItems = async () => {
       const { data } = await getProduct({
         c: 'all',
+        k: keyword,
       });
       if (data) {
         setItems(data.data);
       }
     };
     loadItems();
-  }, []);
+  }, [keyword]);
 
   if (isLoading) {
     return (
@@ -36,30 +38,7 @@ export function SearchResultClient() {
       </div>
       <div className='grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1.5 '>
         {items.map((product) => (
-          <div
-            key={product.id}
-            className=' overflow-hidden  hover:shadow-md transition-shadow'
-          >
-            <Link href={`/product/${product.id}`}>
-              <div className='aspect-square bg-gray-200 relative w-full'>
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  height={100}
-                  width={100}
-                  className='object-cover w-full h-full'
-                />
-              </div>
-              <div className='p-4 pt-2 pl-3 flex flex-col'>
-                <Title className='font-bold'>
-                  {product.price
-                    ? formatCurrency(product.price, 'THB', 'th-TH')
-                    : 0}
-                </Title>
-                <Title>{product.name}</Title>
-              </div>
-            </Link>
-          </div>
+          <ShopProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

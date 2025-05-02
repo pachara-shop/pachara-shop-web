@@ -5,8 +5,7 @@ import { Icon } from '../atoms/Icon';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
 import { SettingSocialMedia } from '@/shared/models/Settings';
-import { LinkIcon } from 'lucide-react';
-import { socialPlatforms } from '@/app/(protect)/components/settings/SocialSection';
+import { SocialIcon } from '../atoms/socialIcon';
 
 interface MobileMenuProps {
   icons: SettingSocialMedia[];
@@ -17,10 +16,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
   const handleLinkClick = () => {
     setIsOpen(false);
   };
-  function getSocialIcon(type: string): React.ReactNode {
-    const platform = socialPlatforms.find((p) => p.id === type);
-    return platform?.icon || <LinkIcon className='h-5 w-5' />;
-  }
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
@@ -58,7 +53,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
                   target='_blank'
                   onClick={handleLinkClick}
                 >
-                  {getSocialIcon(icon.type)}
+                  <SocialIcon type={icon.type} />
                 </Link>
               ))}
             </div>

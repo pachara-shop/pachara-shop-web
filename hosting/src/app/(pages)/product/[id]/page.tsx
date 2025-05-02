@@ -1,16 +1,25 @@
-import { ProductItemDetail } from '@/app/(pages)/components/product/ProductItemDetail';
+import { ProductItemDetail } from '@/app/(pages)/product/components/ProductItemDetail';
+import { notFound } from 'next/navigation';
 
 async function fetchProductData(productId: string) {
-  const productResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_PATH}/product/${productId}`
-  );
+  const url = `${process.env.NEXT_PUBLIC_API_PATH}/fe/product/${productId}`;
+  const productResponse = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-store',
+  });
   const productData = await productResponse.json();
+  if (!productResponse.ok) {
+    return notFound();
+  }
   return productData;
 }
 
 async function fetchGalleryData(productId: string) {
   const galleryResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_PATH}/product/${productId}/gallery`
+    `${process.env.NEXT_PUBLIC_API_PATH}/fe/product/${productId}/gallery`
   );
   const galleryData = await galleryResponse.json();
   return galleryData;

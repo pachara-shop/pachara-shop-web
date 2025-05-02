@@ -1,6 +1,11 @@
-import { Icon } from '@/components/atoms/Icon';
+import { SocialIcon } from '@/components/atoms/socialIcon';
+import { SettingSocialMedia } from '@/shared/models/Settings';
 
-export async function Footer() {
+export async function Footer({
+  socialIcons,
+}: {
+  socialIcons: SettingSocialMedia[];
+}) {
   return (
     <footer className='bg-white w-full'>
       <div>
@@ -8,12 +13,17 @@ export async function Footer() {
           <div className='mb-6 md:mb-0 bg-lime-950 w-full'>
             <div className='m-4 min-h-20 flex justify-center space-x-4 items-center'>
               <div className='flex gap-2'>
-                <a href='#' className='text-white '>
-                  <Icon icon='icon-[logos--facebook]' />
-                </a>
-                <a href='#' className='text-white '>
-                  <Icon icon='icon-[skill-icons--instagram]' />
-                </a>
+                {socialIcons.map((icon) => (
+                  <a
+                    key={icon.id}
+                    href={icon.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-gray-600 hover:text-primary transition-colors'
+                  >
+                    <SocialIcon type={icon.type} />
+                  </a>
+                ))}
               </div>
             </div>
           </div>

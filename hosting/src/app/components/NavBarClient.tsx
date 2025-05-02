@@ -5,8 +5,13 @@ import { PCMenu } from '@/components/molecules/pcMenu';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { SettingSocialMedia } from '@/shared/models/Settings';
 
-export function NavBarClient({ initialIcons = [] }) {
+export function NavBarClient({
+  initialIcons = [],
+}: {
+  initialIcons: SettingSocialMedia[];
+}) {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
 

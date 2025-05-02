@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 
-import { Icon } from '@/components/atoms/Icon';
-import { Input } from '@/components/atoms/input';
+// import { Icon } from '@/components/atoms/Icon';
+// import { Input } from '@/components/atoms/input';
 import { H3, Title } from '@/components/atoms/Typography';
 import { useGetCategoryFEQuery } from '@/hooks/slices/fe/categoryAPI';
 import { ICategory } from '@/shared/models/Category';
@@ -17,6 +17,9 @@ import { useEffect, useState } from 'react';
 // ];
 const ShopSideBar = () => {
   const { data } = useGetCategoryFEQuery();
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
   const [categoryOptions, setCategoryOptions] = useState<ICategory[]>([]);
   useEffect(() => {
     if (data?.data) {
@@ -24,9 +27,34 @@ const ShopSideBar = () => {
     }
   }, [data]);
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setDebouncedSearchTerm(searchTerm);
+  //   }, 500);
+  //   return () => clearTimeout(timer);
+  // }, [searchTerm]);
+
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
+  //   const params = new URLSearchParams(url.search);
+
+  //   if (debouncedSearchTerm) {
+  //     params.set('k', debouncedSearchTerm);
+  //   } else {
+  //     params.delete('k');
+  //   }
+
+  //   url.search = params.toString();
+  //   window.history.pushState({}, '', url.toString());
+  // }, [debouncedSearchTerm]);
+
+  // const onKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(e.target.value);
+  // };
+
   return (
     <div className='sticky top-0 h-screen overflow-y-auto border-r shadow p-4 bg-white'>
-      <div className='border-b relative'>
+      {/* <div className='border-b relative'>
         <Icon
           icon='icon-[material-symbols--search]'
           className='absolute top-2 right-3 text-muted-foreground text-base'
@@ -35,8 +63,10 @@ const ShopSideBar = () => {
           placeholder='Search...'
           className='w-full mb-3 rounded-full'
           type='text'
+          value={searchTerm}
+          onChange={onKeywordChange}
         />
-      </div>
+      </div> */}
       <H3 className='font-semibold text-lg mb-3 mt-4'>Categories</H3>
       <div className='space-y-4'>
         <div className='border-b pb-3'>
