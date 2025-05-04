@@ -41,7 +41,6 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
   return (
     <div className='container mx-auto px-4 py-8'>
       <div className='flex gap-8 flex-col lg:flex-row'>
-        {/* gallery */}
         <div className='border-b-2 lg:border-b-0 lg:w-[70%]'>
           <div className='relative'>
             <div>
@@ -109,13 +108,13 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
                 }`}
               >
                 {product?.price
-                  ? formatCurrency(product.price, 'THB', 'th-TH')
+                  ? formatCurrency(product.price, 'USD', 'en-EN')
                   : 0}
               </p>
               {product?.isDiscounted && (
                 <p className='text-2xl font-bold text-gray-900 '>
                   {product.discountPrice
-                    ? formatCurrency(product.discountPrice, 'THB', 'th-TH')
+                    ? formatCurrency(product.discountPrice, 'USD', 'en-EN')
                     : 0}
                 </p>
               )}

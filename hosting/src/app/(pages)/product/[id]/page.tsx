@@ -38,7 +38,11 @@ export default async function Page({ params }: PageProps) {
   return (
     <ProductItemDetail
       data={productData?.data}
-      galleryData={galleryData?.data}
+      galleryData={
+        galleryData?.data.length > 0
+          ? galleryData?.data
+          : [productData?.data.image]
+      }
     />
   );
 }

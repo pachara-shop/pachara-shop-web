@@ -112,7 +112,7 @@ export default function Page(): JSX.Element {
               tableInstance?.getColumn('name')?.setFilterValue(search);
             }}
           >
-            <div className='flex w-full max-w-sm items-center space-x-2'>
+            <div className='w-full max-w-sm items-center space-x-2 hidden'>
               <Input
                 type='text'
                 placeholder='Search...'

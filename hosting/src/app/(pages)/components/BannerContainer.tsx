@@ -1,3 +1,5 @@
+// 'use client';
+
 import { Banner } from '@/app/(pages)/components/Banner';
 import { SettingBanner } from '@/shared/models/Settings';
 
@@ -6,9 +8,8 @@ const BannerContainer = async () => {
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_PATH + '/fe/settings/banner',
       {
-        method: 'GET',
-        cache: 'no-store',
-        next: { revalidate: 3600 },
+        cache: 'force-cache', // เก็บ cache ไว้
+        next: { revalidate: 3600 }, // revalidate ทุก 1 ชั่วโมง
       }
     );
 

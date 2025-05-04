@@ -37,12 +37,12 @@ const ProductCart: React.FC<IProductCart> = ({ product }) => {
             product.isDiscounted ? 'line-through' : ''
           }`}
         >
-          {product.price ? formatCurrency(product.price, 'THB', 'th-TH') : 0}
+          {product.price ? formatCurrency(product.price, 'USD', 'en-EN') : 0}
         </p>
         {product.isDiscounted && (
           <p className='mt-1 text-xs font-medium text-gray-500'>
             {product.discountPrice
-              ? formatCurrency(product.discountPrice, 'THB', 'th-TH')
+              ? formatCurrency(product.discountPrice, 'USD', 'en-EN')
               : 0}
           </p>
         )}

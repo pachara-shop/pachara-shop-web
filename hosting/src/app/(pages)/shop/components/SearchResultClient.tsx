@@ -34,7 +34,9 @@ export function SearchResultClient() {
   return (
     <div>
       <div className='my-3 px-4 mt-7'>
-        <Title className='font-bold'>Search result</Title>
+        <Title className='font-bold'>
+          {items.length === 0 ? 'No result' : 'Search result'}
+        </Title>
       </div>
       <div className='grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1.5 '>
         {items.map((product) => (

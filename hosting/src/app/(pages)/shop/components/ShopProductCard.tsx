@@ -34,13 +34,13 @@ const ShopProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
               }`}
             >
               {product.price
-                ? formatCurrency(product.price, 'THB', 'th-TH')
+                ? formatCurrency(product.price, 'USD', 'en-EN')
                 : 0}
             </Text>
             {product.isDiscounted && (
               <Text className='mt-1 text-xs font-medium text-gray-500'>
                 {product.discountPrice
-                  ? formatCurrency(product.discountPrice, 'THB', 'th-TH')
+                  ? formatCurrency(product.discountPrice, 'USD', 'en-EN')
                   : 0}
               </Text>
             )}

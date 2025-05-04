@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ProductPageClient } from './components/ProductPageClient';
-import { BannerContainer } from './components/BannerContainer';
+import { BannerClient } from './components/BannerClient';
 
 export async function generateMetadata({ searchParams }: any) {
   const params = await searchParams;
@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Page() {
   return (
     <>
-      <BannerContainer />
+      <BannerClient />
       <ProductPageClient />
     </>
   );

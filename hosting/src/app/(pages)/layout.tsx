@@ -27,7 +27,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const socialIcons = await getSocialIcons();
-
   return (
     <Suspense fallback={<ContentLoader />}>
       <NavBar socialIcons={socialIcons} />

@@ -14,9 +14,11 @@ import { ColumnDef, useReactTable } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { HeaderWrapper } from '../../components/HeaderWrapper';
+import { FetchDataParams } from '@/shared/models/Search';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
+  const [total, setTotal] = useState(0);
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [getProducts] = useSearchProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -29,24 +31,33 @@ export default function Page(): JSX.Element {
     setTableInstance(instance);
   };
 
-  const fetchProducts = async () => {
-    const sorting = tableInstance?.getState().sorting;
-    const filtering = tableInstance?.getState().columnFilters;
-    const pagination = tableInstance?.getState().pagination;
+  const fetchProducts = async (params: FetchDataParams) => {
+    const sorting = params.sorting;
+    const filtering = params.columnFilters;
+    const pagination = params.pagination;
 
-    const response = await getProducts({
+    await getProducts({
       s: JSON.stringify(sorting),
       p: JSON.stringify(pagination),
       f: JSON.stringify(filtering),
     })
       .unwrap()
-      .then((res) => res.data);
-    setProduct(response);
+      .then((res) => {
+        setProduct(res.data);
+        setTotal(res.pagination?.total || 0);
+      });
   };
 
   const onDeleteProduct = async (id: string) => {
     await deleteProduct(id);
-    fetchProducts();
+    const sorting = tableInstance?.getState().sorting;
+    const filtering = tableInstance?.getState().columnFilters;
+    const pagination = tableInstance?.getState().pagination;
+    fetchProducts({
+      sorting: sorting || [],
+      columnFilters: filtering || [],
+      pagination: pagination || { pageIndex: 0, pageSize: 10 },
+    });
   };
 
   const columnsSetting: ColumnDef<IProduct>[] = [
@@ -117,13 +128,13 @@ export default function Page(): JSX.Element {
       <div>
         <DataTable
           data={products}
-          total={products.length}
+          total={total}
           columns={columnsSetting}
           fetchData={fetchProducts}
           onTableInstanceChange={handleTableInstanceChange}
         >
           <div className='flex justify-between'>
-            <div className='flex w-full max-w-sm items-center space-x-2'>
+            <div className=' w-full max-w-sm items-center space-x-2 hidden'>
               <Input type='text' placeholder='Search...' />
               <Button type='submit'>Search</Button>
             </div>

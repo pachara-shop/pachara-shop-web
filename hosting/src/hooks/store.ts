@@ -10,6 +10,7 @@ import { settingBannerAPI } from './slices/be/settings/bannerAPI';
 import { settingAboutAPI } from './slices/be/settings/aboutAPI';
 import { settingSocialAPI } from './slices/be/settings/socialAPI';
 import { categoryFeAPI } from './slices/fe/categoryAPI';
+import { settingFeAPI } from './slices/fe/settingAPI';
 
 export const makeStore = (): EnhancedStore => {
   return configureStore({
@@ -24,6 +25,7 @@ export const makeStore = (): EnhancedStore => {
       [settingAboutAPI.reducerPath]: settingAboutAPI.reducer,
       [settingSocialAPI.reducerPath]: settingSocialAPI.reducer,
       [categoryFeAPI.reducerPath]: categoryFeAPI.reducer,
+      [settingFeAPI.reducerPath]: settingFeAPI.reducer,
       layout: layoutSlice,
     },
     middleware: (getDefaultMiddleware) =>
@@ -34,6 +36,7 @@ export const makeStore = (): EnhancedStore => {
         authAPI.middleware,
         productFeAPI.middleware,
         settingBannerAPI.middleware,
+        settingFeAPI.middleware,
         settingAboutAPI.middleware,
         settingSocialAPI.middleware,
         categoryFeAPI.middleware,

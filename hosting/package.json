@@ -6,7 +6,7 @@
     "start": "next start",
     "lint": "next lint",
     "prod": "dotenv -e .env.production next dev",
-    "deploy": "rimraf .next && next build && firebase deploy --only hosting"
+    "deploy": "rmdir .next && next build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -55,6 +55,7 @@
     "shadcn": "^2.1.8",
     "sonner": "^2.0.1",
     "swagger-ui-react": "^5.21.0",
+    "swiper": "^11.2.6",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-upload-image": "^1.0.1",

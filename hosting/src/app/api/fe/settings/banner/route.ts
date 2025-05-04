@@ -1,7 +1,5 @@
 import { SettingsRepository } from '@/repositories/SettingsRepository';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
-export const dynamic = 'force-dynamic'; // เพิ่มบรรทัดนี้
-
 const getBanner = async () => {
   try {
     const repo = new SettingsRepository();

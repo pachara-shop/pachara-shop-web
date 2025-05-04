@@ -5,15 +5,15 @@ import { getSearchParamsFromRequest } from '@/utils/api/search';
 import { parseFormData } from '@/utils/parseFormData';
 import { NextRequest } from 'next/server';
 
-const getProductList = async (req: NextRequest) => {
+const searchProduct = async (req: NextRequest) => {
   try {
     const params = getSearchParamsFromRequest(req.nextUrl);
     const repo = new ProductRepository();
-    const product = await repo.getAll(params);
-    if (!product) {
-      return handleError(404, 'Product not found');
-    }
-    return handleSuccess({ data: product });
+    const { products, totalCount } = await repo.searchProduct(params);
+    return handleSuccess({
+      data: products,
+      pagination: { ...params.pagination, total: totalCount },
+    });
   } catch (err) {
     return handleError(500, err);
   }
@@ -73,7 +73,7 @@ const createProduct = async (req: NextRequest) => {
  *                   imageUrl:
  *                     type: string
  */
-export const GET = getProductList;
+export const GET = searchProduct;
 
 /**
  * @swagger

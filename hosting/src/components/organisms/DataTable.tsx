@@ -21,7 +21,7 @@ import {
   PaginationLast,
 } from '../atoms/Pagination';
 import { useTableProps } from '@/hooks/use-table-props';
-import { Title } from '../atoms/Typography';
+import { Title, Text } from '../atoms/Typography';
 import { ComboboxNumber } from '../atoms/ComboboxNumber';
 import {
   Table,
@@ -236,7 +236,7 @@ export default function DataTable<T>({
               <Pagination className='justify-end'>
                 <PaginationContent>
                   <PaginationItem className='mr-20 flex items-center'>
-                    <Title className='text-[#64748B] mr-4'>Rows per page</Title>
+                    <Text className='text-[#64748B] mr-4'>Rows per page</Text>
                     {pagination && (
                       <ComboboxNumber
                         items={[

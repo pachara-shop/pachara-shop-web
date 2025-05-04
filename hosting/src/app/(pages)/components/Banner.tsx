@@ -1,12 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { SettingBanner } from '@/shared/models/Settings';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Title } from '@/components/atoms/Typography';
 import { Button } from '@/components/atoms/Button';
 import { useRouter } from 'next/navigation';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 interface BannerProps {
   banners?: SettingBanner[];
@@ -14,56 +19,40 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(0);
+
   const defaultBanner =
     'https://firebasestorage.googleapis.com/v0/b/pachara-shop-dev.firebasestorage.app/o/banner%2Fpexels-pixabay-157888.jpg?alt=media&token=beddb2d6-0055-4695-951f-ffb86c94825c';
 
   const images =
     banners.length > 0 ? banners.map((banner) => banner.url) : [defaultBanner];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
   return (
-    <div className='w-full flex justify-center '>
-      <div className='relative w-full  h-[350px] md:h-[500px] overflow-hidden '>
-        <div className='w-full h-full relative'>
-          {images.map((src, index) => (
-            <div
-              key={index}
-              className={`absolute w-full h-full transition-opacity duration-1000 ${
-                index === currentIndex ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className='absolute inset-0 flex items-center justify-center z-1  bg-black/20'>
-                <div className='h-[150px] w-[280px] sm:h-[180px] sm:w-[350px] lg:h-[200px] lg:w-[450px]  bg-red-500 bg-opacity-85 rounded-sm items-center justify-center flex flex-col'>
+    <div className='w-full'>
+      <Swiper
+        spaceBetween={0}
+        centeredSlides={true}
+        autoplay={{
+          delay: 6000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+          enabled: false,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className='h-[350px] md:h-[500px]'
+      >
+        {images.map((src, index) => (
+          <SwiperSlide key={index}>
+            <div className='relative w-full h-full'>
+              <div className='absolute inset-0 bg-black/20 z-10 flex items-center justify-center'>
+                <div className='h-[150px] w-[280px] sm:h-[180px] sm:w-[350px] lg:h-[200px] lg:w-[450px] bg-red-400 bg-opacity-75 rounded-sm items-center justify-center flex flex-col'>
                   <Button
+                    onClick={() => router.push('/shop')}
                     className='p-3 sm:p-4 lg:p-6 rounded-full transform hover:scale-105 transition-transform cursor-pointer'
-                    type='button'
-                    onClick={() => {
-                      router.push('/shop');
-                    }}
                   >
-                    <Title className='text-white text-2xl md:text-3xl font-bold m-4'>
+                    <Title className='text-white text-lg sm:text-xl lg:text-3xl font-bold'>
                       SHOP NOW
                     </Title>
                   </Button>
@@ -78,37 +67,9 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
                 className='object-cover'
               />
             </div>
-          ))}
-        </div>
-        <button
-          onClick={goToPrevious}
-          className=' hidden absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-1'
-          aria-label='Previous image'
-        >
-          <ChevronLeft size={24} />
-        </button>
-
-        <button
-          onClick={goToNext}
-          className='hidden absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full z-1'
-          aria-label='Next image'
-        >
-          <ChevronRight size={24} />
-        </button>
-
-        <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10'>
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-2 w-2 rounded-full transition-all ${
-                index === currentIndex ? 'bg-white w-4' : 'bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };

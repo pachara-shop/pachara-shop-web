@@ -9,6 +9,10 @@ import {
   getDoc,
   DocumentReference,
   setDoc,
+  query,
+  limit,
+  orderBy,
+  startAfter,
 } from 'firebase/firestore';
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
@@ -20,8 +24,33 @@ import { deleteObject, listAll, ref } from 'firebase/storage';
 const productCollection = collection(db, COLLECTION.PRODUCT);
 
 export class ProductRepository {
-  async getAll(_params: FetchDataParams): Promise<IProduct[]> {
-    const snapshot = await getDocs(productCollection);
+  async searchProduct(
+    params: FetchDataParams
+  ): Promise<{ products: IProduct[]; totalCount: number }> {
+    const baseQuery = query(productCollection, orderBy('name', 'asc'));
+    const countSnapshot = await getDocs(baseQuery);
+    const totalCount = countSnapshot.size;
+
+    let paginatedQuery = baseQuery;
+    let lastVisibleDoc = undefined;
+
+    if (params.pagination) {
+      const { pageIndex, pageSize } = params.pagination;
+
+      if (pageIndex > 0) {
+        let cursorQuery = baseQuery;
+        cursorQuery = query(cursorQuery, limit(pageIndex * pageSize));
+        const cursorSnap = await getDocs(cursorQuery);
+        lastVisibleDoc = cursorSnap.docs[cursorSnap.docs.length - 1];
+      }
+
+      paginatedQuery = query(
+        paginatedQuery,
+        ...(lastVisibleDoc ? [startAfter(lastVisibleDoc)] : []),
+        limit(pageSize)
+      );
+    }
+    const snapshot = await getDocs(paginatedQuery);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {
         const product = { id: doc.id, ...doc.data() } as IProduct;
@@ -44,7 +73,7 @@ export class ProductRepository {
         return product;
       })
     );
-    return products;
+    return { products, totalCount };
   }
 
   async getById(id: string): Promise<IProduct | null> {
