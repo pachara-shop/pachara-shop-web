@@ -22,7 +22,7 @@ jobs:
       - name: ตรวจสอบ .env.production
         run: cat .env.production
       - run: npm install
-      - run: npm build
+      - run: npm run build
       - name: ติดตั้ง Firebase CLI
         run: npm install -g firebase-tools@latest
       - name: Deploy ไปยัง Firebase Hosting และ Functions พร้อม Force
