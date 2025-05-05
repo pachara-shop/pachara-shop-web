@@ -22,7 +22,7 @@ jobs:
       - name: Deploy ไปยัง Firebase Hosting และ Functions พร้อม Force
         run: firebase deploy --only hosting,functions --project pachara-shop-dev --force
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_DEPLOY_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_DEPLOY_DEV_TOKEN }}
     defaults:
       run:
         working-directory: hosting
