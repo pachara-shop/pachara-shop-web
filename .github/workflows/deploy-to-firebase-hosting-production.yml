@@ -27,7 +27,7 @@ jobs:
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS="${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}"
           firebase experiments:enable webframeworks
-          firebase deploy --only hosting,functions --project pachara-shop-dev --force
+          firebase deploy --only hosting,functions --project pachara-shop --force
         # env:
         # GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
     defaults:
