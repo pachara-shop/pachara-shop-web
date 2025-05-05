@@ -9,7 +9,7 @@ export const productGalleryAPI = createApi({
   endpoints: (builder) => ({
     getProductGalleryById: builder.query<ISearchResponse<string[]>, string>({
       query: (id) => ({
-        url: '/api/product/' + id + '/gallery',
+        url: '/api/be/product/' + id + '/gallery',
         method: 'GET',
       }),
       providesTags: ['productGallery'],
@@ -19,7 +19,7 @@ export const productGalleryAPI = createApi({
       { id: string; formData: FormData }
     >({
       query: ({ id, formData }) => ({
-        url: '/api/product/' + id + '/gallery',
+        url: '/api/be/product/' + id + '/gallery',
         method: 'POST',
         data: formData,
       }),
@@ -30,7 +30,7 @@ export const productGalleryAPI = createApi({
       { id: string; image: string }
     >({
       query: ({ id, image }) => ({
-        url: '/api/product/' + id + '/gallery',
+        url: '/api/be/product/' + id + '/gallery',
         method: 'DELETE',
         data: { image },
       }),

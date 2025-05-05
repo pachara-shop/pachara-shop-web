@@ -1,4 +1,4 @@
-import { db } from '@/config/firebaseConfig';
+import { db, storage } from '@/config/firebaseConfig';
 import { IProduct } from '@/shared/models/Product';
 import {
   collection,
@@ -10,20 +10,47 @@ import {
   DocumentReference,
   setDoc,
   query,
-  where,
+  limit,
   orderBy,
+  startAfter,
 } from 'firebase/firestore';
 import { ReferenceValidator } from './ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
 import { StorageRepository } from './StorageRepository';
-import { FetchDataParams, SearchProductsParams } from '@/shared/models/Search';
+import { FetchDataParams } from '@/shared/models/Search';
+import { deleteObject, listAll, ref } from 'firebase/storage';
 
 const productCollection = collection(db, COLLECTION.PRODUCT);
 
 export class ProductRepository {
-  async getAll(_params: FetchDataParams): Promise<IProduct[]> {
-    const snapshot = await getDocs(productCollection);
+  async searchProduct(
+    params: FetchDataParams
+  ): Promise<{ products: IProduct[]; totalCount: number }> {
+    const baseQuery = query(productCollection, orderBy('name', 'asc'));
+    const countSnapshot = await getDocs(baseQuery);
+    const totalCount = countSnapshot.size;
+
+    let paginatedQuery = baseQuery;
+    let lastVisibleDoc = undefined;
+
+    if (params.pagination) {
+      const { pageIndex, pageSize } = params.pagination;
+
+      if (pageIndex > 0) {
+        let cursorQuery = baseQuery;
+        cursorQuery = query(cursorQuery, limit(pageIndex * pageSize));
+        const cursorSnap = await getDocs(cursorQuery);
+        lastVisibleDoc = cursorSnap.docs[cursorSnap.docs.length - 1];
+      }
+
+      paginatedQuery = query(
+        paginatedQuery,
+        ...(lastVisibleDoc ? [startAfter(lastVisibleDoc)] : []),
+        limit(pageSize)
+      );
+    }
+    const snapshot = await getDocs(paginatedQuery);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {
         const product = { id: doc.id, ...doc.data() } as IProduct;
@@ -46,45 +73,7 @@ export class ProductRepository {
         return product;
       })
     );
-    return products;
-  }
-
-  async searchFrontendProductList(
-    params: SearchProductsParams
-  ): Promise<IProduct[]> {
-    let q = query(productCollection);
-    if (params.c && params.c !== 'all') {
-      const categoryRef = doc(db, COLLECTION.CATEGORY, params.c);
-      q = query(q, where('category', '==', categoryRef));
-    }
-
-    if (params.s) {
-      q = query(q, orderBy(params.s, 'asc'));
-    }
-    const snapshot = await getDocs(q);
-    const products = await Promise.all(
-      snapshot.docs.map(async (doc) => {
-        const product = { id: doc.id, ...doc.data() } as IProduct;
-        if (product.image) {
-          product.image = await StorageRepository.getImageUrl(product.image);
-        }
-        if (product.category instanceof DocumentReference) {
-          const categoryDoc = await getDoc(product.category);
-
-          if (categoryDoc.exists()) {
-            const categoryData = categoryDoc.data();
-            product.category = {
-              ...categoryData,
-              id: categoryDoc.id,
-            } as ICategory;
-          } else {
-            product.category = undefined;
-          }
-        }
-        return product;
-      })
-    );
-    return products;
+    return { products, totalCount };
   }
 
   async getById(id: string): Promise<IProduct | null> {
@@ -135,12 +124,12 @@ export class ProductRepository {
     product.id = newProductDoc.id;
 
     if (imageFile) {
-      const imagePath = `products/images/${product.id}/${imageFile.name}`;
+      const imagePath = `products/${product.id}/images/${imageFile.name}`;
       await StorageRepository.uploadImage(imageFile, imagePath);
       product.image = imagePath;
     }
     if (bannerFile) {
-      const filePath = `products/images/${product.id}/${bannerFile.name}`;
+      const filePath = `products/${product.id}/images/${bannerFile.name}`;
       await StorageRepository.uploadImage(bannerFile, filePath);
       product.banner = filePath;
     }
@@ -178,7 +167,7 @@ export class ProductRepository {
       await StorageRepository.deleteFile(productSnapshot.data().image);
     }
     if (imageFile) {
-      const imagePath = `products/images/${product.id}/${imageFile.name}`;
+      const imagePath = `products/images/${product.id}/images/${imageFile.name}`;
       await StorageRepository.uploadImage(imageFile, imagePath);
       product.image = imagePath;
     } else {
@@ -186,14 +175,14 @@ export class ProductRepository {
     }
     // delete old image
     if (productSnapshot.data().banner && bannerFile) {
-      await StorageRepository.deleteFile(productSnapshot.data().image);
+      await StorageRepository.deleteFile(productSnapshot.data().banner);
     }
     if (bannerFile) {
-      const imagePath = `products/images/${product.id}/${bannerFile.name}`;
-      await StorageRepository.uploadImage(bannerFile, imagePath);
-      product.banner = imagePath;
+      const bannerPath = `products/${product.id}/images/banner_${bannerFile.name}`;
+      await StorageRepository.uploadImage(bannerFile, bannerPath);
+      product.banner = bannerPath;
     } else {
-      product.banner = productSnapshot.data().image;
+      product.banner = productSnapshot.data().banner;
     }
     const productData = {
       ...product,
@@ -205,8 +194,18 @@ export class ProductRepository {
   async delete(id: string): Promise<void> {
     const productDoc = doc(db, COLLECTION.PRODUCT, id);
     const productSnapshot = await getDoc(productDoc);
-    if (productSnapshot.exists() && productSnapshot.data().image) {
-      await StorageRepository.deleteFile(productSnapshot.data().image);
+    if (productSnapshot.exists()) {
+      if (productSnapshot.data().image)
+        await StorageRepository.deleteFile(productSnapshot.data().image);
+      if (productSnapshot.data().banner)
+        await StorageRepository.deleteFile(productSnapshot.data().banner);
+
+      const storageRef = ref(storage, `products/${id}/gallery`);
+      const listResult = await listAll(storageRef);
+      const deletePromises = listResult.items.map((itemRef) => {
+        return deleteObject(itemRef);
+      });
+      await Promise.all(deletePromises);
     }
     await deleteDoc(productDoc);
   }

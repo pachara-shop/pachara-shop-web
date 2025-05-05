@@ -1,10 +1,10 @@
 'use client';
 
-import { ProductDetail } from '@/app/components/product/ProductDetail';
+import { ProductDetail } from '@/app/(protect)/components/product/ProductDetail';
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
-} from '@/hooks/slices/productAPI';
+} from '@/hooks/slices/be/product/productAPI';
 import {
   useDeleteProductGalleryByIdMutation,
   useGetProductGalleryByIdQuery,
@@ -17,7 +17,9 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id && Array.isArray(params.id) ? params.id[0] : params?.id;
+
   const productId = Array.isArray(id) ? id[0] : id;
 
   const { data } = useGetProductByIdQuery(productId || '');
@@ -51,6 +53,10 @@ export default function Page() {
         description: data.data.description,
         image: data.data.image,
         banner: data.data.banner,
+        isDiscounted: data.data.isDiscounted,
+        discountPrice: data.data.discountPrice
+          ? Number(data.data.discountPrice)
+          : 0,
       });
     }
   }, [data]);
@@ -66,6 +72,10 @@ export default function Page() {
     if (data.description) formData.append('description', data.description);
     if (data.categoryId)
       formData.append('category', data.categoryId.toString());
+    if (data.isDiscounted)
+      formData.append('isDiscounted', data.isDiscounted.toString());
+    if (data.discountPrice)
+      formData.append('discountPrice', data.discountPrice.toString());
 
     await onUpdate(formData)
       .unwrap()

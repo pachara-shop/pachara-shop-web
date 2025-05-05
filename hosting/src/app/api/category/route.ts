@@ -7,7 +7,6 @@ export const runtime = 'nodejs';
 
 const getCategoryList = async (req: NextRequestWithUser) => {
   try {
-    // const token = req.headers.get('Authorization');
     const params = getSearchParamsFromRequest(req.nextUrl);
     const category = await CategoryRepository.getAll(params);
     if (!category) {

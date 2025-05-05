@@ -1,14 +1,33 @@
 import shadcnConfig from './shadcn.config.js';
 import { addDynamicIconSelectors } from '@iconify/tailwind';
-import tailwindcssAnimate from 'tailwindcss-animate';
-
 module.exports = {
   darkMode: ['class'],
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
+  safelist: [
+    'icon-[logos--facebook]',
+    'icon-[skill-icons--instagram]',
+    'icon-[logos--tiktok-icon]',
+    'icon-[mage--line]',
+    'icon-[logos--discord]',
+    'icon-[mdi--github]',
+    'icon-[skill-icons--twitter]',
+    'icon-[logos--youtube-icon]',
+    'icon-[skill-icons--linkedin]',
+    'icon-[material-symbols-light--link]',
+  ],
   theme: {
+    screens: {
+      xxs: '375px', // มือถือขนาดกลาง (iPhone 8+, SE 2020)
+      xs: '480px', // มือถือขนาดกลาง (iPhone 8+, SE 2020)
+      sm: '640px', // มือถือขนาดใหญ่/แท็บเล็ตขนาดเล็ก
+      md: '768px', // แท็บเล็ต (iPad Mini/Air)
+      lg: '1024px', // แท็บเล็ตแนวนอน/โน๊ตบุ๊คขนาดเล็ก
+      xl: '1280px', // เดสก์ท็อปขนาดกลาง
+      '2xl': '1536px', // เดสก์ท็อปขนาดใหญ่
+    },
     extend: {
       ...shadcnConfig.theme.extend,
       borderRadius: {
@@ -70,9 +89,10 @@ module.exports = {
     },
   },
   plugins: [
-    tailwindcssAnimate,
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('@tailwindcss/typography'),
+    addDynamicIconSelectors(),
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('tailwindcss-animate'),
-    addDynamicIconSelectors(),
   ],
 };

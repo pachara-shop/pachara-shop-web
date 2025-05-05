@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/repositories/ProductRepository';
+import { SearchProductRepository } from '@/repositories/fe/SearchProductRepository';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { NextRequest } from 'next/server';
 
@@ -7,7 +7,7 @@ const getFrontendProductList = async (req: NextRequest) => {
     // get value from params
     const category = req.nextUrl.searchParams.get('c') || undefined;
     const sorting = req.nextUrl.searchParams.get('s') || undefined;
-    const repo = new ProductRepository();
+    const repo = new SearchProductRepository();
     const product = await repo.searchFrontendProductList({
       c: category,
       s: sorting,

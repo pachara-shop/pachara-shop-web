@@ -1,7 +1,7 @@
 'use client';
 
-import { ProductDetail } from '@/app/components/product/ProductDetail';
-import { useCreateProductMutation } from '@/hooks/slices/productAPI';
+import { ProductDetail } from '@/app/(protect)/components/product/ProductDetail';
+import { useCreateProductMutation } from '@/hooks/slices/be/product/productAPI';
 import { ICreateProduct } from '@/shared/models/Product';
 import { useRouter } from 'next/navigation';
 
@@ -32,6 +32,10 @@ export default function Page() {
     if (data.categoryId !== undefined) {
       formData.append('category', data.categoryId.toString());
     }
+    if (data.isDiscounted)
+      formData.append('isDiscounted', data.isDiscounted.toString());
+    if (data.discountPrice)
+      formData.append('discountPrice', data.discountPrice.toString());
 
     await onCreate(formData)
       .unwrap()

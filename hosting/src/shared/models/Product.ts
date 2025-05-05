@@ -8,6 +8,8 @@ export interface IProduct {
   price: number;
   image: string;
   banner: string;
+  isDiscounted?: boolean;
+  discountPrice?: number;
   category?: string | DocumentReference<ICategory> | ICategory;
 }
 
@@ -16,6 +18,8 @@ export interface ICreateProduct {
   name: string;
   description?: string;
   price?: number;
+  isDiscounted?: boolean;
+  discountPrice?: number;
   image?: string;
   banner?: string;
   file?: File | string;

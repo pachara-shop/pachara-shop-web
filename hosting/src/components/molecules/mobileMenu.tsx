@@ -4,10 +4,15 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 import { Icon } from '../atoms/Icon';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
+import { SettingSocialMedia } from '@/shared/models/Settings';
+import { SocialIcon } from '../atoms/socialIcon';
 
-const MobileMenu: React.FC = () => {
+interface MobileMenuProps {
+  icons: SettingSocialMedia[];
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ icons }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleLinkClick = () => {
     setIsOpen(false);
   };
@@ -20,13 +25,13 @@ const MobileMenu: React.FC = () => {
       </SheetTrigger>
       <SheetContent>
         <VisuallyHidden>
-          <SheetTitle className='hidden'>เมนู</SheetTitle>
+          <SheetTitle className='hidden'>Menu</SheetTitle>
         </VisuallyHidden>
         <div className='grid gap-4 py-4 h-full mt-4'>
           <ul className='flex flex-col items-end space-y-4 font-bold flex-grow'>
             <li className='border-b border-gray-200 w-full text-right'>
               <Link onClick={handleLinkClick} href='/'>
-                หน้าแรก
+                Home
               </Link>
             </li>
             <li className='border-b border-gray-200 w-full text-right'>
@@ -35,21 +40,22 @@ const MobileMenu: React.FC = () => {
                 href='/about'
                 className='text-black'
               >
-                เกี่ยวกับเรา
+                About
               </Link>
             </li>
           </ul>
           <div className='mt-auto'>
             <div className='flex justify-end space-x-4'>
-              <Link href='https://www.facebook.com' target='_blank'>
-                <Icon icon='icon-[lucide--facebook]' />
-              </Link>
-              <Link href='https://www.twitter.com' target='_blank'>
-                <Icon icon='icon-[lucide--twitter]' />
-              </Link>
-              <Link href='https://www.instagram.com' target='_blank'>
-                <Icon icon='icon-[lucide--instagram]' />
-              </Link>
+              {icons.map((icon) => (
+                <Link
+                  key={icon.id}
+                  href={icon.url || '#'}
+                  target='_blank'
+                  onClick={handleLinkClick}
+                >
+                  <SocialIcon type={icon.type} />
+                </Link>
+              ))}
             </div>
           </div>
         </div>

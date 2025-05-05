@@ -15,7 +15,14 @@ interface StateData {
 
 export const axiosInternalBaseQuery =
   (): BaseQueryFn<CustomAxiosRequestConfig, StateData, unknown> =>
-  async ({ url, method, data, params }) => {
+  async ({
+    url,
+    method,
+    data,
+    params,
+    showToastSuccess = false,
+    showToastError = true,
+  }) => {
     try {
       setLoading(true);
       const token = await getSession('session_token');
@@ -26,21 +33,27 @@ export const axiosInternalBaseQuery =
         params,
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast({
-        toastType: 'success',
-        title: 'Success',
-        description: 'Request completed successfully',
-      });
+      if (showToastSuccess) {
+        toast({
+          toastType: 'success',
+          title: 'Success',
+          description: 'Request completed successfully',
+        });
+      }
+
       return { data: result.data };
     } catch (axiosError) {
       const error = axiosError as AxiosError;
       const errorText =
         (error.response?.data as { message: string }).message || error.message;
-      toast({
-        toastType: 'error',
-        title: error.response?.statusText,
-        description: errorText,
-      });
+      if (showToastError) {
+        toast({
+          toastType: 'error',
+          title: error.response?.statusText,
+          description: errorText,
+        });
+      }
+
       return {
         error: {
           status: error.response?.status,
@@ -49,10 +62,12 @@ export const axiosInternalBaseQuery =
       };
     } finally {
       setLoading(false);
-      toast({
-        toastType: 'success',
-        title: 'Success',
-        description: 'Request completed successfully',
-      });
+      if (showToastSuccess) {
+        toast({
+          toastType: 'success',
+          title: 'Success',
+          description: 'Request completed successfully',
+        });
+      }
     }
   };
