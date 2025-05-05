@@ -5,16 +5,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ['swagger-jsdoc', 'swagger-ui-react'],
-  },
+  serverExternalPackages: ['swagger-jsdoc', 'swagger-ui-react'],
   images: {
+    unoptimized: true,
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
-        pathname: '/**',
-      },
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',

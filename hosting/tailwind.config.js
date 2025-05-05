@@ -1,13 +1,22 @@
 import shadcnConfig from './shadcn.config.js';
 import { addDynamicIconSelectors } from '@iconify/tailwind';
-import tailwindcssAnimate from 'tailwindcss-animate';
-import typography from '@tailwindcss/typography';
-import animate from 'tailwindcss-animate';
 module.exports = {
   darkMode: ['class'],
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+  ],
+  safelist: [
+    'icon-[logos--facebook]',
+    'icon-[skill-icons--instagram]',
+    'icon-[logos--tiktok-icon]',
+    'icon-[mage--line]',
+    'icon-[logos--discord]',
+    'icon-[mdi--github]',
+    'icon-[skill-icons--twitter]',
+    'icon-[logos--youtube-icon]',
+    'icon-[skill-icons--linkedin]',
+    'icon-[material-symbols-light--link]',
   ],
   theme: {
     screens: {
@@ -79,5 +88,11 @@ module.exports = {
       },
     },
   },
-  plugins: [tailwindcssAnimate, typography, animate, addDynamicIconSelectors()],
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('@tailwindcss/typography'),
+    addDynamicIconSelectors(),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('tailwindcss-animate'),
+  ],
 };
