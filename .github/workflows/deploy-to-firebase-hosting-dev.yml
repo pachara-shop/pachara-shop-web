@@ -9,12 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: yarn install
-      - run: yarn add esbuild
-      # - name: Copy .env.development to .env.production
-      # run: cp .env.development .env.production
       - run: yarn build
-      - name: Install Firebase CLI
-        run: yarn global add firebase-tools@13.29.1
       - name: Debug Node and Yarn versions
         run: |
           node -v
