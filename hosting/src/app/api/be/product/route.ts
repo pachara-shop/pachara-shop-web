@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/repositories/ProductRepository';
+import { BeProductRepository } from '@/repositories/be/be-product-repository';
 import { IProduct } from '@/shared/models/Product';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { getSearchParamsFromRequest } from '@/utils/api/search';
@@ -8,7 +8,7 @@ import { NextRequest } from 'next/server';
 const searchProduct = async (req: NextRequest) => {
   try {
     const params = getSearchParamsFromRequest(req.nextUrl);
-    const repo = new ProductRepository();
+    const repo = new BeProductRepository();
     const { products, totalCount } = await repo.searchProduct(params);
     return handleSuccess({
       data: products,
@@ -39,7 +39,7 @@ const createProduct = async (req: NextRequest) => {
       discountPrice: (parseObject?.discountPrice as number) || 0,
     };
 
-    const repo = new ProductRepository();
+    const repo = new BeProductRepository();
     await repo.add(product, image, bannerFile);
     return handleSuccess({ data: 'success' });
   } catch (err) {

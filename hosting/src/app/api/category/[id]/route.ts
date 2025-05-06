@@ -1,4 +1,4 @@
-import { CategoryRepository } from '@/repositories/CategoryRepository';
+import { CategoryRepository } from '@/repositories/be/be-category-repository';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { NextRequest } from 'next/server';
 

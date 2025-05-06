@@ -1,4 +1,4 @@
-import { ProductRepository } from '@/repositories/ProductRepository';
+import { BeProductRepository } from '@/repositories/be/be-product-repository';
 import { IProduct } from '@/shared/models/Product';
 // import { QueryReq } from '@/shared/types';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
@@ -11,7 +11,7 @@ const getProductById = async (req: NextRequest, query: any) => {
     if (!id) {
       return handleError(400, new Error('The id is require'));
     }
-    const repo = new ProductRepository();
+    const repo = new BeProductRepository();
     const product = await repo.getById(id);
     if (!product) {
       return handleError(404, 'Product not found');
@@ -52,7 +52,7 @@ const updateProduct = async (req: NextRequest, query: any) => {
       discountPrice: (parseObject.discountPrice as number) || 0,
     };
 
-    const repo = new ProductRepository();
+    const repo = new BeProductRepository();
     await repo.update(product, image, bannerFile);
 
     return handleSuccess({ data: product });
@@ -67,7 +67,7 @@ const deleteProduct = async (req: NextRequest, query: any) => {
     if (!id) {
       return handleError(400, new Error('The id is require'));
     }
-    const repo = new ProductRepository();
+    const repo = new BeProductRepository();
     await repo.delete(id);
     return handleSuccess();
   } catch (err) {
