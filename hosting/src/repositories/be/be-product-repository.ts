@@ -2,57 +2,34 @@ import { db, storage } from '@/config/firebaseConfig';
 import { IProduct } from '@/shared/models/Product';
 import {
   collection,
-  getDocs,
   updateDoc,
   deleteDoc,
   doc,
   getDoc,
   DocumentReference,
   setDoc,
-  query,
-  limit,
-  orderBy,
-  startAfter,
 } from 'firebase/firestore';
-import { ReferenceValidator } from './ReferenceValidator';
+import { ReferenceValidator } from '../ReferenceValidator';
 import { COLLECTION } from '@/shared/enums/collection';
 import { ICategory } from '@/shared/models/Category';
-import { StorageRepository } from './StorageRepository';
+import { StorageRepository } from '../StorageRepository';
 import { FetchDataParams } from '@/shared/models/Search';
 import { deleteObject, listAll, ref } from 'firebase/storage';
+import { paginateAndCount } from '@/services/firestore-service';
 
 const productCollection = collection(db, COLLECTION.PRODUCT);
 
-export class ProductRepository {
+export class BeProductRepository {
   async searchProduct(
     params: FetchDataParams
   ): Promise<{ products: IProduct[]; totalCount: number }> {
-    const baseQuery = query(productCollection, orderBy('name', 'asc'));
-    const countSnapshot = await getDocs(baseQuery);
-    const totalCount = countSnapshot.size;
+    const { pageIndex = 0, pageSize = 10 } = params.pagination || {};
 
-    let paginatedQuery = baseQuery;
-    let lastVisibleDoc = undefined;
-
-    if (params.pagination) {
-      const { pageIndex, pageSize } = params.pagination;
-
-      if (pageIndex > 0) {
-        let cursorQuery = baseQuery;
-        cursorQuery = query(cursorQuery, limit(pageIndex * pageSize));
-        const cursorSnap = await getDocs(cursorQuery);
-        lastVisibleDoc = cursorSnap.docs[cursorSnap.docs.length - 1];
-      }
-
-      paginatedQuery = query(
-        paginatedQuery,
-        ...(lastVisibleDoc ? [startAfter(lastVisibleDoc)] : []),
-        limit(pageSize)
-      );
-    }
-    const snapshot = await getDocs(paginatedQuery);
-    const products = await Promise.all(
-      snapshot.docs.map(async (doc) => {
+    const result = await paginateAndCount<IProduct>(
+      productCollection,
+      'name',
+      { pageIndex, pageSize },
+      async (doc) => {
         const product = { id: doc.id, ...doc.data() } as IProduct;
         if (product.image) {
           product.image = await StorageRepository.getImageUrl(product.image);
@@ -71,9 +48,9 @@ export class ProductRepository {
           }
         }
         return product;
-      })
+      }
     );
-    return { products, totalCount };
+    return { products: result.items, totalCount: result.totalCount };
   }
 
   async getById(id: string): Promise<IProduct | null> {

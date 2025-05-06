@@ -1,4 +1,4 @@
-import { CategoryRepository } from '@/repositories/CategoryRepository';
+import { CategoryRepository } from '@/repositories/be/be-category-repository';
 import { NextRequestWithUser, withAuth } from '@/utils/api/request-handle';
 import { handleError, handleSuccess } from '@/utils/api/response-handler';
 import { getSearchParamsFromRequest } from '@/utils/api/search';
@@ -8,13 +8,13 @@ export const runtime = 'nodejs';
 const getCategoryList = async (req: NextRequestWithUser) => {
   try {
     const params = getSearchParamsFromRequest(req.nextUrl);
-    const category = await CategoryRepository.getAll(params);
-    if (!category) {
+    const result = await CategoryRepository.searchCategory(params);
+    if (!result) {
       return handleError(404, 'Category not found');
     }
     return handleSuccess({
-      data: category.categories,
-      pagination: { ...params.pagination, total: category.totalCount },
+      data: result.categories,
+      pagination: { ...params.pagination, total: result.totalCount },
     });
   } catch (err) {
     return handleError(500, err);
