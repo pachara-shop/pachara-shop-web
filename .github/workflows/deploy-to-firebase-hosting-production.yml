@@ -23,4 +23,4 @@ jobs:
       - name: Deploy ไปยัง Firebase Hosting และ Functions พร้อม Force
         run: firebase deploy --only hosting, functions --project pachara-shop --force
         env:
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
