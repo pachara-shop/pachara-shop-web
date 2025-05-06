@@ -36,13 +36,15 @@ export default async function Page({ params }: PageProps) {
   const galleryData = await fetchGalleryData(productId);
 
   return (
-    <ProductItemDetail
-      data={productData?.data}
-      galleryData={
-        galleryData?.data.length > 0
-          ? galleryData?.data
-          : [productData?.data.image]
-      }
-    />
+    <div>
+      <ProductItemDetail
+        data={productData?.data}
+        galleryData={
+          galleryData?.data.length > 0
+            ? galleryData?.data
+            : [productData?.data.image]
+        }
+      />
+    </div>
   );
 }

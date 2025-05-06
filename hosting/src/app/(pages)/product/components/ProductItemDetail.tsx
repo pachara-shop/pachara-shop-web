@@ -76,7 +76,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
               <CarouselNext className='absolute right-4 top-1/2 z-10' />
             </Carousel>
 
-            <div className='bottom-0 left-0 right-0 bg-black backdrop-blur-sm p-4 hidden md:block'>
+            <div className='bottom-0 left-0 right-0 bg-black backdrop-blur-sm p-4 md:block'>
               <div className='flex gap-2 justify-center'>
                 {galleryData?.map((image, index) => (
                   <div
@@ -187,7 +187,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
               <ul className='pl-4 mt-1'>
                 <li>
                   <a
-                    href='https://m.me/161993062306655'
+                    href='https://m.me/HmongBagspacharashopThailand'
                     target='_blank'
                     rel='noopener noreferrer'
                     className='text-blue-600 underline'
