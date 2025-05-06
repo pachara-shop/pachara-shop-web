@@ -24,7 +24,15 @@ jobs:
         run: cat service_account.json
       - name: Deploy to Firebase Hosting and Functions
         run: |
-          unset FIREBASE_TOKEN 
-          unset GOOGLE_APPLICATION_CREDENTIALS
-          export GOOGLE_APPLICATION_CREDENTIALS="./service_account.json" 
-          firebase deploy --only hosting,functions --project pachara-shop --force --debug
+          firebase experiments:enable webframeworks
+          firebase deploy --only hosting,functions --project pachara-shop --force
+    env:
+      FIREBASE_TOKEN:
+        ${{ secrets.FIREBASE_DEPLOY_TOKEN }}
+
+        # สำหรับอนาคตถ้าจะเปลี่ยนท่าใหม่
+        # run: |
+        #   unset FIREBASE_TOKEN
+        #   unset GOOGLE_APPLICATION_CREDENTIALS
+        #   export GOOGLE_APPLICATION_CREDENTIALS="./service_account.json"
+        #   firebase deploy --only hosting,functions --project pachara-shop --force --debug
