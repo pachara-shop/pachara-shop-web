@@ -20,6 +20,8 @@ jobs:
         run: npm install -g firebase-tools@latest
       - name: Create Service Account Key File
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}" > service_account.json
+      - name: Verify Service Account Key File Content
+        run: cat service_account.json
       - name: Deploy to Firebase Hosting and Functions
         run: |
           unset FIREBASE_TOKEN 
