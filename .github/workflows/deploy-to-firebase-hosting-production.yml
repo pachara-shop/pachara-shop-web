@@ -2,9 +2,9 @@ name: Deploy ไปยัง Firebase Hosting PROD
 'on':
   push:
     branches:
-      - dev
-    paths-ignore:
-      - '.github/workflows/**'
+      - main
+    # paths-ignore:
+    #   - '.github/workflows/**'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
