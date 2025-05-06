@@ -187,7 +187,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
               <ul className='pl-4 mt-1'>
                 <li>
                   <a
-                    href='https://m.me/100005193970723/'
+                    href='https://m.me/161993062306655'
                     target='_blank'
                     rel='noopener noreferrer'
                     className='text-blue-600 underline'
