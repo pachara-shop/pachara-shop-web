@@ -1,12 +1,51 @@
 import { Suspense } from 'react';
 import NavBar from '../components/layouts/NavBar';
 import { Footer } from './components/Footer';
+import { ContentLoader } from './components/ContentLoader';
 
-const ContentLoader = () => (
-  <div className='flex justify-center items-center h-screen'>
-    <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900'></div>
-  </div>
-);
+export const metadata = {
+  title: 'Pachara Shop | Hmong Bags & Accessories',
+  description:
+    'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop. Worldwide shipping. Contact us for custom orders.',
+  keywords: [
+    'Hmong bag',
+    'Pachara Shop',
+    'Handmade',
+    'Ethnic accessories',
+    'Thailand',
+    'Remitly',
+    'MoneyGram',
+    'PayPal',
+    'Hmong handicraft',
+    'Unique gifts',
+  ],
+  authors: [{ name: 'Pachara Shop', url: 'https://pachara-shop.web.app' }],
+  creator: 'Pachara Shop',
+  openGraph: {
+    title: 'Pachara Shop | Hmong Bags & Accessories',
+    description:
+      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop. Worldwide shipping.',
+    url: 'https://pachara-shop.web.app/',
+    siteName: 'Pachara Shop',
+    images: [
+      {
+        url: 'https://pachara-shop.web.app/logo.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Pachara Shop Hmong Bags',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pachara Shop | Hmong Bags & Accessories',
+    description:
+      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop.',
+    images: ['https://pachara-shop.web.app/logo.jpg'],
+  },
+};
 
 async function getSocialIcons() {
   const res = await fetch(
