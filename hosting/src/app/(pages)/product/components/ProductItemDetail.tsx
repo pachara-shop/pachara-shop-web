@@ -98,7 +98,7 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
           </div>
         </div>
         {/* detail */}
-        <div className='md:space-y-6 lg:border-l lg:pl-8 h-svh lg:w-[30%]'>
+        <div className='md:space-y-6 lg:border-l lg:pl-8 lg:w-[30%]'>
           <div className='border-b pb-6 lg:mt-14'>
             <h1 className='text-3xl font-semibold mb-2'>{product?.name}</h1>
             <div>
@@ -124,6 +124,78 @@ const ProductItemDetail: React.FC<ProductItemDetailProps> = ({
             <h2 className='text-xl font-semibold'>Description</h2>
             <div className='text-gray-600 whitespace-pre-wrap'>
               <Viewer content={product?.description || ''} styling='prose' />
+            </div>
+          </div>
+          {/* วิธีการชำระเงิน */}
+          <div className='mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200'>
+            <h2 className='text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2'>
+              <span className='icon-[material-symbols-light--payments-outline] text-2xl text-blue-700' />
+              Payment Methods
+            </h2>
+            <p className='text-gray-700 mb-4'>
+              You can pay for your order using one of the following methods.{' '}
+              <span className='font-semibold text-blue-800'>
+                Please contact us directly
+              </span>{' '}
+              to receive payment details and instructions.
+            </p>
+            <div className='flex gap-6 items-end mb-4 justify-center'>
+              <div className='flex flex-col items-center'>
+                <Image
+                  src='/payment/paypal.jpg'
+                  alt='PayPal'
+                  width={60}
+                  height={60}
+                  className='mb-1'
+                />
+                <span className='text-sm text-gray-700'>PayPal</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                <Image
+                  src='/payment/money-gram.jpg'
+                  alt='MoneyGram'
+                  width={60}
+                  height={60}
+                  className='mb-1'
+                />
+                <span className='text-sm text-gray-700'>MoneyGram</span>
+              </div>
+              <div className='flex flex-col items-center'>
+                <Image
+                  src='/payment/remitly.jpg'
+                  alt='Remitly'
+                  width={60}
+                  height={60}
+                  className='mb-1'
+                />
+                <span className='text-sm text-gray-700'>Remitly</span>
+              </div>
+            </div>
+            <ul className='list-disc pl-6 text-gray-700 mb-2'>
+              <li>Let us know your preferred payment method.</li>
+              <li>
+                We will provide you with the account details and payment
+                instructions.
+              </li>
+              <li>
+                After payment, please send us the payment confirmation to
+                complete your order.
+              </li>
+            </ul>
+            <div className='mt-3 '>
+              <span className='font-medium text-blue-800'>Contact us:</span>
+              <ul className='pl-4 mt-1'>
+                <li>
+                  <a
+                    href='https://m.me/100005193970723/'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-blue-600 underline'
+                  >
+                    Message us on Facebook
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

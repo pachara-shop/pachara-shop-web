@@ -20,7 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${anuphan.className} ${notoSansThai.className}`}>
+      <body
+        className={`${anuphan.className} ${notoSansThai.className} min-h-screen flex flex-col`}
+      >
         <Suspense>
           <StoreProvider>{children}</StoreProvider>
         </Suspense>

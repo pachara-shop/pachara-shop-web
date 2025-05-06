@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import NavBar from '../components/layouts/NavBar';
-import { Footer } from '../components/layouts/Footer';
+import { Footer } from './components/Footer';
 
 const ContentLoader = () => (
   <div className='flex justify-center items-center h-screen'>
@@ -30,7 +30,9 @@ export default async function RootLayout({
   return (
     <Suspense fallback={<ContentLoader />}>
       <NavBar socialIcons={socialIcons} />
-      <div className='mt-24'>{children}</div>
+      <main className='flex-1'>
+        <div className='mt-24'>{children}</div>
+      </main>
       <Footer socialIcons={socialIcons} />
     </Suspense>
   );
