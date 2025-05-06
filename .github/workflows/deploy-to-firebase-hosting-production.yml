@@ -6,6 +6,9 @@ name: Deploy ไปยัง Firebase Hosting Production
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hosting
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,9 +21,8 @@ jobs:
       - name: Debug GOOGLE_APPLICATION_CREDENTIALS
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}"
       - name: Deploy ไปยัง Firebase Hosting และ Functions พร้อม Force
-        run: firebase deploy --only hosting, functions --project pachara-shop --force
+        run: |
+          firebase experiments:enable webframeworks
+          firebase deploy --only hosting,functions --project pachara-shop-dev --force
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
-    defaults:
-      run:
-        working-directory: hosting

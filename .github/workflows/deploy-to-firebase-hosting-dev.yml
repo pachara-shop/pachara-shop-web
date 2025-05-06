@@ -8,12 +8,11 @@ name: Deploy ไปยัง Firebase Hosting Dev
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hosting
     steps:
       - uses: actions/checkout@v4
-      # - name: ตรวจสอบตำแหน่งปัจจุบัน
-      # run: pwd
-      # - name: แสดงรายการไฟล์ใน Directory
-      # run: ls -al
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
@@ -31,6 +30,3 @@ jobs:
           firebase deploy --only hosting,functions --project pachara-shop-dev --force
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_DEPLOY_TOKEN }}
-    defaults:
-      run:
-        working-directory: hosting
