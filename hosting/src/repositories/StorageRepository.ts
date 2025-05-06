@@ -7,7 +7,6 @@ import {
   listAll,
 } from 'firebase/storage';
 
-// const storage = getStorage();
 export class StorageRepository {
   static async getImageUrl(path: string): Promise<string> {
     try {
