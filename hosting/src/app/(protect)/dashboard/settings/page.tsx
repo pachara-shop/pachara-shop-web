@@ -6,9 +6,9 @@ import {
 } from '@/components/atoms/tabs';
 import { HeaderWrapper } from '../../components/HeaderWrapper';
 import { Metadata } from 'next';
-import { GallerySection } from '../../components/settings/GallerySection';
-import { AboutSection } from '../../components/settings/AboutSection';
-import { SocialSection } from '../../components/settings/SocialSection';
+import { GallerySection } from './components/GallerySection';
+import { AboutSection } from './components/AboutSection';
+import { SocialSection } from './components/SocialSection';
 
 export const metadata: Metadata = {
   title: 'Settings',

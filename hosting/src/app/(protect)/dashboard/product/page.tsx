@@ -20,7 +20,7 @@ export default function Page(): JSX.Element {
   const route = useRouter();
   const [total, setTotal] = useState(0);
   const [products, setProduct] = React.useState<IProduct[]>([]);
-  const [getProducts] = useSearchProductsMutation();
+  const [searchProduct, { isLoading }] = useSearchProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
   const [tableInstance, setTableInstance] =
@@ -36,7 +36,7 @@ export default function Page(): JSX.Element {
     const filtering = params.columnFilters;
     const pagination = params.pagination;
 
-    await getProducts({
+    await searchProduct({
       s: JSON.stringify(sorting),
       p: JSON.stringify(pagination),
       f: JSON.stringify(filtering),
@@ -125,32 +125,31 @@ export default function Page(): JSX.Element {
 
   return (
     <HeaderWrapper title='Products' subTitle='Manage your products'>
-      <div>
-        <DataTable
-          data={products}
-          total={total}
-          columns={columnsSetting}
-          fetchData={fetchProducts}
-          onTableInstanceChange={handleTableInstanceChange}
-        >
-          <div className='flex justify-between'>
-            <div className=' w-full max-w-sm items-center space-x-2 hidden'>
-              <Input type='text' placeholder='Search...' />
-              <Button type='submit'>Search</Button>
-            </div>
-            <div className='flex justify-end'>
-              <Button
-                type='button'
-                onClick={() => {
-                  route.push('/dashboard/product/create');
-                }}
-              >
-                Add Product
-              </Button>
-            </div>
+      <DataTable
+        data={products}
+        total={total}
+        columns={columnsSetting}
+        fetchData={fetchProducts}
+        onTableInstanceChange={handleTableInstanceChange}
+        isLoading={isLoading}
+      >
+        <div className='flex justify-between'>
+          <div className=' w-full max-w-sm items-center space-x-2 hidden'>
+            <Input type='text' placeholder='Search...' />
+            <Button type='submit'>Search</Button>
           </div>
-        </DataTable>
-      </div>
+          <div className='flex justify-end'>
+            <Button
+              type='button'
+              onClick={() => {
+                route.push('/dashboard/product/create');
+              }}
+            >
+              Add Product
+            </Button>
+          </div>
+        </div>
+      </DataTable>
     </HeaderWrapper>
   );
 }
