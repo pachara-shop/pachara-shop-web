@@ -133,7 +133,6 @@ export const ProductDetail = ({
                       <Input
                         placeholder='Enter price'
                         value={field.value?.toString() || ''}
-                        // {...field}
                         type='text'
                         className='w-full'
                         onKeyPress={(e) => {
@@ -143,6 +142,25 @@ export const ProductDetail = ({
                         }}
                         onChange={(e) => {
                           field.onChange(Number(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='highlight'
+                render={({ field }) => (
+                  <FormItem className='my-4 '>
+                    <Title className='font-medium'>Highlight</Title>
+                    <br />
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={(e) => {
+                          field.onChange(e);
                         }}
                       />
                     </FormControl>

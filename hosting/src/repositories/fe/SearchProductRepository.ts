@@ -11,7 +11,6 @@ import {
   DocumentReference,
   getDoc,
   collection,
-  limit,
 } from 'firebase/firestore';
 import { StorageRepository } from '../StorageRepository';
 
@@ -67,20 +66,17 @@ export class SearchProductRepository {
       const categorySnapshot = await getDocs(categoryQuery);
 
       if (categorySnapshot.empty) {
-        console.info(`ไม่พบหมวดหมู่: ${categoryName}`);
         return [];
       }
 
       // ใช้ ID ที่ถูกต้องจากผลการค้นหา
       const categoryId = categorySnapshot.docs[0].id;
-      console.info(`พบหมวดหมู่ ID: ${categoryId} ชื่อ: ${categoryName}`);
 
       // Step 2: ใช้ reference ที่ถูกต้องในการค้นหาสินค้า
       const categoryRef = doc(db, COLLECTION.CATEGORY, categoryId);
       const q = query(productCollection, where('category', '==', categoryRef));
 
       const snapshot = await getDocs(q);
-      console.info(`พบสินค้า ${snapshot.size} รายการ`);
 
       // การแปลงข้อมูล (เหมือนเดิม)
       const products = await Promise.all(
@@ -114,11 +110,7 @@ export class SearchProductRepository {
   }
 
   async getProductForTopPage(): Promise<IProduct[]> {
-    const q = query(
-      productCollection,
-      where('highlight', '==', true),
-      limit(8)
-    );
+    const q = query(productCollection, where('highlight', '==', true));
     const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {

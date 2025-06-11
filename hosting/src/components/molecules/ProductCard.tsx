@@ -21,9 +21,12 @@ const ProductCart: React.FC<IProductCart> = ({ product }) => {
           <Image
             src={product.image || '/placeholder.png'}
             alt={product.name}
-            fill
+            layout='responsive'
+            width={1}
+            height={1}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw'
             className='object-cover transition-transform duration-300 group-hover:scale-110'
+            loading='lazy'
           />
         </Link>
       </div>

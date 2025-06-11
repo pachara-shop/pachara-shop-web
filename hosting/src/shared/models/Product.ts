@@ -27,4 +27,5 @@ export interface ICreateProduct {
   bannerFile?: File | string;
   category?: string | DocumentReference<ICategory> | ICategory;
   categoryId?: string;
+  highlight?: boolean;
 }

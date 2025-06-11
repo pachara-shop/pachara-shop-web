@@ -35,6 +35,7 @@ export const createProductSchema = z
     description: z
       .string({ required_error: 'Description is required.' })
       .optional(),
+    highlight: z.boolean().optional(),
     isDiscounted: z.boolean().optional(),
     discountPrice: z.number().optional().nullable(),
   })

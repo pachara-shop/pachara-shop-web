@@ -53,6 +53,7 @@ export default function Page() {
         description: data.data.description,
         image: data.data.image,
         banner: data.data.banner,
+        highlight: data.data.highlight,
         isDiscounted: data.data.isDiscounted,
         discountPrice: data.data.discountPrice
           ? Number(data.data.discountPrice)
@@ -72,6 +73,7 @@ export default function Page() {
     if (data.description) formData.append('description', data.description);
     if (data.categoryId)
       formData.append('category', data.categoryId.toString());
+    if (data.highlight) formData.append('highlight', data.highlight.toString());
     if (data.isDiscounted)
       formData.append('isDiscounted', data.isDiscounted.toString());
     if (data.discountPrice)
