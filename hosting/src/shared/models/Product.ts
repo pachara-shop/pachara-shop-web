@@ -11,6 +11,7 @@ export interface IProduct {
   isDiscounted?: boolean;
   discountPrice?: number;
   category?: string | DocumentReference<ICategory> | ICategory;
+  highlight?: boolean;
 }
 
 export interface ICreateProduct {

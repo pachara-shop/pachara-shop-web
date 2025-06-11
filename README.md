@@ -1,6 +1,6 @@
-# Pachara Shop Web
+# Pachara Boutique
 
-Pachara Shop Web is an e-commerce web application for managing and selling products online. This project is built using modern web technologies to provide a seamless and efficient user experience for both customers and administrators.
+Pachara Boutique is an e-commerce web application for managing and selling products online. This project is built using modern web technologies to provide a seamless and efficient user experience for both customers and administrators.
 
 ## Features
 

@@ -114,7 +114,11 @@ export class SearchProductRepository {
   }
 
   async getProductForTopPage(): Promise<IProduct[]> {
-    const q = query(productCollection, limit(8));
+    const q = query(
+      productCollection,
+      where('highlight', '==', true),
+      limit(8)
+    );
     const snapshot = await getDocs(q);
     const products = await Promise.all(
       snapshot.docs.map(async (doc) => {

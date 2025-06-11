@@ -1,6 +1,6 @@
-# Pachara Shop Web
+# Pachara Boutique
 
-Welcome to the Pachara Shop web application repository. This project contains the frontend code for our e-commerce platform built with Next.js and Firebase.
+Welcome to the Pachara Boutique application repository. This project contains the frontend code for our e-commerce platform built with Next.js and Firebase.
 
 ## 📋 Table of Contents
 

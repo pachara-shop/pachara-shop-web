@@ -7,9 +7,9 @@ export const getApiDocs = () => {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'Pachara Shop API Documentation',
+        title: 'Pachara Boutique API Documentation',
         version: '1.0.0',
-        description: 'API documentation for Pachara Shop',
+        description: 'API documentation for Pachara Boutique',
       },
       components: {
         securitySchemes: {

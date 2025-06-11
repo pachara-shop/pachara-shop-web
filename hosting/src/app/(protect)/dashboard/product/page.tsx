@@ -8,6 +8,7 @@ import DataTable from '@/components/organisms/DataTable';
 import {
   useDeleteProductMutation,
   useSearchProductsMutation,
+  useUpdateProductStatusMutation,
 } from '@/hooks/slices/be/product/productAPI';
 import { IProduct } from '@/shared/models/Product';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
@@ -15,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { HeaderWrapper } from '../../components/HeaderWrapper';
 import { FetchDataParams } from '@/shared/models/Search';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
@@ -22,6 +24,7 @@ export default function Page(): JSX.Element {
   const [products, setProduct] = React.useState<IProduct[]>([]);
   const [searchProduct, { isLoading }] = useSearchProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
+  const [updateStatus] = useUpdateProductStatusMutation();
 
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<IProduct>>>();
@@ -98,6 +101,33 @@ export default function Page(): JSX.Element {
         if (image) {
           return <TableImage src={image} alt={row.original.name} />;
         }
+      },
+    },
+    {
+      header: 'Highlight',
+      accessorKey: 'highlight',
+      enableSorting: false,
+      cell: ({ row }) => {
+        return (
+          <Checkbox
+            checked={row.original.highlight || false}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateStatus({
+                id: row.original.id || '',
+                data: { highlight: !row.original.highlight },
+              });
+              const sorting = tableInstance?.getState().sorting;
+              const filtering = tableInstance?.getState().columnFilters;
+              const pagination = tableInstance?.getState().pagination;
+              fetchProducts({
+                sorting: sorting || [],
+                columnFilters: filtering || [],
+                pagination: pagination || { pageIndex: 0, pageSize: 10 },
+              });
+            }}
+          />
+        );
       },
     },
     {

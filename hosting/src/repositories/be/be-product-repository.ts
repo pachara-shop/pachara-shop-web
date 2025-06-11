@@ -186,4 +186,16 @@ export class BeProductRepository {
     }
     await deleteDoc(productDoc);
   }
+
+  async updateStatus(id: string, highlight: boolean): Promise<void> {
+    const productDoc = doc(db, COLLECTION.PRODUCT, id);
+    const productSnapshot = await getDoc(productDoc);
+    if (!productSnapshot.exists()) {
+      throw new Error('Product not found');
+    }
+    const productData = {
+      highlight: highlight,
+    };
+    await updateDoc(productDoc, productData);
+  }
 }

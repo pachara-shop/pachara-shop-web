@@ -4,12 +4,12 @@ import { Footer } from './components/Footer';
 import { ContentLoader } from './components/ContentLoader';
 
 export const metadata = {
-  title: 'Pachara Shop | Hmong Bags & Accessories',
+  title: 'Pachara Boutique | Hmong Bags & Accessories',
   description:
-    'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop. Worldwide shipping. Contact us for custom orders.',
+    'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Boutique. Worldwide shipping. Contact us for custom orders.',
   keywords: [
     'Hmong bag',
-    'Pachara Shop',
+    'Pachara Boutique',
     'Handmade',
     'Ethnic accessories',
     'Thailand',
@@ -19,20 +19,20 @@ export const metadata = {
     'Hmong handicraft',
     'Unique gifts',
   ],
-  authors: [{ name: 'Pachara Shop', url: 'https://pachara-shop.web.app' }],
-  creator: 'Pachara Shop',
+  authors: [{ name: 'Pachara Boutique', url: 'https://pachara-shop.web.app' }],
+  creator: 'Pachara Boutique',
   openGraph: {
-    title: 'Pachara Shop | Hmong Bags & Accessories',
+    title: 'Pachara Boutique | Hmong Bags & Accessories',
     description:
-      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop. Worldwide shipping.',
+      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Boutique. Worldwide shipping.',
     url: 'https://pachara-shop.web.app/',
-    siteName: 'Pachara Shop',
+    siteName: 'Pachara Boutique',
     images: [
       {
         url: 'https://pachara-shop.web.app/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'Pachara Shop Hmong Bags',
+        alt: 'Pachara Boutique Hmong Bags',
       },
     ],
     locale: 'en_US',
@@ -40,9 +40,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pachara Shop | Hmong Bags & Accessories',
+    title: 'Pachara Boutique | Hmong Bags & Accessories',
     description:
-      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Shop.',
+      'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Boutique.',
     images: ['https://pachara-shop.web.app/logo.jpg'],
   },
 };

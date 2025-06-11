@@ -7,7 +7,7 @@ export async function generateMetadata({ searchParams }: any) {
   const categoryName = category === 'all' ? '' : category + ' | ';
 
   return {
-    title: `${categoryName}Pachara Shop`,
+    title: `${categoryName}Pachara Boutique`,
     description: `Shop for various ${category} products here. Good quality at reasonable prices.`,
   };
 }
