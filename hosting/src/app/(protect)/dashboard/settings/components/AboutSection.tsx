@@ -7,6 +7,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/atoms/form';
+import Loading from '@/components/atoms/Loading';
 
 import Editor from '@/components/molecules/rich-text/editor';
 import { CustomButton } from '@/components/ui/CustomButton';
@@ -20,7 +21,7 @@ import { useForm } from 'react-hook-form';
 
 export function AboutSection() {
   const { toast } = useToast();
-  const { data } = useGetSettingAboutQuery(undefined, {
+  const { data, isLoading } = useGetSettingAboutQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   const [onUpdateAbout] = useUpdateSettingAboutMutation();
@@ -51,6 +52,9 @@ export function AboutSection() {
       });
     }
   };
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className='flex flex-col gap-4 relative'>
       <h2 className='text-lg font-semibold'>About</h2>

@@ -33,7 +33,10 @@ const updateCategory = async (
     }
 
     const data = await req.json();
-    await CategoryRepository.update(id, data);
+    await CategoryRepository.update(id, {
+      ...data,
+      name: data.name?.trimEnd(),
+    });
     return handleSuccess({ data: 'success' });
   } catch (err) {
     return handleError(500, err);

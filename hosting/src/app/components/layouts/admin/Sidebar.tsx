@@ -53,7 +53,7 @@ const Sidebar: React.FC<sidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           <div className='h-[120px] pt-3 flex justify-between items-center'>
             <Link href='/' className='flex-grow flex justify-center'>
               <Image
-                src='/logo.jpg'
+                src='/logo.svg'
                 alt='Logo'
                 width={120}
                 height={10}

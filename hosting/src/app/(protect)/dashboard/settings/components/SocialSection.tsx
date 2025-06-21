@@ -28,6 +28,7 @@ import { SettingSocialMedia } from '@/shared/models/Settings';
 import { Button } from '@/components/atoms/Button';
 import { SOCIAL_PLATFORMS } from '@/shared/constants/social-platforms';
 import { SocialIcon } from '@/components/atoms/socialIcon';
+import Loading from '@/components/atoms/Loading';
 
 export function SocialSection() {
   const { toast } = useToast();
@@ -136,6 +137,10 @@ export function SocialSection() {
       });
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='flex flex-col gap-6'>

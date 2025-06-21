@@ -16,10 +16,10 @@ import { HeaderWrapper } from '../../components/HeaderWrapper';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
-  const [search, setSearch] = useState('');
+  const [searchTerm, setSearch] = useState('');
   const [productList, setProductList] = React.useState<ICategory[]>([]);
   const [total, setTotal] = React.useState<number>(0);
-  const [getProducts] = useSearchCategoryMutation();
+  const [searchCats, { isLoading }] = useSearchCategoryMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
 
   const [tableInstance, setTableInstance] =
@@ -31,7 +31,7 @@ export default function Page(): JSX.Element {
   };
 
   const fetchProducts = async (params: FetchDataParams): Promise<void> => {
-    await getProducts({
+    await searchCats({
       p: JSON.stringify(params.pagination),
       s: JSON.stringify(params.sorting),
       f: JSON.stringify(params.columnFilters),
@@ -73,6 +73,11 @@ export default function Page(): JSX.Element {
             <Button
               type='button'
               onClick={async () => {
+                if (
+                  !window.confirm('Are you sure you want to delete this item?')
+                ) {
+                  return;
+                }
                 await deleteCategory({ id })
                   .unwrap()
                   .then(() => {
@@ -103,20 +108,21 @@ export default function Page(): JSX.Element {
         columns={columnsSetting}
         fetchData={fetchProducts}
         onTableInstanceChange={handleTableInstanceChange}
+        isLoading={isLoading}
       >
         <div className='flex justify-between'>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               tableInstance?.resetPageIndex();
-              tableInstance?.getColumn('name')?.setFilterValue(search);
+              tableInstance?.getColumn('name')?.setFilterValue(searchTerm);
             }}
           >
             <div className='w-full max-w-sm items-center space-x-2 hidden'>
               <Input
                 type='text'
                 placeholder='Search...'
-                value={search}
+                value={searchTerm}
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}

@@ -46,8 +46,8 @@ export function NavBarClient({
     >
       <div className='items-center space-x-4 absolute left-0 top-0'>
         <Image
-          src='/logo.jpg'
-          alt='Pachara Shop'
+          src='/logo.svg'
+          alt='Pachara Boutique'
           width={150}
           height={50}
           className='cursor-pointer object-contain max-h-24 p-1'

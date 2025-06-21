@@ -11,9 +11,10 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { toast } from '@/hooks/use-toast';
 import { SettingBanner } from '@/shared/models/Settings';
+import Loading from '@/components/atoms/Loading';
 
 export function GallerySection() {
-  const { data } = useGetSettingBannersQuery();
+  const { data, isLoading } = useGetSettingBannersQuery();
   const [onUpdateGallery] = useAddSettingBannersMutation();
   const [onRemoveImage] = useDeleteSettingBannersMutation();
   const [banners, setBanners] = useState<SettingBanner[]>([]);
@@ -62,6 +63,7 @@ export function GallerySection() {
       await onAddImage(Array.from(newFiles));
     }
   };
+
   const handleRemoveImage = async (banner: SettingBanner) => {
     await onRemoveImage(banner.id)
       .unwrap()
@@ -74,6 +76,9 @@ export function GallerySection() {
       });
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className='flex flex-col gap-4'>
       <div className='bg-white w-full border border-gray-200 rounded-lg p-4'>

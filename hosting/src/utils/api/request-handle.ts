@@ -7,12 +7,6 @@ export function withAuth(
   handler: (req: NextRequestWithUser) => Promise<NextResponse>
 ) {
   return async (req: NextRequest) => {
-    // console.log('withAuth');
-    //todo check firebase user
-    // const user = await protectApiRoute(req, res);
-    // if (!user) {
-    //   return;
-    // }
     const user = {} as User;
     const newReq = req as NextRequestWithUser;
     newReq.user = user;

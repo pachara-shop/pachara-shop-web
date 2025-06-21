@@ -29,7 +29,8 @@ export async function Footer({
       </div>
       <div className='flex items-center justify-center min-h-20'>
         <p>
-          &copy; {new Date().getFullYear()} Pachara Shop. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Pachara Boutique. All Rights
+          Reserved.
         </p>
       </div>
     </footer>

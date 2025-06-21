@@ -35,6 +35,7 @@ const createProduct = async (req: NextRequest) => {
       image: '', // This will be updated after image upload
       category: parseObject.category as string,
       banner: '',
+      highlight: (parseObject?.highlight as boolean) || false,
       isDiscounted: (parseObject?.isDiscounted as boolean) || false,
       discountPrice: (parseObject?.discountPrice as number) || 0,
     };

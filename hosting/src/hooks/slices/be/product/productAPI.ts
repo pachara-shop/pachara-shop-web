@@ -50,6 +50,17 @@ export const productAPI = createApi({
       }),
       invalidatesTags: ['Product'],
     }),
+    updateProductStatus: builder.mutation<
+      IResponse<IProduct>,
+      { id: string; data: { highlight: boolean } }
+    >({
+      query: ({ id, data }) => ({
+        url: `/api/be/product/${id}/status`,
+        method: 'PUT',
+        data: data,
+      }),
+      invalidatesTags: ['Product'],
+    }),
   }),
 });
 
@@ -59,4 +70,5 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useUpdateProductStatusMutation,
 } = productAPI;

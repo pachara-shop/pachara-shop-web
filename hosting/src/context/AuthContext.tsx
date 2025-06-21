@@ -3,7 +3,14 @@ import { createSession, deleteSession } from '@/lib/session';
 import { User } from 'firebase/auth';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
-const AuthContext = createContext<any>(null);
+interface AuthContextType {
+  currentUser: User | null;
+  userInfo: React.MutableRefObject<undefined>;
+  loading: boolean;
+  signOut: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export function useAuth() {
   const context = useContext(AuthContext);
@@ -33,10 +40,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     return unsubscribe;
   }, []);
+
+  const signOut = async () => {
+    await auth.signOut();
+    deleteSession('session_token');
+    setCurrentUser(null);
+  };
+
   const value = {
     currentUser,
     userInfo,
     loading,
+    signOut,
   };
   return (
     <AuthContext.Provider value={value}>

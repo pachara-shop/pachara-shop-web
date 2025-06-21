@@ -8,6 +8,7 @@ import DataTable from '@/components/organisms/DataTable';
 import {
   useDeleteProductMutation,
   useSearchProductsMutation,
+  useUpdateProductStatusMutation,
 } from '@/hooks/slices/be/product/productAPI';
 import { IProduct } from '@/shared/models/Product';
 import { ColumnDef, useReactTable } from '@tanstack/react-table';
@@ -15,13 +16,15 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { HeaderWrapper } from '../../components/HeaderWrapper';
 import { FetchDataParams } from '@/shared/models/Search';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function Page(): JSX.Element {
   const route = useRouter();
   const [total, setTotal] = useState(0);
   const [products, setProduct] = React.useState<IProduct[]>([]);
-  const [getProducts] = useSearchProductsMutation();
+  const [searchProduct, { isLoading }] = useSearchProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
+  const [updateStatus] = useUpdateProductStatusMutation();
 
   const [tableInstance, setTableInstance] =
     useState<ReturnType<typeof useReactTable<IProduct>>>();
@@ -36,7 +39,7 @@ export default function Page(): JSX.Element {
     const filtering = params.columnFilters;
     const pagination = params.pagination;
 
-    await getProducts({
+    await searchProduct({
       s: JSON.stringify(sorting),
       p: JSON.stringify(pagination),
       f: JSON.stringify(filtering),
@@ -49,6 +52,9 @@ export default function Page(): JSX.Element {
   };
 
   const onDeleteProduct = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) {
+      return;
+    }
     await deleteProduct(id);
     const sorting = tableInstance?.getState().sorting;
     const filtering = tableInstance?.getState().columnFilters;
@@ -101,6 +107,33 @@ export default function Page(): JSX.Element {
       },
     },
     {
+      header: 'Highlight',
+      accessorKey: 'highlight',
+      enableSorting: false,
+      cell: ({ row }) => {
+        return (
+          <Checkbox
+            checked={row.original.highlight || false}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateStatus({
+                id: row.original.id || '',
+                data: { highlight: !row.original.highlight },
+              });
+              const sorting = tableInstance?.getState().sorting;
+              const filtering = tableInstance?.getState().columnFilters;
+              const pagination = tableInstance?.getState().pagination;
+              fetchProducts({
+                sorting: sorting || [],
+                columnFilters: filtering || [],
+                pagination: pagination || { pageIndex: 0, pageSize: 10 },
+              });
+            }}
+          />
+        );
+      },
+    },
+    {
       header: '',
       accessorKey: 'id',
       enableSorting: false,
@@ -125,32 +158,31 @@ export default function Page(): JSX.Element {
 
   return (
     <HeaderWrapper title='Products' subTitle='Manage your products'>
-      <div>
-        <DataTable
-          data={products}
-          total={total}
-          columns={columnsSetting}
-          fetchData={fetchProducts}
-          onTableInstanceChange={handleTableInstanceChange}
-        >
-          <div className='flex justify-between'>
-            <div className=' w-full max-w-sm items-center space-x-2 hidden'>
-              <Input type='text' placeholder='Search...' />
-              <Button type='submit'>Search</Button>
-            </div>
-            <div className='flex justify-end'>
-              <Button
-                type='button'
-                onClick={() => {
-                  route.push('/dashboard/product/create');
-                }}
-              >
-                Add Product
-              </Button>
-            </div>
+      <DataTable
+        data={products}
+        total={total}
+        columns={columnsSetting}
+        fetchData={fetchProducts}
+        onTableInstanceChange={handleTableInstanceChange}
+        isLoading={isLoading}
+      >
+        <div className='flex justify-between'>
+          <div className=' w-full max-w-sm items-center space-x-2 hidden'>
+            <Input type='text' placeholder='Search...' />
+            <Button type='submit'>Search</Button>
           </div>
-        </DataTable>
-      </div>
+          <div className='flex justify-end'>
+            <Button
+              type='button'
+              onClick={() => {
+                route.push('/dashboard/product/create');
+              }}
+            >
+              Add Product
+            </Button>
+          </div>
+        </div>
+      </DataTable>
     </HeaderWrapper>
   );
 }

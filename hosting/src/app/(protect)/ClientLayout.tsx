@@ -4,10 +4,6 @@ import { Sidebar } from '../components/layouts/admin/Sidebar';
 import GlobalSuspense from '@/components/ui/GlobalSuspense';
 import Loading from '@/components/atoms/Loading';
 import { useEffect, useState } from 'react';
-import {
-  onLoadingChange,
-  removeLoadingChangeListener,
-} from '@/emitter/loadingEmitter';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Header } from '../components/layouts/admin/Header';
 import { useRouter } from 'next/navigation';
@@ -21,27 +17,22 @@ function MainContent({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { currentUser } = useAuth();
-  if (!currentUser) router.push('/admin/login');
+  const { currentUser, loading } = useAuth();
 
   useEffect(() => {
-    const handleLoadingChange = (loading: boolean) => {
-      setIsLoading(loading);
-    };
-    onLoadingChange(handleLoadingChange);
-    return () => {
-      removeLoadingChangeListener(handleLoadingChange);
-    };
-  }, []);
+    if (!currentUser) router.replace('/admin/login');
+  }, [currentUser, loading, router]);
 
+  if (loading || (!currentUser && !loading)) {
+    return <Loading />;
+  }
   return (
     <main
       className={`p-4 transition-margin duration-300 mt-[120px] ${
         isCollapsed ? 'ml-0' : 'ml-64'
       }`}
     >
-      {isLoading && <Loading />}
+      {loading && <Loading />}
       <GlobalSuspense>
         <div className='mx-10 py-[15px] h-full'>{children}</div>
       </GlobalSuspense>

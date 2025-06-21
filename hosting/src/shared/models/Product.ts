@@ -11,6 +11,7 @@ export interface IProduct {
   isDiscounted?: boolean;
   discountPrice?: number;
   category?: string | DocumentReference<ICategory> | ICategory;
+  highlight?: boolean;
 }
 
 export interface ICreateProduct {
@@ -26,4 +27,5 @@ export interface ICreateProduct {
   bannerFile?: File | string;
   category?: string | DocumentReference<ICategory> | ICategory;
   categoryId?: string;
+  highlight?: boolean;
 }

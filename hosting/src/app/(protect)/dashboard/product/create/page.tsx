@@ -32,6 +32,7 @@ export default function Page() {
     if (data.categoryId !== undefined) {
       formData.append('category', data.categoryId.toString());
     }
+    if (data.highlight) formData.append('highlight', data.highlight.toString());
     if (data.isDiscounted)
       formData.append('isDiscounted', data.isDiscounted.toString());
     if (data.discountPrice)

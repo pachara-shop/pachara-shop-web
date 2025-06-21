@@ -33,6 +33,7 @@ import {
   TableRow,
 } from '../atoms/table';
 import { FetchDataParams } from '@/shared/models/Search';
+import Loading from '../atoms/Loading';
 
 export interface DataTableProps<T> {
   data: T[];
@@ -182,10 +183,9 @@ export default function DataTable<T>({
         <TableBody>
           {isLoading && (
             <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className='h-24 text-center'
-              />
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <Loading />
+              </TableCell>
             </TableRow>
           )}
           {!isLoading && table.getRowModel().rows?.length === 0 && (
