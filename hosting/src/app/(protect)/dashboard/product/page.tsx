@@ -52,6 +52,9 @@ export default function Page(): JSX.Element {
   };
 
   const onDeleteProduct = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) {
+      return;
+    }
     await deleteProduct(id);
     const sorting = tableInstance?.getState().sorting;
     const filtering = tableInstance?.getState().columnFilters;

@@ -24,7 +24,7 @@ const getCategoryList = async (req: NextRequestWithUser) => {
 const createCategory = async (req: NextRequest) => {
   try {
     const data = await req.json();
-    await CategoryRepository.create(data);
+    await CategoryRepository.create({ ...data, name: data.name?.trimEnd() });
     return handleSuccess({ data: 'success' });
   } catch (err) {
     return handleError(500, err);

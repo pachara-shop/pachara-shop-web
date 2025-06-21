@@ -73,6 +73,11 @@ export default function Page(): JSX.Element {
             <Button
               type='button'
               onClick={async () => {
+                if (
+                  !window.confirm('Are you sure you want to delete this item?')
+                ) {
+                  return;
+                }
                 await deleteCategory({ id })
                   .unwrap()
                   .then(() => {

@@ -47,7 +47,7 @@ const Banner: React.FC<BannerProps> = ({ banners = [] }) => {
           <SwiperSlide key={index}>
             <div className='relative w-full h-full'>
               <div className='absolute inset-0 bg-black/20 z-10 flex items-center justify-center'>
-                <div className='h-[150px] w-[280px] sm:h-[180px] sm:w-[350px] lg:h-[200px] lg:w-[450px] bg-red-400 bg-opacity-75 rounded-sm items-center justify-center flex flex-col'>
+                <div className='h-[150px] w-[280px] sm:h-[180px] sm:w-[350px] lg:h-[200px] lg:w-[450px] bg-white bg-opacity-30 rounded-sm items-center justify-center flex flex-col'>
                   <Button
                     onClick={() => router.push('/shop')}
                     className='p-3 sm:p-4 lg:p-6 rounded-full transform hover:scale-105 transition-transform cursor-pointer'
