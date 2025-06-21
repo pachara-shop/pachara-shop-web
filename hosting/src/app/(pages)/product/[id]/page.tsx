@@ -25,6 +25,42 @@ async function fetchGalleryData(productId: string) {
   return galleryData;
 }
 
+function stripHtml(html: string = ''): string {
+  if (!html) return '';
+  return html
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const productId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const productData = await fetchProductData(productId);
+  const product = productData?.data;
+  return {
+    title: product?.name || 'Product',
+    description: product?.description || '',
+    openGraph: {
+      title: product?.name || 'Product',
+      description: stripHtml(product?.description) || '',
+      images: [
+        {
+          url: product?.image || '/logo.svg',
+          width: 1200,
+          height: 630,
+          alt: product?.name || 'pachara boutique',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product?.name || 'Product',
+      description: stripHtml(product?.description) || '',
+      images: [product?.image || '/logo.svg'],
+    },
+  };
+}
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

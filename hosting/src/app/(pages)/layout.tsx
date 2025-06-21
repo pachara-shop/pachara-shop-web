@@ -29,7 +29,7 @@ export const metadata = {
     siteName: 'Pachara Boutique',
     images: [
       {
-        url: 'https://pachara-shop.web.app/logo.jpg',
+        url: '/logo.svg',
         width: 1200,
         height: 630,
         alt: 'Pachara Boutique Hmong Bags',
@@ -43,7 +43,7 @@ export const metadata = {
     title: 'Pachara Boutique | Hmong Bags & Accessories',
     description:
       'Discover unique Hmong bags, handmade accessories, and ethnic products from Pachara Boutique.',
-    images: ['https://pachara-shop.web.app/logo.jpg'],
+    images: ['/logo.svg'],
   },
 };
 
