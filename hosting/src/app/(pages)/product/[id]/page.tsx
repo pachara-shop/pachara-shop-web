@@ -33,8 +33,11 @@ function stripHtml(html: string = ''): string {
     .trim();
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const productId = Array.isArray(params.id) ? params.id[0] : params.id;
+export async function generateMetadata(context: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await context.params;
+  const productId = Array.isArray(id) ? id[0] : id;
   const productData = await fetchProductData(productId);
   const product = productData?.data;
   return {
